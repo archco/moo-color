@@ -37,5 +37,11 @@
       "json",
       "node"
     ]
+  },
+  "dependencies": {
+    "@types/color-name": "^1.1.0",
+    "@types/color-string": "^1.5.0",
+    "color-name": "^1.1.3",
+    "color-string": "^1.5.2"
   }
 }

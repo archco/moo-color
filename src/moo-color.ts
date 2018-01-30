@@ -1,3 +1,6 @@
-const hello = 'Hello world!!';
-console.log(typeof hello);
-export default hello;
+import Color from './color';
+import ColorFormatter from './color-formatter';
+
+export default class MooColor extends ColorFormatter {
+
+}
