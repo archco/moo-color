@@ -1,0 +1,41 @@
+{
+  "name": "moo-color",
+  "version": "0.1.0",
+  "description": "A simple color library.",
+  "main": "index.js",
+  "scripts": {
+    "test": "npx jest",
+    "build": "npx webpack --hide-modules",
+    "watch": "npm run build -- --watch"
+  },
+  "keywords": [
+    "color"
+  ],
+  "author": "archcoster@gmail.com",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/jest": "^22.1.1",
+    "jest": "^22.1.4",
+    "source-map-loader": "^0.2.3",
+    "ts-jest": "^22.0.2",
+    "ts-loader": "^3.3.1",
+    "typescript": "^2.6.2",
+    "uglifyjs-webpack-plugin": "^1.1.8",
+    "webpack": "^3.10.0",
+    "webpack-notifier": "^1.5.1"
+  },
+  "jest": {
+    "transform": {
+      "^.+\\.tsx?$": "ts-jest"
+    },
+    "testRegex": "(/__tests__/.*|(\\.|/)(test|spec))\\.(jsx?|tsx?)$",
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js",
+      "jsx",
+      "json",
+      "node"
+    ]
+  }
+}
