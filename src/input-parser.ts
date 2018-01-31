@@ -4,6 +4,7 @@ import Names from './color-names';
 
 type AcceptedInput = string|string[]|number[]|object;
 
+// TODO: cmyk input parsing.
 export default function inputParser(input: AcceptedInput): Color|null {
  if (typeof input === 'string') {
     if (input in Names) {
