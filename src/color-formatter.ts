@@ -5,13 +5,17 @@ import {
   ColorSettable,
 } from './color';
 import * as Converter from './color-converter';
+import parser from './input-parser';
 
 export class ColorFormatter implements ColorSettable, ColorRepresentable {
   color?: Color;
 
-  setColor(color: Color): this {
-    color.alpha = typeof color.alpha === 'number' ? color.alpha : 1;
-    this.color = color;
+  setColor(color: string): this {
+    const res = parser(color);
+    if (res) {
+      res.alpha = typeof res.alpha === 'number' ? res.alpha : 1;
+      this.color = res;
+    }
     return this;
   }
 
@@ -30,7 +34,8 @@ export class ColorFormatter implements ColorSettable, ColorRepresentable {
   }
 
   changeModel(model: AcceptedModel): this {
-    return this.setColor(this.convert(this.color, model));
+    this.color = this.convert(this.color, model);
+    return this;
   }
 
   getAlpha(): number {
