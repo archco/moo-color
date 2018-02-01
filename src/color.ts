@@ -13,7 +13,7 @@ export type AcceptedModel = 'rgb'|'hwb'|'hsl'|'hsv'|'cmyk';
 export interface ColorSettable {
   color?: Color;
 
-  setColor: (color: any) => this;
+  setColor: (color: Color) => this;
   getColor: () => Color;
   getModel: () => AcceptedModel|undefined;
   changeModel: (model: AcceptedModel) => this;
@@ -25,7 +25,6 @@ export interface ColorSettable {
 // Accepted color models: 'rgb'|'hwb'|'hsl'|'hsv'|'cmyk' + 'hex'
 export interface ColorRepresentable {
   color?: Color;
-
   toString(model?: AcceptedModel|'hex', ...args: any[]): string;
   toHex(enableShort?: boolean): string;
   toRgb(): string;
