@@ -21,3 +21,15 @@ export interface ColorSettable {
   setAlpha: (alpha: number) => this;
   convert: (color: Color, model: AcceptedModel) => Color;
 }
+
+// Accepted color models: 'rgb'|'hwb'|'hsl'|'hsv'|'cmyk' + 'hex'
+export interface ColorRepresentable {
+  color?: Color;
+  toString(model?: AcceptedModel|'hex', ...args: any[]): string;
+  toHex(enableShort?: boolean): string;
+  toRgb(): string;
+  toHwb(): string;
+  toHsl(): string;
+  toHsv(): string;
+  toCmyk(): string;
+}

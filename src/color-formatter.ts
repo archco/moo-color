@@ -1,28 +1,28 @@
-import { AcceptedModel, Color, ColorSettable } from './color';
+import {
+  AcceptedModel,
+  Color,
+  ColorRepresentable,
+  ColorSettable,
+} from './color';
 import * as Converter from './color-converter';
-
-// Accepted color models: 'rgb'|'hwb'|'hsl'|'hsv'|'cmyk' + 'hex'
-export interface ColorRepresentable {
-  color?: Color;
-  toString(model?: AcceptedModel|'hex', ...args: any[]): string;
-  toHex(enableShort?: boolean): string;
-  toRgb(): string;
-  toHwb(): string;
-  toHsl(): string;
-  toHsv(): string;
-  toCmyk(): string;
-}
 
 export class ColorFormatter implements ColorSettable, ColorRepresentable {
   color?: Color;
 
   setColor(color: Color): this {
+    color.alpha = typeof color.alpha === 'number' ? color.alpha : 1;
     this.color = color;
     return this;
   }
 
   getColor(): Color {
     return this.color;
+  }
+
+  getColorAs(model: AcceptedModel): Color {
+    return this.color.model === model
+      ? this.color
+      : this.convert(this.color, model);
   }
 
   getModel(): AcceptedModel|undefined {
@@ -61,39 +61,91 @@ export class ColorFormatter implements ColorSettable, ColorRepresentable {
     return newColor;
   }
 
-  toString(model: AcceptedModel|'hex', ...args: any[]): string {
-    // TODO:
-    return '';
+  toString(model?: AcceptedModel|'hex', ...args: any[]): string {
+    model = model ? model : this.color.model;
+    switch (model) {
+      case 'hex': return this.toHex(args[0]);
+      case 'hwb': return this.toHwb();
+      case 'hsl': return this.toHsl();
+      case 'hsv': return this.toHsv();
+      case 'cmyk': return this.toCmyk();
+      default: return this.toRgb();
+    }
   }
 
+  /**
+   * Represents color as HEX notation.
+   * @see https://www.w3.org/TR/css-color-4/#hex-notation
+   * @param {boolean} [enableShort] default is false.
+   * @returns {string}
+   */
   toHex(enableShort?: boolean): string {
-    // TODO:
-    return '';
+    const color = this.getColorAs('rgb');
+    const [r, g, b] = color.values;
+    const a = color.alpha === 1 ? null : color.alpha;
+    return `#${Converter.rgbToHex(r, g, b, a, true)}`;
   }
 
+  /**
+   * Represents color as RGB notation.
+   * @see https://www.w3.org/TR/css-color-4/#rgb-functions
+   * @returns {string}
+   */
   toRgb(): string {
-    // TODO:
-    return '';
+    const color = this.getColorAs('rgb');
+    const [r, g, b] = color.values;
+    return color.alpha === 1
+      ? `rgb(${r}, ${g}, ${b})`
+      : `rgba(${r}, ${g}, ${b}, ${color.alpha})`;
   }
 
+  /**
+   * Represents color as HWB notation.
+   * @see https://www.w3.org/TR/css-color-4/#the-hwb-notation
+   * @returns {string} e.g. 'hwb(0, 0%, 0%, 0)'
+   */
   toHwb(): string {
-    // TODO:
-    return '';
+    const color = this.getColorAs('hwb');
+    const [h, w, b] = color.values;
+    const a = color.alpha === 1 ? '' : `, ${color.alpha}`;
+    return `hwb(${h}, ${w}%, ${b}%${a})`;
   }
 
+  /**
+   * Represents color as HSL notation.
+   * @see https://www.w3.org/TR/css-color-4/#the-hsl-notation
+   * @returns {string}
+   */
   toHsl(): string {
-    // TODO:
-    return '';
+    const color = this.getColorAs('hsl');
+    const [h, s, l] = color.values;
+    return color.alpha === 1
+      ? `hsl(${h}, ${s}%, ${l}%)`
+      : `hsla(${h}, ${s}%, ${l}%, ${color.alpha})`;
   }
 
+  /**
+   * Represents color as HSV notation. This format is similar to HSL.
+   * @returns {string}
+   */
   toHsv(): string {
-    // TODO:
-    return '';
+    const color = this.getColorAs('hsv');
+    const [h, s, v] = color.values;
+    return color.alpha === 1
+      ? `hsv(${h}, ${s}%, ${v}%)`
+      : `hsva(${h}, ${s}%, ${v}%, ${color.alpha})`;
   }
 
+  /**
+   * Represents color as CMYK notation. e.g. 'cmyk(0%, 0%, 0%, 0%)'
+   * @see https://www.w3.org/TR/css-color-4/#cmyk-colors
+   * @returns {string}
+   */
   toCmyk(): string {
-    // TODO:
-    return '';
+    const color = this.getColorAs('cmyk');
+    const [c, m, y, k] = color.values;
+    const a = color.alpha === 1 ? '' : `, ${color.alpha}`;
+    return `cmyk(${c}%, ${m}%, ${y}%, ${k}%${a})`;
   }
 
   protected convertFromRgb(values: number[], model: AcceptedModel): number[] {
