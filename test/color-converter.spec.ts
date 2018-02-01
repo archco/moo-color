@@ -78,7 +78,6 @@ describe('#ColorConverter', () => {
 
     it('converts Hex with alpha to RGB', () => {
       const rgba = Converter.hexToRgb('ff00bbff');
-      console.log(Converter.hexToRgb('ff00bbaa'));
       expect(rgba).toEqual([255, 0, 187, 1]);
     });
   });

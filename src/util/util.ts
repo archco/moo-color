@@ -14,3 +14,7 @@ function makePad(chars: string, limit: number): string {
   }
   return chars.length > limit ? chars.substring(chars.length - limit) : chars;
 }
+
+export function clamp(num: number, min: number, max: number): number {
+  return Math.min(Math.max(min, num), max);
+}

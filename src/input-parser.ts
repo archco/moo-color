@@ -1,23 +1,24 @@
 import * as ColorString from 'color-string';
-import Color from './color';
+import { Color } from './color';
 import Names from './color-names';
+import { clamp } from './util/util';
 
 type AcceptedInput = string|string[]|number[]|object;
 
-// TODO: cmyk input parsing.
+// TODO: cmyk input parsing. also HSV
 export default function inputParser(input: AcceptedInput): Color|null {
  if (typeof input === 'string') {
     if (input in Names) {
       // Named colors.
       return {
-        type: 'rgb',
+        model: 'rgb',
         values: Names[input],
         alpha: 1,
       };
     } else if (input === 'transparent') {
       // 'transparent'.
       return {
-        type: 'rgb',
+        model: 'rgb',
         values: [0, 0, 0],
         alpha: 0,
       };
@@ -25,12 +26,9 @@ export default function inputParser(input: AcceptedInput): Color|null {
       // parse string.
       const prefix = input.substr(0, 3).toLowerCase();
       switch (prefix) {
-        case 'hsl':
-          return parseHSL(input);
-        case 'hwb':
-          return parseHWB(input);
-        default:
-          return parseRGB(input);
+        case 'hwb': return parseHWB(input);
+        case 'hsl': return parseHSL(input);
+        default: return parseRGB(input);
       }
     }
   }
@@ -44,7 +42,7 @@ function parseRGB(input: string): Color|null {
   const percent = /^rgba?\(\s*([+-]?[\d\.]+)\%\s*,\s*([+-]?[\d\.]+)\%\s*,\s*([+-]?[\d\.]+)\%\s*(?:,\s*([+-]?[\d\.]+)\s*)?\)$/;
   let match: RegExpMatchArray;
   const result: Color = {
-    type: 'rgb',
+    model: 'rgb',
     values: [0, 0, 0],
     alpha: 1,
   };
@@ -93,7 +91,7 @@ function parseHSL(input: string): Color|null {
   if (hsl.test(input)) {
     const match = input.match(hsl);
     return {
-      type: 'hsl',
+      model: 'hsl',
       values: [
         ((parseFloat(match[1]) % 360) + 360) % 360,
         clamp(parseFloat(match[2]), 0, 100),
@@ -113,7 +111,7 @@ function parseHWB(input: string): Color|null {
   if (hwb.test(input)) {
     const match = input.match(hwb);
     return {
-      type: 'hwb',
+      model: 'hwb',
       values: [
         ((parseFloat(match[1]) % 360) + 360) % 360,
         clamp(parseFloat(match[2]), 0, 100),
@@ -124,10 +122,6 @@ function parseHWB(input: string): Color|null {
   } else {
     return null;
   }
-}
-
-function clamp(num: number, min: number, max: number): number {
-  return Math.min(Math.max(min, num), max);
 }
 
 function resolveAlpha(a: string): number {
