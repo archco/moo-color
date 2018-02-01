@@ -18,3 +18,7 @@ function makePad(chars: string, limit: number): string {
 export function clamp(num: number, min: number, max: number): number {
   return Math.min(Math.max(min, num), max);
 }
+
+export function degree(num: string|number): number {
+  return ((parseFloat(num.toString()) % 360) + 360) % 360;
+}

@@ -1,11 +1,10 @@
 import * as ColorString from 'color-string';
 import { Color } from './color';
 import Names from './color-names';
-import { clamp } from './util/util';
+import { clamp, degree } from './util/util';
 
 type AcceptedInput = string|string[]|number[]|object;
 
-// TODO: cmyk input parsing. also HSV
 export default function inputParser(input: AcceptedInput): Color|null {
  if (typeof input === 'string') {
     if (input in Names) {
@@ -26,20 +25,22 @@ export default function inputParser(input: AcceptedInput): Color|null {
       // parse string.
       const prefix = input.substr(0, 3).toLowerCase();
       switch (prefix) {
-        case 'hwb': return parseHWB(input);
-        case 'hsl': return parseHSL(input);
-        default: return parseRGB(input);
+        case 'hwb': return parseHwb(input);
+        case 'hsl': return parseHsl(input);
+        case 'hsv': return parseHsv(input);
+        case 'cmy': return parseCmyk(input);
+        default: return parseRgb(input);
       }
     }
   }
 }
 
-function parseRGB(input: string): Color|null {
+function parseRgb(input: string): Color|null {
   const hex = /^#([a-f0-9]{6})([a-f0-9]{2})?$/i;
   const shortHex = /^#([a-f0-9]{3})([a-f0-9]{1})?$/i;
-  const rgba = /^rgba?\(\s*([+-]?\d+)\s*,\s*([+-]?\d+)\s*,\s*([+-]?\d+)\s*(?:,\s*([+-]?[\d\.]+)\s*)?\)$/;
+  const rgba = /^rgba?\s*\(\s*([+-]?\d+)\s*,\s*([+-]?\d+)\s*,\s*([+-]?\d+)\s*(?:,\s*([+-]?[\d\.]+)\s*)?\)$/;
   // tslint:disable-next-line:max-line-length
-  const percent = /^rgba?\(\s*([+-]?[\d\.]+)\%\s*,\s*([+-]?[\d\.]+)\%\s*,\s*([+-]?[\d\.]+)\%\s*(?:,\s*([+-]?[\d\.]+)\s*)?\)$/;
+  const percent = /^rgba?\s*\(\s*([+-]?[\d\.]+)\%\s*,\s*([+-]?[\d\.]+)\%\s*,\s*([+-]?[\d\.]+)\%\s*(?:,\s*([+-]?[\d\.]+)\s*)?\)$/;
   let match: RegExpMatchArray;
   const result: Color = {
     model: 'rgb',
@@ -84,16 +85,16 @@ function parseRGB(input: string): Color|null {
   return result;
 }
 
-function parseHSL(input: string): Color|null {
+function parseHsl(input: string): Color|null {
   // tslint:disable-next-line:max-line-length
-  const hsl = /^hsla?\(\s*([+-]?\d*[\.]?\d+)(?:deg)?\s*,\s*([+-]?[\d\.]+)%\s*,\s*([+-]?[\d\.]+)%\s*(?:,\s*([+-]?[\d\.]+)\s*)?\)$/i;
+  const hsl = /^hsla?\s*\(\s*([+-]?\d*[\.]?\d+)(?:deg)?\s*,\s*([+-]?[\d\.]+)%\s*,\s*([+-]?[\d\.]+)%\s*(?:,\s*([+-]?[\d\.]+)\s*)?\)$/i;
 
   if (hsl.test(input)) {
     const match = input.match(hsl);
     return {
       model: 'hsl',
       values: [
-        ((parseFloat(match[1]) % 360) + 360) % 360,
+        degree(match[1]),
         clamp(parseFloat(match[2]), 0, 100),
         clamp(parseFloat(match[3]), 0, 100),
       ],
@@ -104,20 +105,61 @@ function parseHSL(input: string): Color|null {
   }
 }
 
-function parseHWB(input: string): Color|null {
+function parseHwb(input: string): Color|null {
   // tslint:disable-next-line:max-line-length
-  const hwb = /^hwb\(\s*([+-]?\d*[\.]?\d+)(?:deg)?\s*,\s*([+-]?[\d\.]+)%\s*,\s*([+-]?[\d\.]+)%\s*(?:,\s*([+-]?[\d\.]+)\s*)?\)$/i;
+  const hwb = /^hwba?\s*\(\s*([+-]?\d*[\.]?\d+)(?:deg)?\s*,\s*([+-]?[\d\.]+)%\s*,\s*([+-]?[\d\.]+)%\s*(?:,\s*([+-]?[\d\.]+)\s*)?\)$/i;
 
   if (hwb.test(input)) {
     const match = input.match(hwb);
     return {
       model: 'hwb',
       values: [
-        ((parseFloat(match[1]) % 360) + 360) % 360,
+        degree(match[1]),
         clamp(parseFloat(match[2]), 0, 100),
         clamp(parseFloat(match[3]), 0, 100),
       ],
       alpha: resolveAlpha(match[4]),
+    };
+  } else {
+    return null;
+  }
+}
+
+function parseHsv(input: string): Color|null {
+  // tslint:disable-next-line:max-line-length
+  const hsv = /^hsva?\s*\(\s*([+-]?\d*[\.]?\d+)(?:deg)?\s*,\s*([+-]?[\d\.]+)%\s*,\s*([+-]?[\d\.]+)%\s*(?:,\s*([+-]?[\d\.]+)\s*)?\)$/i;
+
+  if (hsv.test(input)) {
+    const match = input.match(hsv);
+    return {
+      model: 'hsv',
+      values: [
+        degree(match[1]),
+        clamp(parseFloat(match[2]), 0, 100),
+        clamp(parseFloat(match[3]), 0, 100),
+      ],
+      alpha: resolveAlpha(match[4]),
+    };
+  } else {
+    return null;
+  }
+}
+
+function parseCmyk(input: string): Color|null {
+  // tslint:disable-next-line:max-line-length
+  const cmyk = /^cmyk\s*\(\s*([+-]?[\d\.]+)%\s*,\s*([+-]?[\d\.]+)%\s*,\s*([+-]?[\d\.]+)%\s*,\s*([+-]?[\d\.]+)%\s*(?:,\s*([+-]?[\d\.]+)\s*)?\)$/i;
+
+  if (cmyk.test(input)) {
+    const match = input.match(cmyk);
+    return {
+      model: 'cmyk',
+      values: [
+        clamp(parseFloat(match[1]), 0, 100),
+        clamp(parseFloat(match[2]), 0, 100),
+        clamp(parseFloat(match[3]), 0, 100),
+        clamp(parseFloat(match[4]), 0, 100),
+      ],
+      alpha: resolveAlpha(match[5]),
     };
   } else {
     return null;
