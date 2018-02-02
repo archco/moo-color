@@ -15,6 +15,7 @@ export interface ColorSettable {
 
   setColor: (color: Color) => this;
   getColor: () => Color;
+  getColorAs: (model: AcceptedModel) => Color;
   getModel: () => AcceptedModel|undefined;
   changeModel: (model: AcceptedModel) => this;
   getAlpha: () => number;

@@ -22,3 +22,9 @@ export function clamp(num: number, min: number, max: number): number {
 export function degree(num: string|number): number {
   return ((parseFloat(num.toString()) % 360) + 360) % 360;
 }
+
+export function resolveAlpha(a: string|number): number {
+  a = typeof a === 'number' ? a.toString() : a;
+  const num = parseFloat(a);
+  return clamp(isNaN(num) ? 1 : num, 0, 1);
+}

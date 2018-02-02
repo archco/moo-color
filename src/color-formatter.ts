@@ -5,12 +5,13 @@ import {
   ColorSettable,
 } from './color';
 import * as Converter from './color-converter';
+import { resolveAlpha } from './util/util';
 
 export class ColorFormatter implements ColorSettable, ColorRepresentable {
   color?: Color;
 
   setColor(color: Color): this {
-    color.alpha = typeof color.alpha === 'number' ? color.alpha : 1;
+    color.alpha = resolveAlpha(color.alpha);
     this.color = color;
     return this;
   }
@@ -43,22 +44,22 @@ export class ColorFormatter implements ColorSettable, ColorRepresentable {
   }
 
   convert(color: Color, m: AcceptedModel): Color {
-    const newColor: Color = {
-      model: m,
-      values: [],
-      alpha: color.alpha,
-    };
+    let val: number[];
     switch (color.model) {
-      case 'rgb': newColor.values = this.convertFromRgb(color.values, m); break;
-      case 'hwb': newColor.values = this.convertFromHwb(color.values, m); break;
-      case 'hsl': newColor.values = this.convertFromHsl(color.values, m); break;
-      case 'hsv': newColor.values = this.convertFromHsv(color.values, m); break;
-      case 'cmyk': newColor.values = this.convertFromCmyk(color.values, m); break;
+      case 'rgb': val = this.convertFromRgb(color.values, m); break;
+      case 'hwb': val = this.convertFromHwb(color.values, m); break;
+      case 'hsl': val = this.convertFromHsl(color.values, m); break;
+      case 'hsv': val = this.convertFromHsv(color.values, m); break;
+      case 'cmyk': val = this.convertFromCmyk(color.values, m); break;
     }
-    if (!newColor.values.length) {
+    if (!val.length) {
       throw new Error('Converting Error!');
     }
-    return newColor;
+    return {
+      model: m,
+      values: val,
+      alpha: color.alpha,
+    };
   }
 
   toString(model?: AcceptedModel|'hex', ...args: any[]): string {
