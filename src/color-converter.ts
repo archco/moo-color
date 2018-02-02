@@ -1,5 +1,7 @@
 import { padStart } from './util/util';
 
+// TODO: converter에서 RGB에서 round를 제거한다. formatter에서 represent단계에서 하면 되고 여기서 round를 적용하니 convert를 반복할수록 오차가 생겨난다.
+
 /**
  * Converts an HSL to RGB.
  * @see https://www.rapidtables.com/convert/color/hsl-to-rgb.html
@@ -10,15 +12,14 @@ import { padStart } from './util/util';
  * @returns {number[]} [red, green, blue] 0-255
  */
 export function hslToRgb(h: number, s: number, l: number): number[] {
-  s /= 100; l /= 100;
-  const i = h / 60;
+  h /= 60, s /= 100, l /= 100;
   const c = (1 - Math.abs(2 * l - 1)) * s;
-  const x = c * (1 - Math.abs(i % 2 - 1));
+  const x = c * (1 - Math.abs(h % 2 - 1));
   const m = l - c / 2;
   let r;
   let g;
   let b;
-  switch (Math.floor(i)) {
+  switch (Math.floor(h)) {
     case 0: r = c, g = x, b = 0; break;
     case 1: r = x, g = c, b = 0; break;
     case 2: r = 0, g = c, b = x; break;
@@ -26,7 +27,7 @@ export function hslToRgb(h: number, s: number, l: number): number[] {
     case 4: r = x, g = 0, b = c; break;
     case 5: r = c, g = 0, b = x; break;
   }
-  return [r, g, b].map(val => Math.round((val + m) * 255));
+  return [r, g, b].map(val => (val + m) * 255);
 }
 
 /**
@@ -101,7 +102,7 @@ export function cmykToRgb(c: number, m: number, y: number, k: number): number[] 
   const red = 255 * (1 - c) * (1 - k);
   const green = 255 * (1 - m) * (1 - k);
   const blue = 255 * (1 - y) * (1 - k);
-  return [red, green, blue].map(x => Math.round(x));
+  return [red, green, blue];
 }
 
 /**
@@ -148,7 +149,7 @@ export function hsvToRgb(h: number, s: number, v: number): number[] {
     case 4: r = x, g = 0, b = c; break;
     case 5: r = c, g = 0, b = x; break;
   }
-  return [r, g, b].map(val => Math.round((val + m) * 255));
+  return [r, g, b].map(val => (val + m) * 255);
 }
 
 /**

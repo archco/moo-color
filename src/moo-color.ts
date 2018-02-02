@@ -1,12 +1,16 @@
 import {
+  AcceptedModel,
   Color,
   ColorModifiable,
   ColorStateAccessible,
 } from './color';
 import { ColorFormatter } from './color-formatter';
 import parser from './input-parser';
+import { clamp } from './util/util';
 
-export class MooColor extends ColorFormatter implements ColorStateAccessible {
+type manipulateFn = (...args: number[]) => number[];
+
+export class MooColor extends ColorFormatter implements ColorModifiable<MooColor>, ColorStateAccessible {
   constructor(color: any) {
     super();
     this.setColorByString(color);
@@ -76,5 +80,80 @@ export class MooColor extends ColorFormatter implements ColorStateAccessible {
    */
   isContrastEnough(color: MooColor): boolean {
     return this.contrastRatioWith(color) >= 4.5;
+  }
+
+  /**
+   * Increase lightness.
+   * @param {number} amount 0-100
+   * @returns {this}
+   */
+  lighten(amount: number): this {
+    return this.manipulate('hsl', (h, s, l) => {
+      l = clamp(l + amount, 0, 100);
+      return [h, s, l];
+    });
+  }
+
+  /**
+   * Decrease lightness.
+   * @param {number} amount 0-100
+   * @returns {this}
+   */
+  darken(amount: number): this {
+    return this.manipulate('hsl', (h, s, l) => {
+      l = clamp(l - amount, 0, 100);
+      return [h, s, l];
+    });
+  }
+
+  saturate(amount: number): this {
+    return this.manipulate('hsl', (h, s, l) => {
+      s = clamp(s + amount, 0, 100);
+      return [h, s, l];
+    });
+  }
+
+  desaturate(amount: number): this {
+    return this.manipulate('hsl', (h, s, l) => {
+      s = clamp(s - amount, 0, 100);
+      return [h, s, l];
+    });
+  }
+
+  grayscale(): this {
+    return this.manipulate('hsl', (h, s, l) => {
+      return [h, 0, l];
+    });
+  }
+
+  whiten(amount: number): this {
+    return this.manipulate('hwb', (h, w, b) => {
+      w = clamp(w + amount, 0, 100);
+      return [h, w, b];
+    });
+  }
+
+  blacken(amount: number): this {
+    return this.manipulate('hwb', (h, w, b) => {
+      b = clamp(b + amount, 0, 100);
+      return [h, w, b];
+    });
+  }
+
+  rotate(amount: number): this {
+    // TODO:
+    return this;
+  }
+
+  mix(color: MooColor, percent: number = 50): MooColor {
+    // TODO:
+    return this;
+  }
+
+  protected manipulate(asModel: AcceptedModel, callback: manipulateFn): this {
+    const m = this.color.model;
+    const color = this.getColorAs(asModel);
+    color.values = callback(...color.values);
+    return this.setColor(color).changeModel(m);
   }
 }

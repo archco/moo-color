@@ -5,7 +5,7 @@ import {
   ColorSettable,
 } from './color';
 import * as Converter from './color-converter';
-import { resolveAlpha } from './util/util';
+import { decimal, resolveAlpha } from './util/util';
 
 export class ColorFormatter implements ColorSettable, ColorRepresentable {
   color?: Color;
@@ -82,7 +82,7 @@ export class ColorFormatter implements ColorSettable, ColorRepresentable {
    */
   toHex(enableShort?: boolean): string {
     const color = this.getColorAs('rgb');
-    const [r, g, b] = color.values;
+    const [r, g, b] = color.values.map(x => Math.round(x));
     const a = color.alpha === 1 ? null : color.alpha;
     return `#${Converter.rgbToHex(r, g, b, a, true)}`;
   }
@@ -94,7 +94,7 @@ export class ColorFormatter implements ColorSettable, ColorRepresentable {
    */
   toRgb(): string {
     const color = this.getColorAs('rgb');
-    const [r, g, b] = color.values;
+    const [r, g, b] = color.values.map(x => Math.round(x));
     return color.alpha === 1
       ? `rgb(${r}, ${g}, ${b})`
       : `rgba(${r}, ${g}, ${b}, ${color.alpha})`;
@@ -107,7 +107,7 @@ export class ColorFormatter implements ColorSettable, ColorRepresentable {
    */
   toHwb(): string {
     const color = this.getColorAs('hwb');
-    const [h, w, b] = color.values;
+    const [h, w, b] = color.values.map(x => decimal(x, 2));
     const a = color.alpha === 1 ? '' : `, ${color.alpha}`;
     return `hwb(${h}, ${w}%, ${b}%${a})`;
   }
@@ -119,7 +119,7 @@ export class ColorFormatter implements ColorSettable, ColorRepresentable {
    */
   toHsl(): string {
     const color = this.getColorAs('hsl');
-    const [h, s, l] = color.values;
+    const [h, s, l] = color.values.map(x => decimal(x, 2));
     return color.alpha === 1
       ? `hsl(${h}, ${s}%, ${l}%)`
       : `hsla(${h}, ${s}%, ${l}%, ${color.alpha})`;
@@ -131,7 +131,7 @@ export class ColorFormatter implements ColorSettable, ColorRepresentable {
    */
   toHsv(): string {
     const color = this.getColorAs('hsv');
-    const [h, s, v] = color.values;
+    const [h, s, v] = color.values.map(x => decimal(x, 2));
     return color.alpha === 1
       ? `hsv(${h}, ${s}%, ${v}%)`
       : `hsva(${h}, ${s}%, ${v}%, ${color.alpha})`;
@@ -144,7 +144,7 @@ export class ColorFormatter implements ColorSettable, ColorRepresentable {
    */
   toCmyk(): string {
     const color = this.getColorAs('cmyk');
-    const [c, m, y, k] = color.values;
+    const [c, m, y, k] = color.values.map(x => decimal(x, 2));
     const a = color.alpha === 1 ? '' : `, ${color.alpha}`;
     return `cmyk(${c}%, ${m}%, ${y}%, ${k}%${a})`;
   }

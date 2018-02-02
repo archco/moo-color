@@ -28,3 +28,9 @@ export function resolveAlpha(a: string|number): number {
   const num = parseFloat(a);
   return clamp(isNaN(num) ? 1 : num, 0, 1);
 }
+
+// @see: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/round
+export function decimal(num: number, precision: number): number {
+  const factor = Math.pow(10, precision);
+  return Math.round(num * factor) / factor;
+}

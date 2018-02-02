@@ -49,7 +49,7 @@ export interface ColorStateAccessible {
 }
 
 // It can manipulate color values.
-export interface ColorModifiable<T> {
+export interface ColorModifiable<T extends ColorSettable> {
   color?: Color;
   lighten(amount: number): this;
   darken(amount: number): this;

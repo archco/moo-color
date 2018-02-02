@@ -37,4 +37,50 @@ describe('#MooColor', () => {
       expect(cyan.isContrastEnough(white)).toEqual(false);
     });
   });
+
+  describe('#lighten', () => {
+    it('increase lightness.', () => {
+      const red = new MooColor('red');
+      expect(red.lighten(20).toString()).toEqual('rgb(255, 102, 102)');
+    });
+  });
+
+  describe('#darken', () => {
+    it('decrease lightness.', () => {
+      const red = new MooColor('red');
+      expect(red.darken(20).toString()).toEqual('rgb(153, 0, 0)');
+    });
+  });
+
+  describe('#saturate', () => {
+    it('increase saturation.', () => {
+      const rgb = new MooColor('rgb(191, 64, 64)'); // hsl(0, 50%, 50%)
+      expect(rgb.saturate(20).toString()).toEqual('rgb(217, 38, 38)');
+    });
+  });
+
+  describe('#desaturate', () => {
+    it('Decrease saturation.', () => {
+      const c = new MooColor('rgb(191, 64, 64)');
+      expect(c.toHsl()).toEqual('hsl(0, 49.8%, 50%)');
+      c.desaturate(20);
+      expect(c.toHsl()).toEqual('hsl(0, 29.8%, 50%)');
+      // expect(rgb.toRgb()).toEqual('rgb(165, 90, 90)');
+    });
+  });
+
+  describe('multiple converts.', () => {
+    it('test', () => {
+      const c1 =  new MooColor('hsl(0, 50%, 50%)');
+      const c2 = new MooColor('hsl(0, 50%, 50%)');
+      for (let i = 0; i < 100; i++) {
+        c1.changeModel('rgb')
+          .changeModel('hwb')
+          .changeModel('hsv')
+          .changeModel('cmyk')
+          .changeModel('hsl');
+      }
+      expect(c1.getColor()).toEqual(c2.getColor());
+    });
+  });
 });
