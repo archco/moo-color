@@ -82,6 +82,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /* unused harmony export padEnd */
 /* harmony export (immutable) */ __webpack_exports__["a"] = clamp;
 /* harmony export (immutable) */ __webpack_exports__["b"] = degree;
+/* harmony export (immutable) */ __webpack_exports__["d"] = resolveAlpha;
 function padStart(str, length, chars) {
     var space = length - str.length;
     return space > 0 ? "" + makePad(chars, space) + str : str;
@@ -102,6 +103,11 @@ function clamp(num, min, max) {
 function degree(num) {
     return ((parseFloat(num.toString()) % 360) + 360) % 360;
 }
+function resolveAlpha(a) {
+    a = typeof a === 'number' ? a.toString() : a;
+    var num = parseFloat(a);
+    return clamp(isNaN(num) ? 1 : num, 0, 1);
+}
 
 
 /***/ }),
@@ -110,6 +116,7 @@ function degree(num) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MooColor", function() { return MooColor; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__color_formatter__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__input_parser__ = __webpack_require__(4);
 var __extends = (this && this.__extends) || (function () {
@@ -126,14 +133,61 @@ var __extends = (this && this.__extends) || (function () {
 
 var MooColor = /** @class */ (function (_super) {
     __extends(MooColor, _super);
-    function MooColor() {
-        var _this = _super !== null && _super.apply(this, arguments) || this;
-        _this.parser = __WEBPACK_IMPORTED_MODULE_1__input_parser__["a" /* default */];
+    function MooColor(color) {
+        var _this = _super.call(this) || this;
+        _this.setColorByString(color);
         return _this;
     }
+    MooColor.prototype.setColorByString = function (str) {
+        var color = Object(__WEBPACK_IMPORTED_MODULE_1__input_parser__["a" /* default */])(str);
+        return this.setColor(color);
+    };
+    Object.defineProperty(MooColor.prototype, "brightness", {
+        /**
+         * Color brightness. 0-255 (It based RGB)
+         * @see https://www.w3.org/TR/AERT/#color-contrast
+         * @readonly
+         * @type {number}
+         */
+        get: function () {
+            var _a = this.getColorAs('rgb').values, r = _a[0], g = _a[1], b = _a[2];
+            return ((r * 299) + (g * 587) + (b * 114)) / 1000;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(MooColor.prototype, "isLight", {
+        /**
+         * Returns whether color is light or not.
+         * @readonly
+         * @type {boolean}
+         */
+        get: function () {
+            return this.brightness >= 128;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(MooColor.prototype, "isDark", {
+        /**
+         * Returns whether color is dark or not.
+         * @readonly
+         * @type {boolean}
+         */
+        get: function () {
+            return this.brightness < 128;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    MooColor.prototype.diffColor = function (color) {
+        var _a = this.getColorAs('rgb').values, r1 = _a[0], g1 = _a[1], b1 = _a[2];
+        var _b = color.getColorAs('rgb').values, r2 = _b[0], g2 = _b[1], b2 = _b[2];
+        return Math.abs(r1 - r2) + Math.abs(g1 - g2) + Math.abs(b1 - b2);
+    };
     return MooColor;
 }(__WEBPACK_IMPORTED_MODULE_0__color_formatter__["a" /* ColorFormatter */]));
-/* harmony default export */ __webpack_exports__["default"] = (MooColor);
+
 
 
 /***/ }),
@@ -143,12 +197,14 @@ var MooColor = /** @class */ (function (_super) {
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ColorFormatter; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__color_converter__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__util_util__ = __webpack_require__(0);
+
 
 var ColorFormatter = /** @class */ (function () {
     function ColorFormatter() {
     }
     ColorFormatter.prototype.setColor = function (color) {
-        color.alpha = typeof color.alpha === 'number' ? color.alpha : 1;
+        color.alpha = Object(__WEBPACK_IMPORTED_MODULE_1__util_util__["d" /* resolveAlpha */])(color.alpha);
         this.color = color;
         return this;
     };
@@ -174,32 +230,32 @@ var ColorFormatter = /** @class */ (function () {
         return this;
     };
     ColorFormatter.prototype.convert = function (color, m) {
-        var newColor = {
-            model: m,
-            values: [],
-            alpha: color.alpha,
-        };
+        var val;
         switch (color.model) {
             case 'rgb':
-                newColor.values = this.convertFromRgb(color.values, m);
+                val = this.convertFromRgb(color.values, m);
                 break;
             case 'hwb':
-                newColor.values = this.convertFromHwb(color.values, m);
+                val = this.convertFromHwb(color.values, m);
                 break;
             case 'hsl':
-                newColor.values = this.convertFromHsl(color.values, m);
+                val = this.convertFromHsl(color.values, m);
                 break;
             case 'hsv':
-                newColor.values = this.convertFromHsv(color.values, m);
+                val = this.convertFromHsv(color.values, m);
                 break;
             case 'cmyk':
-                newColor.values = this.convertFromCmyk(color.values, m);
+                val = this.convertFromCmyk(color.values, m);
                 break;
         }
-        if (!newColor.values.length) {
+        if (!val.length) {
             throw new Error('Converting Error!');
         }
-        return newColor;
+        return {
+            model: m,
+            values: val,
+            alpha: color.alpha,
+        };
     };
     ColorFormatter.prototype.toString = function (model) {
         var args = [];
@@ -735,56 +791,47 @@ function inputParser(input) {
     }
 }
 function parseRgb(input) {
-    var hex = /^#([a-f0-9]{6})([a-f0-9]{2})?$/i;
-    var shortHex = /^#([a-f0-9]{3})([a-f0-9]{1})?$/i;
+    var hex = /^#?([a-f0-9]{6})([a-f0-9]{2})?$/i;
+    var shortHex = /^#?([a-f0-9]{3})([a-f0-9]{1})?$/i;
     var rgba = /^rgba?\s*\(\s*([+-]?\d+)\s*,\s*([+-]?\d+)\s*,\s*([+-]?\d+)\s*(?:,\s*([+-]?[\d\.]+)\s*)?\)$/;
     // tslint:disable-next-line:max-line-length
     var percent = /^rgba?\s*\(\s*([+-]?[\d\.]+)\%\s*,\s*([+-]?[\d\.]+)\%\s*,\s*([+-]?[\d\.]+)\%\s*(?:,\s*([+-]?[\d\.]+)\s*)?\)$/;
     var match;
-    var result = {
-        model: 'rgb',
-        values: [0, 0, 0],
-        alpha: 1,
-    };
-    var alpha = function (a) { return Math.round((parseInt(a, 16) / 255) * 100) / 100; };
+    var hexToAlpha = function (num) { return Math.round((parseInt(num, 16) / 255) * 100) / 100; };
+    var val;
+    var a;
     if (hex.test(input)) {
         match = input.match(hex);
         var hexPart = match[1];
         var alphaPart = match[2];
-        result.values = hexPart.match(/.{2}/g).map(function (x) { return parseInt(x, 16); });
-        if (alphaPart) {
-            result.alpha = alpha(alphaPart);
-        }
+        val = hexPart.match(/.{2}/g).map(function (x) { return parseInt(x, 16); });
+        a = alphaPart ? hexToAlpha(alphaPart) : 1;
     }
     else if (shortHex.test(input)) {
         match = input.match(shortHex);
         var hexPart = match[1];
         var alphaPart = match[2];
-        result.values = hexPart.match(/.{1}/g).map(function (x) { return parseInt(x + x, 16); });
-        if (alphaPart) {
-            result.alpha = alpha(alphaPart + alphaPart);
-        }
+        val = hexPart.match(/.{1}/g).map(function (x) { return parseInt(x + x, 16); });
+        a = alphaPart ? hexToAlpha(alphaPart) : 1;
     }
     else if (rgba.test(input)) {
         match = input.match(rgba);
-        result.values = match.slice(1, 4).map(function (x) { return parseInt(x, 0); });
-        if (match[4]) {
-            result.alpha = parseFloat(match[4]);
-        }
+        val = match.slice(1, 4).map(function (x) { return parseInt(x, 0); });
+        a = Object(__WEBPACK_IMPORTED_MODULE_1__util_util__["d" /* resolveAlpha */])(match[4]);
     }
     else if (percent.test(input)) {
         match = input.match(percent);
-        result.values = match.slice(1, 4).map(function (x) { return Math.round(parseFloat(x) * 2.55); });
-        if (match[4]) {
-            result.alpha = parseFloat(match[4]);
-        }
+        val = match.slice(1, 4).map(function (x) { return Math.round(parseFloat(x) * 2.55); });
+        a = Object(__WEBPACK_IMPORTED_MODULE_1__util_util__["d" /* resolveAlpha */])(match[4]);
     }
     else {
         return null;
     }
-    result.values = result.values.map(function (x) { return Object(__WEBPACK_IMPORTED_MODULE_1__util_util__["a" /* clamp */])(x, 0, 255); });
-    result.alpha = Object(__WEBPACK_IMPORTED_MODULE_1__util_util__["a" /* clamp */])(result.alpha, 0, 1);
-    return result;
+    return {
+        model: 'rgb',
+        values: val.map(function (x) { return Object(__WEBPACK_IMPORTED_MODULE_1__util_util__["a" /* clamp */])(x, 0, 255); }),
+        alpha: Object(__WEBPACK_IMPORTED_MODULE_1__util_util__["a" /* clamp */])(a, 0, 1),
+    };
 }
 function parseHsl(input) {
     // tslint:disable-next-line:max-line-length
@@ -798,7 +845,7 @@ function parseHsl(input) {
                 Object(__WEBPACK_IMPORTED_MODULE_1__util_util__["a" /* clamp */])(parseFloat(match[2]), 0, 100),
                 Object(__WEBPACK_IMPORTED_MODULE_1__util_util__["a" /* clamp */])(parseFloat(match[3]), 0, 100),
             ],
-            alpha: resolveAlpha(match[4]),
+            alpha: Object(__WEBPACK_IMPORTED_MODULE_1__util_util__["d" /* resolveAlpha */])(match[4]),
         };
     }
     else {
@@ -817,7 +864,7 @@ function parseHwb(input) {
                 Object(__WEBPACK_IMPORTED_MODULE_1__util_util__["a" /* clamp */])(parseFloat(match[2]), 0, 100),
                 Object(__WEBPACK_IMPORTED_MODULE_1__util_util__["a" /* clamp */])(parseFloat(match[3]), 0, 100),
             ],
-            alpha: resolveAlpha(match[4]),
+            alpha: Object(__WEBPACK_IMPORTED_MODULE_1__util_util__["d" /* resolveAlpha */])(match[4]),
         };
     }
     else {
@@ -836,7 +883,7 @@ function parseHsv(input) {
                 Object(__WEBPACK_IMPORTED_MODULE_1__util_util__["a" /* clamp */])(parseFloat(match[2]), 0, 100),
                 Object(__WEBPACK_IMPORTED_MODULE_1__util_util__["a" /* clamp */])(parseFloat(match[3]), 0, 100),
             ],
-            alpha: resolveAlpha(match[4]),
+            alpha: Object(__WEBPACK_IMPORTED_MODULE_1__util_util__["d" /* resolveAlpha */])(match[4]),
         };
     }
     else {
@@ -856,16 +903,12 @@ function parseCmyk(input) {
                 Object(__WEBPACK_IMPORTED_MODULE_1__util_util__["a" /* clamp */])(parseFloat(match[3]), 0, 100),
                 Object(__WEBPACK_IMPORTED_MODULE_1__util_util__["a" /* clamp */])(parseFloat(match[4]), 0, 100),
             ],
-            alpha: resolveAlpha(match[5]),
+            alpha: Object(__WEBPACK_IMPORTED_MODULE_1__util_util__["d" /* resolveAlpha */])(match[5]),
         };
     }
     else {
         return null;
     }
-}
-function resolveAlpha(a) {
-    var num = parseFloat(a);
-    return Object(__WEBPACK_IMPORTED_MODULE_1__util_util__["a" /* clamp */])(isNaN(num) ? 1 : num, 0, 1);
 }
 
 

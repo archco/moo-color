@@ -1,8 +1,12 @@
-import { Color } from './color';
+import {
+  Color,
+  ColorModifiable,
+  ColorStateAccessible,
+} from './color';
 import { ColorFormatter } from './color-formatter';
 import parser from './input-parser';
 
-export class MooColor extends ColorFormatter {
+export class MooColor extends ColorFormatter implements ColorStateAccessible {
   constructor(color: any) {
     super();
     this.setColorByString(color);
@@ -42,9 +46,35 @@ export class MooColor extends ColorFormatter {
     return this.brightness < 128;
   }
 
-  diffColor(color: MooColor): number {
-    const [r1, g1, b1] = this.getColorAs('rgb').values;
-    const [r2, g2, b2] = color.getColorAs('rgb').values;
-    return Math.abs(r1 - r2) + Math.abs(g1 - g2) + Math.abs(b1 - b2);
+  /**
+   * Returns luminance value of color.
+   * @see https://www.w3.org/WAI/WCAG20/quickref/#qr-visual-audio-contrast-contrast
+   * @readonly
+   * @type {number}
+   */
+  get luminance(): number {
+    const [r, g, b] = this.getColorAs('rgb').values.map(x => x / 255);
+    return 0.2126 * r + 0.7152 * g + 0.0722 * b;
+  }
+
+  /**
+   * Returns contrast ratio with other color. range from 0 to 21.
+   * @see https://www.w3.org/TR/UNDERSTANDING-WCAG20/visual-audio-contrast-contrast.html#contrast-ratiodef
+   * @param {MooColor} color
+   * @returns {number} 0-21
+   */
+  contrastRatioWith(color: MooColor): number {
+    const max = Math.max(this.luminance, color.luminance);
+    const min = Math.min(this.luminance, color.luminance);
+    return (max + 0.05) / (min + 0.05);
+  }
+
+  /**
+   * Return true if contrast ratio >= 4.5
+   * @param {MooColor} color
+   * @returns {boolean}
+   */
+  isContrastEnough(color: MooColor): boolean {
+    return this.contrastRatioWith(color) >= 4.5;
   }
 }
