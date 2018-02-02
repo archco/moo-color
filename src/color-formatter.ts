@@ -9,6 +9,8 @@ import { decimal, resolveAlpha } from './util/util';
 
 export class ColorFormatter implements ColorSettable, ColorRepresentable {
   color?: Color;
+  // In hwb model, whiteness and blackness value's adjust will required.
+  protected resolveHwb = Converter.resolveHwb;
 
   setColor(color: Color): this {
     color.alpha = resolveAlpha(color.alpha);
@@ -31,7 +33,9 @@ export class ColorFormatter implements ColorSettable, ColorRepresentable {
   }
 
   changeModel(model: AcceptedModel): this {
-    return this.setColor(this.convert(this.color, model));
+    return this.color.model === model
+      ? this
+      : this.setColor(this.convert(this.color, model));
   }
 
   getAlpha(): number {

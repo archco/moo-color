@@ -55,6 +55,8 @@ describe('#inputParser', () => {
     expect(res.model).toEqual('hwb');
     expect(res.values).toEqual([180, 0, 25]);
     expect(res.alpha).toEqual(1);
+    const res1 = inputParser('hwb(0, 100%, 100%)');
+    expect(res1.values).toEqual([0, 50, 50]);
   });
 
   it('can hsv color.', () => {

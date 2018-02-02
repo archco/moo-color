@@ -26,6 +26,7 @@ export interface ColorSettable {
 // accepted color models: 'rgb'|'hwb'|'hsl'|'hsv'|'cmyk' + 'hex'
 export interface ColorRepresentable {
   color?: Color;
+
   toString(model?: AcceptedModel|'hex', ...args: any[]): string;
   toHex(enableShort?: boolean): string;
   toRgb(): string;
@@ -40,10 +41,12 @@ export interface ColorRepresentable {
 // @see https://www.w3.org/TR/2008/REC-WCAG20-20081211/#contrast-ratiodef
 export interface ColorStateAccessible {
   color?: Color;
+
   readonly brightness: number;
   readonly isLight: boolean;
   readonly isDark: boolean;
   readonly luminance: number;
+
   contrastRatioWith(color: ColorStateAccessible): number;
   isContrastEnough(color: ColorStateAccessible): boolean;
 }
@@ -51,6 +54,7 @@ export interface ColorStateAccessible {
 // It can manipulate color values.
 export interface ColorModifiable<T extends ColorSettable> {
   color?: Color;
+
   lighten(amount: number): this;
   darken(amount: number): this;
   saturate(amount: number): this;

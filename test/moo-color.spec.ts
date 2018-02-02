@@ -65,13 +65,12 @@ describe('#MooColor', () => {
       expect(c.toHsl()).toEqual('hsl(0, 49.8%, 50%)');
       c.desaturate(20);
       expect(c.toHsl()).toEqual('hsl(0, 29.8%, 50%)');
-      // expect(rgb.toRgb()).toEqual('rgb(165, 90, 90)');
     });
   });
 
   describe('multiple converts.', () => {
-    it('test', () => {
-      const c1 =  new MooColor('hsl(0, 50%, 50%)');
+    it('to be closed to original values.', () => {
+      const c1 = new MooColor('hsl(0, 50%, 50%)');
       const c2 = new MooColor('hsl(0, 50%, 50%)');
       for (let i = 0; i < 100; i++) {
         c1.changeModel('rgb')
@@ -80,7 +79,34 @@ describe('#MooColor', () => {
           .changeModel('cmyk')
           .changeModel('hsl');
       }
-      expect(c1.getColor()).toEqual(c2.getColor());
+      const v1 = c1.getColor().values;
+      const v2 = c2.getColor().values;
+      expect(v1[0]).toBeCloseTo(v2[0], 5);
+      expect(v1[1]).toBeCloseTo(v2[1], 5);
+      expect(v1[2]).toBeCloseTo(v2[2], 5);
+    });
+  });
+
+  describe('#grayscale', () => {
+    it('works.', () => {
+      const c = new MooColor('rgb(255, 0, 0)');
+      expect(c.grayscale().toRgb()).toEqual('rgb(128, 128, 128)');
+    });
+  });
+
+  describe('#whiten', () => {
+    it('increase whiteness.', () => {
+      const c = new MooColor('hwb(120, 30%, 50%)');
+      c.whiten(20);
+      expect(c.toHwb()).toEqual('hwb(120, 50%, 50%)');
+    });
+  });
+
+  describe('#blacken', () => {
+    it('increase blackness.', () => {
+      const c = new MooColor('hwb(120, 0%, 10%)');
+      c.blacken(15);
+      expect(c.toHwb()).toEqual('hwb(120, 0%, 25%)');
     });
   });
 });

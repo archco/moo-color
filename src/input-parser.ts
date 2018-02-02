@@ -1,5 +1,6 @@
 import * as ColorString from 'color-string';
 import { Color } from './color';
+import { resolveHwb } from './color-converter';
 import Names from './color-names';
 import { clamp, degree, resolveAlpha } from './util/util';
 
@@ -102,13 +103,12 @@ function parseHwb(input: string): Color|null {
 
   if (hwb.test(input)) {
     const match = input.match(hwb);
+    const h = degree(match[1]);
+    const w = clamp(parseFloat(match[2]), 0, 100);
+    const b = clamp(parseFloat(match[3]), 0, 100);
     return {
       model: 'hwb',
-      values: [
-        degree(match[1]),
-        clamp(parseFloat(match[2]), 0, 100),
-        clamp(parseFloat(match[3]), 0, 100),
-      ],
+      values: resolveHwb(h, w, b),
       alpha: resolveAlpha(match[4]),
     };
   } else {

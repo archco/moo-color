@@ -1,7 +1,5 @@
 import { padStart } from './util/util';
 
-// TODO: converter에서 RGB에서 round를 제거한다. formatter에서 represent단계에서 하면 되고 여기서 round를 적용하니 convert를 반복할수록 오차가 생겨난다.
-
 /**
  * Converts an HSL to RGB.
  * @see https://www.rapidtables.com/convert/color/hsl-to-rgb.html
@@ -209,6 +207,7 @@ export function hsvToHwb(h: number, s: number, v: number): number[] {
  * @returns {number[]} [hue, saturation, value] (0-360, 0-100, 0-100)
  */
 export function hwbToHsv(h: number, w: number, b: number): number[] {
+  [h, w, b] = resolveHwb(h, w, b);
   w /= 100, b /= 100;
   const s = 1 - w / (1 - b);
   const v = 1 - b;
@@ -259,4 +258,22 @@ export function hexToRgb(hex: string): number[] {
   })
   .match(/.{2}/g)
   .map((x, i) => i !== 3 ? parseInt(x, 16) : parseInt(x, 16) / 255);
+}
+
+/**
+ * Resolve HWB values.
+ * @see https://drafts.csswg.org/css-color/#the-hwb-notation
+ * @export
+ * @param {number} h hue 0-360
+ * @param {number} w whiteness 0-100
+ * @param {number} b blackness 0-100
+ * @returns {number[]} [hue, whiteness, blackness]
+ */
+export function resolveHwb(h: number, w: number, b: number): number[] {
+  const total = w + b;
+  if (total > 100) {
+    w = Number((w / total).toFixed(2)) * 100;
+    b = Number((b / total).toFixed(2)) * 100;
+  }
+  return [h, w, b];
 }

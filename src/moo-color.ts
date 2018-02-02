@@ -18,6 +18,9 @@ export class MooColor extends ColorFormatter implements ColorModifiable<MooColor
 
   setColorByString(str: string): this {
     const color: Color = parser(str);
+    if (!color) {
+      throw new Error('parsing error!');
+    }
     return this.setColor(color);
   }
 
@@ -121,23 +124,15 @@ export class MooColor extends ColorFormatter implements ColorModifiable<MooColor
   }
 
   grayscale(): this {
-    return this.manipulate('hsl', (h, s, l) => {
-      return [h, 0, l];
-    });
+    return this.manipulate('hsl', (h, s, l) => [h, 0, l]);
   }
 
   whiten(amount: number): this {
-    return this.manipulate('hwb', (h, w, b) => {
-      w = clamp(w + amount, 0, 100);
-      return [h, w, b];
-    });
+    return this.manipulate('hwb', (h, w, b) => this.resolveHwb(h, w + amount, b));
   }
 
   blacken(amount: number): this {
-    return this.manipulate('hwb', (h, w, b) => {
-      b = clamp(b + amount, 0, 100);
-      return [h, w, b];
-    });
+    return this.manipulate('hwb', (h, w, b) => this.resolveHwb(h, w, b + amount));
   }
 
   rotate(amount: number): this {
