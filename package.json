@@ -2,7 +2,7 @@
   "name": "moo-color",
   "version": "0.1.0",
   "description": "A simple color library.",
-  "main": "index.js",
+  "main": "dist/moo-color.js",
   "scripts": {
     "test": "npx jest",
     "build": "npx webpack --hide-modules",
