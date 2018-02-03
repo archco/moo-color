@@ -8,6 +8,8 @@ import { ColorFormatter } from './color-formatter';
 import parser from './input-parser';
 import { clamp, degree } from './util/util';
 
+export * from './color';
+
 type manipulateFn = (...args: number[]) => number[];
 
 export class MooColor extends ColorFormatter implements ColorModifiable<MooColor>, ColorStateAccessible {
@@ -17,6 +19,10 @@ export class MooColor extends ColorFormatter implements ColorModifiable<MooColor
     return c2.mix(c1, percentOf1);
   }
 
+  /**
+   * Creates an instance of MooColor.
+   * @param {*} [color] color string. e.g. '#ff0000' 'rgba(255, 0, 0, .5)' 'hsl(120, 50%, 100%)'
+   */
   constructor(color?: any) {
     super();
     color = color ? color : '#000';

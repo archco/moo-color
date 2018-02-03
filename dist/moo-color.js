@@ -459,6 +459,10 @@ var __extends = (this && this.__extends) || (function () {
 
 var MooColor = /** @class */ (function (_super) {
     __extends(MooColor, _super);
+    /**
+     * Creates an instance of MooColor.
+     * @param {*} [color] color string. e.g. '#ff0000' 'rgba(255, 0, 0, .5)' 'hsl(120, 50%, 100%)'
+     */
     function MooColor(color) {
         var _this = _super.call(this) || this;
         color = color ? color : '#000';

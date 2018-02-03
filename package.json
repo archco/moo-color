@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "description": "A simple color library.",
   "main": "dist/moo-color.js",
+  "types": "types/moo-color.d.ts",
   "scripts": {
     "test": "npx jest",
     "build": "npx webpack --hide-modules",
@@ -13,6 +14,14 @@
   ],
   "author": "archcoster@gmail.com",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/archco/moo-color.git"
+  },
+  "bugs": {
+    "url": "https://github.com/archco/moo-color/issues"
+  },
+  "homepage": "https://github.com/archco/moo-color#readme",
   "dependencies": {
     "@types/color-name": "^1.1.0",
     "color-name": "^1.1.3"
