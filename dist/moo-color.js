@@ -205,7 +205,7 @@ function rgbToHsl(r, g, b) {
         h = 60 * ((r - g) / delta + 4);
     }
     l = (max + min) / 2;
-    s = delta === 0 ? 0 : delta / 1 - Math.abs(2 * l - 1);
+    s = delta === 0 ? 0 : delta / (1 - Math.abs(2 * l - 1));
     return [h, s * 100, l * 100];
 }
 /**
@@ -328,7 +328,7 @@ function rgbToHsv(r, g, b) {
         h = 0;
     }
     else if (max === r) {
-        h = 60 * (((g - b) / delta) % 6);
+        h = 60 * ((g - b) / delta % 6);
     }
     else if (max === g) {
         h = 60 * ((b - r) / delta + 2);
@@ -466,8 +466,9 @@ var MooColor = /** @class */ (function (_super) {
         return _this;
     }
     MooColor.mix = function (color1, color2, percentOf1) {
+        if (percentOf1 === void 0) { percentOf1 = 50; }
         var c1 = (typeof color1 === 'string') ? new MooColor(color1) : color1;
-        var c2 = (typeof color1 === 'string') ? new MooColor(color1) : color1;
+        var c2 = (typeof color2 === 'string') ? new MooColor(color2) : color2;
         return c2.mix(c1, percentOf1);
     };
     MooColor.prototype.setColorByParser = function (str) {

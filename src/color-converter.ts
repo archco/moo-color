@@ -170,7 +170,7 @@ export function rgbToHsv(r: number, g: number, b: number): number[] {
   if (delta === 0) {
     h = 0;
   } else if (max === r) {
-    h = 60 * (((g - b) / delta) % 6);
+    h = 60 * ((g - b) / delta % 6);
   } else if (max === g) {
     h = 60 * ((b - r) / delta + 2);
   } else {
