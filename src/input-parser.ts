@@ -1,4 +1,3 @@
-import * as ColorString from 'color-string';
 import { Color } from './color';
 import { resolveHwb } from './color-converter';
 import Names from './color-names';
