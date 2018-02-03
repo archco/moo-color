@@ -1,15 +1,26 @@
 import { MooColor } from '../src/moo-color';
 
 describe('#MooColor', () => {
+  describe('static #mix', () => {
+    it('can use string.', () => {
+      const mixed = MooColor.mix('#fff', '#000', 90);
+      expect(mixed.brightness).toEqual(0.9 * 255);
+    });
+  });
+
   describe('#constructor', () => {
     it('color argument.', () => {
       const color = new MooColor('#f00');
       expect(color.getModel()).toEqual('rgb');
     });
+
+    it('if no argument, color is black.', () => {
+      expect(new MooColor().toHex(true)).toEqual('#000');
+    });
   });
 
   describe('luminance', () => {
-    it('works', () => {
+    it('value from 0 to 1.', () => {
       expect(new MooColor('#000').luminance).toEqual(0);
       expect(new MooColor('#fff').luminance).toEqual(1);
     });
@@ -96,9 +107,11 @@ describe('#MooColor', () => {
 
   describe('#whiten', () => {
     it('increase whiteness.', () => {
-      const c = new MooColor('hwb(120, 30%, 50%)');
+      const c = new MooColor('hwb(120, 40%, 40%)');
       c.whiten(20);
-      expect(c.toHwb()).toEqual('hwb(120, 50%, 50%)');
+      expect(c.toHwb()).toEqual('hwb(120, 60%, 40%)');
+      c.whiten(20);
+      expect(c.toHwb()).toEqual('hwb(120, 66.67%, 33.33%)');
     });
   });
 
@@ -107,6 +120,33 @@ describe('#MooColor', () => {
       const c = new MooColor('hwb(120, 0%, 10%)');
       c.blacken(15);
       expect(c.toHwb()).toEqual('hwb(120, 0%, 25%)');
+    });
+  });
+
+  describe('#rotate', () => {
+    it('rotate hue degree value.', () => {
+      const c = new MooColor('hsl(0, 100%, 50%)');
+      c.rotate(120);
+      expect(c.toHex(true)).toEqual('#0f0'); // 120 = green.
+      c.rotate(-180);
+      expect(c.toHex(true)).toEqual('#f0f'); // 300 = magenta.
+    });
+  });
+
+  describe('#clone', () => {
+    it('not equal to original.', () => {
+      const c = new MooColor('blue');
+      const c1 = c.clone().lighten(10);
+      expect(c1.toString()).not.toEqual(c.toString());
+    });
+  });
+
+  describe('#mix', () => {
+    it('red + yellow = orange.', () => {
+      const c1 = new MooColor('rgb(255, 0, 0)');
+      const c2 = new MooColor('rgb(255, 255, 0)');
+      const c3 = c1.mix(c2, 50);
+      expect(c3.toString()).toEqual('rgb(255, 128, 0)');
     });
   });
 });
