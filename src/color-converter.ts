@@ -55,7 +55,7 @@ export function rgbToHsl(r: number, g: number, b: number): number[] {
     h = 60 * ((r - g) / delta + 4);
   }
   l = (max + min) / 2;
-  s = delta === 0 ? 0 : delta / 1 - Math.abs(2 * l - 1);
+  s = delta === 0 ? 0 : delta / (1 - Math.abs(2 * l - 1));
   return [h, s * 100, l * 100];
 }
 
@@ -272,8 +272,8 @@ export function hexToRgb(hex: string): number[] {
 export function resolveHwb(h: number, w: number, b: number): number[] {
   const total = w + b;
   if (total > 100) {
-    w = Number((w / total).toFixed(2)) * 100;
-    b = Number((b / total).toFixed(2)) * 100;
+    w = Number((w / total).toFixed(4)) * 100;
+    b = Number((b / total).toFixed(4)) * 100;
   }
   return [h, w, b];
 }

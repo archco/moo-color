@@ -14,6 +14,8 @@ describe('#ColorConverter', () => {
     it('converts RGB to HSL', () => {
       const hsl = Converter.rgbToHsl(191, 64, 64);
       expect(rounding(hsl)).toEqual([0, 50, 50]);
+      const hsl1 = Converter.rgbToHsl(255, 128, 64);
+      expect(rounding(hsl1)).toEqual([20, 100, 63]);
     });
   });
 
@@ -79,6 +81,24 @@ describe('#ColorConverter', () => {
     it('converts Hex with alpha to RGB', () => {
       const rgba = Converter.hexToRgb('ff00bbff');
       expect(rgba).toEqual([255, 0, 187, 1]);
+    });
+  });
+
+  describe('multiple converts.', () => {
+    it('to be closed to original values.', () => {
+      const original = [255, 128, 64];
+      let val = [255, 128, 64];
+      for (let i = 0; i < 100; i++) {
+        val = Converter.rgbToHwb(val[0], val[1], val[2]);
+        val = Converter.hwbToRgb(val[0], val[1], val[2]);
+        val = Converter.rgbToHsl(val[0], val[1], val[2]);
+        val = Converter.hslToRgb(val[0], val[1], val[2]);
+        val = Converter.rgbToCmyk(val[0], val[1], val[2]);
+        val = Converter.cmykToRgb(val[0], val[1], val[2], val[3]);
+      }
+      expect(val[0]).toBeCloseTo(original[0], 6);
+      expect(val[1]).toBeCloseTo(original[1], 6);
+      expect(val[2]).toBeCloseTo(original[2], 6);
     });
   });
 });
