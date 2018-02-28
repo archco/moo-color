@@ -41,38 +41,33 @@ function parseRgb(input: string): Color|null {
   const rgba = /^rgba?\s*\(\s*([+-]?\d+)\s*,\s*([+-]?\d+)\s*,\s*([+-]?\d+)\s*(?:,\s*([+-]?[\d\.]+)\s*)?\)$/;
   // tslint:disable-next-line:max-line-length
   const percent = /^rgba?\s*\(\s*([+-]?[\d\.]+)\%\s*,\s*([+-]?[\d\.]+)\%\s*,\s*([+-]?[\d\.]+)\%\s*(?:,\s*([+-]?[\d\.]+)\s*)?\)$/;
-  let match: RegExpMatchArray;
   const hexToAlpha = (num: string) => Math.round((parseInt(num, 16) / 255) * 100) / 100;
-  let val: number[];
-  let a: number;
+  let values: number[];
+  let alpha: number;
 
   if (hex.test(input)) {
-    match = input.match(hex);
-    const hexPart = match[1];
-    const alphaPart = match[2];
-    val = hexPart.match(/.{2}/g).map(x => parseInt(x, 16));
-    a = alphaPart ? hexToAlpha(alphaPart) : 1;
+    const [, h, a] = input.match(hex);
+    values = h.match(/.{2}/g).map(x => parseInt(x, 16));
+    alpha = a ? hexToAlpha(a) : 1;
   } else if (shortHex.test(input)) {
-    match = input.match(shortHex);
-    const hexPart = match[1];
-    const alphaPart = match[2];
-    val = hexPart.match(/.{1}/g).map(x => parseInt(x + x, 16));
-    a = alphaPart ? hexToAlpha(alphaPart) : 1;
+    const [, h, a] = input.match(shortHex);
+    values = h.match(/.{1}/g).map(x => parseInt(x + x, 16));
+    alpha = a ? hexToAlpha(a) : 1;
   } else if (rgba.test(input)) {
-    match = input.match(rgba);
-    val = match.slice(1, 4).map(x => parseInt(x, 0));
-    a = resolveAlpha(match[4]);
+    const [, r, g, b, a] = input.match(rgba);
+    values = [r, g, b].map(x => parseInt(x, 0));
+    alpha = resolveAlpha(a);
   } else if (percent.test(input)) {
-    match = input.match(percent);
-    val = match.slice(1, 4).map(x => Math.round(parseFloat(x) * 2.55));
-    a = resolveAlpha(match[4]);
+    const [, r, g, b, a] = input.match(percent);
+    values = [r, g, b].map(x => Math.round(parseFloat(x) * 2.55));
+    alpha = resolveAlpha(a);
   } else {
     return null;
   }
   return {
     model: 'rgb',
-    values: val.map(x => clamp(x, 0, 255)),
-    alpha: clamp(a, 0, 1),
+    values: values.map(x => clamp(x, 0, 255)),
+    alpha: clamp(alpha, 0, 1),
   };
 }
 
@@ -81,15 +76,15 @@ function parseHsl(input: string): Color|null {
   const hsl = /^hsla?\s*\(\s*([+-]?\d*[\.]?\d+)(?:deg)?\s*,\s*([+-]?[\d\.]+)%\s*,\s*([+-]?[\d\.]+)%\s*(?:,\s*([+-]?[\d\.]+)\s*)?\)$/i;
 
   if (hsl.test(input)) {
-    const match = input.match(hsl);
+    const [, h, s, l, a] = input.match(hsl);
     return {
       model: 'hsl',
       values: [
-        degree(match[1]),
-        clamp(parseFloat(match[2]), 0, 100),
-        clamp(parseFloat(match[3]), 0, 100),
+        degree(h),
+        clamp(parseFloat(s), 0, 100),
+        clamp(parseFloat(l), 0, 100),
       ],
-      alpha: resolveAlpha(match[4]),
+      alpha: resolveAlpha(a),
     };
   } else {
     return null;
@@ -101,14 +96,15 @@ function parseHwb(input: string): Color|null {
   const hwb = /^hwba?\s*\(\s*([+-]?\d*[\.]?\d+)(?:deg)?\s*,\s*([+-]?[\d\.]+)%\s*,\s*([+-]?[\d\.]+)%\s*(?:,\s*([+-]?[\d\.]+)\s*)?\)$/i;
 
   if (hwb.test(input)) {
-    const match = input.match(hwb);
-    const h = degree(match[1]);
-    const w = clamp(parseFloat(match[2]), 0, 100);
-    const b = clamp(parseFloat(match[3]), 0, 100);
+    const [, h, w, b, a] = input.match(hwb);
     return {
       model: 'hwb',
-      values: resolveHwb(h, w, b),
-      alpha: resolveAlpha(match[4]),
+      values: resolveHwb(
+        degree(h),
+        clamp(parseFloat(w), 0, 100),
+        clamp(parseFloat(b), 0, 100),
+      ),
+      alpha: resolveAlpha(a),
     };
   } else {
     return null;
@@ -120,15 +116,15 @@ function parseHsv(input: string): Color|null {
   const hsv = /^hsva?\s*\(\s*([+-]?\d*[\.]?\d+)(?:deg)?\s*,\s*([+-]?[\d\.]+)%\s*,\s*([+-]?[\d\.]+)%\s*(?:,\s*([+-]?[\d\.]+)\s*)?\)$/i;
 
   if (hsv.test(input)) {
-    const match = input.match(hsv);
+    const [, h, s, v, a] = input.match(hsv);
     return {
       model: 'hsv',
       values: [
-        degree(match[1]),
-        clamp(parseFloat(match[2]), 0, 100),
-        clamp(parseFloat(match[3]), 0, 100),
+        degree(h),
+        clamp(parseFloat(s), 0, 100),
+        clamp(parseFloat(v), 0, 100),
       ],
-      alpha: resolveAlpha(match[4]),
+      alpha: resolveAlpha(a),
     };
   } else {
     return null;
@@ -140,16 +136,16 @@ function parseCmyk(input: string): Color|null {
   const cmyk = /^cmyk\s*\(\s*([+-]?[\d\.]+)%\s*,\s*([+-]?[\d\.]+)%\s*,\s*([+-]?[\d\.]+)%\s*,\s*([+-]?[\d\.]+)%\s*(?:,\s*([+-]?[\d\.]+)\s*)?\)$/i;
 
   if (cmyk.test(input)) {
-    const match = input.match(cmyk);
+    const [, c, m, y, k, a] = input.match(cmyk);
     return {
       model: 'cmyk',
       values: [
-        clamp(parseFloat(match[1]), 0, 100),
-        clamp(parseFloat(match[2]), 0, 100),
-        clamp(parseFloat(match[3]), 0, 100),
-        clamp(parseFloat(match[4]), 0, 100),
+        clamp(parseFloat(c), 0, 100),
+        clamp(parseFloat(m), 0, 100),
+        clamp(parseFloat(y), 0, 100),
+        clamp(parseFloat(k), 0, 100),
       ],
-      alpha: resolveAlpha(match[5]),
+      alpha: resolveAlpha(a),
     };
   } else {
     return null;

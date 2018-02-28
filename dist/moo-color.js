@@ -976,56 +976,51 @@ function parseRgb(input) {
     var rgba = /^rgba?\s*\(\s*([+-]?\d+)\s*,\s*([+-]?\d+)\s*,\s*([+-]?\d+)\s*(?:,\s*([+-]?[\d\.]+)\s*)?\)$/;
     // tslint:disable-next-line:max-line-length
     var percent = /^rgba?\s*\(\s*([+-]?[\d\.]+)\%\s*,\s*([+-]?[\d\.]+)\%\s*,\s*([+-]?[\d\.]+)\%\s*(?:,\s*([+-]?[\d\.]+)\s*)?\)$/;
-    var match;
     var hexToAlpha = function (num) { return Math.round((parseInt(num, 16) / 255) * 100) / 100; };
-    var val;
-    var a;
+    var values;
+    var alpha;
     if (hex.test(input)) {
-        match = input.match(hex);
-        var hexPart = match[1];
-        var alphaPart = match[2];
-        val = hexPart.match(/.{2}/g).map(function (x) { return parseInt(x, 16); });
-        a = alphaPart ? hexToAlpha(alphaPart) : 1;
+        var _a = input.match(hex), h = _a[1], a = _a[2];
+        values = h.match(/.{2}/g).map(function (x) { return parseInt(x, 16); });
+        alpha = a ? hexToAlpha(a) : 1;
     }
     else if (shortHex.test(input)) {
-        match = input.match(shortHex);
-        var hexPart = match[1];
-        var alphaPart = match[2];
-        val = hexPart.match(/.{1}/g).map(function (x) { return parseInt(x + x, 16); });
-        a = alphaPart ? hexToAlpha(alphaPart) : 1;
+        var _b = input.match(shortHex), h = _b[1], a = _b[2];
+        values = h.match(/.{1}/g).map(function (x) { return parseInt(x + x, 16); });
+        alpha = a ? hexToAlpha(a) : 1;
     }
     else if (rgba.test(input)) {
-        match = input.match(rgba);
-        val = match.slice(1, 4).map(function (x) { return parseInt(x, 0); });
-        a = Object(__WEBPACK_IMPORTED_MODULE_2__util_util__["e" /* resolveAlpha */])(match[4]);
+        var _c = input.match(rgba), r = _c[1], g = _c[2], b = _c[3], a = _c[4];
+        values = [r, g, b].map(function (x) { return parseInt(x, 0); });
+        alpha = Object(__WEBPACK_IMPORTED_MODULE_2__util_util__["e" /* resolveAlpha */])(a);
     }
     else if (percent.test(input)) {
-        match = input.match(percent);
-        val = match.slice(1, 4).map(function (x) { return Math.round(parseFloat(x) * 2.55); });
-        a = Object(__WEBPACK_IMPORTED_MODULE_2__util_util__["e" /* resolveAlpha */])(match[4]);
+        var _d = input.match(percent), r = _d[1], g = _d[2], b = _d[3], a = _d[4];
+        values = [r, g, b].map(function (x) { return Math.round(parseFloat(x) * 2.55); });
+        alpha = Object(__WEBPACK_IMPORTED_MODULE_2__util_util__["e" /* resolveAlpha */])(a);
     }
     else {
         return null;
     }
     return {
         model: 'rgb',
-        values: val.map(function (x) { return Object(__WEBPACK_IMPORTED_MODULE_2__util_util__["a" /* clamp */])(x, 0, 255); }),
-        alpha: Object(__WEBPACK_IMPORTED_MODULE_2__util_util__["a" /* clamp */])(a, 0, 1),
+        values: values.map(function (x) { return Object(__WEBPACK_IMPORTED_MODULE_2__util_util__["a" /* clamp */])(x, 0, 255); }),
+        alpha: Object(__WEBPACK_IMPORTED_MODULE_2__util_util__["a" /* clamp */])(alpha, 0, 1),
     };
 }
 function parseHsl(input) {
     // tslint:disable-next-line:max-line-length
     var hsl = /^hsla?\s*\(\s*([+-]?\d*[\.]?\d+)(?:deg)?\s*,\s*([+-]?[\d\.]+)%\s*,\s*([+-]?[\d\.]+)%\s*(?:,\s*([+-]?[\d\.]+)\s*)?\)$/i;
     if (hsl.test(input)) {
-        var match = input.match(hsl);
+        var _a = input.match(hsl), h = _a[1], s = _a[2], l = _a[3], a = _a[4];
         return {
             model: 'hsl',
             values: [
-                Object(__WEBPACK_IMPORTED_MODULE_2__util_util__["c" /* degree */])(match[1]),
-                Object(__WEBPACK_IMPORTED_MODULE_2__util_util__["a" /* clamp */])(parseFloat(match[2]), 0, 100),
-                Object(__WEBPACK_IMPORTED_MODULE_2__util_util__["a" /* clamp */])(parseFloat(match[3]), 0, 100),
+                Object(__WEBPACK_IMPORTED_MODULE_2__util_util__["c" /* degree */])(h),
+                Object(__WEBPACK_IMPORTED_MODULE_2__util_util__["a" /* clamp */])(parseFloat(s), 0, 100),
+                Object(__WEBPACK_IMPORTED_MODULE_2__util_util__["a" /* clamp */])(parseFloat(l), 0, 100),
             ],
-            alpha: Object(__WEBPACK_IMPORTED_MODULE_2__util_util__["e" /* resolveAlpha */])(match[4]),
+            alpha: Object(__WEBPACK_IMPORTED_MODULE_2__util_util__["e" /* resolveAlpha */])(a),
         };
     }
     else {
@@ -1036,14 +1031,11 @@ function parseHwb(input) {
     // tslint:disable-next-line:max-line-length
     var hwb = /^hwba?\s*\(\s*([+-]?\d*[\.]?\d+)(?:deg)?\s*,\s*([+-]?[\d\.]+)%\s*,\s*([+-]?[\d\.]+)%\s*(?:,\s*([+-]?[\d\.]+)\s*)?\)$/i;
     if (hwb.test(input)) {
-        var match = input.match(hwb);
-        var h = Object(__WEBPACK_IMPORTED_MODULE_2__util_util__["c" /* degree */])(match[1]);
-        var w = Object(__WEBPACK_IMPORTED_MODULE_2__util_util__["a" /* clamp */])(parseFloat(match[2]), 0, 100);
-        var b = Object(__WEBPACK_IMPORTED_MODULE_2__util_util__["a" /* clamp */])(parseFloat(match[3]), 0, 100);
+        var _a = input.match(hwb), h = _a[1], w = _a[2], b = _a[3], a = _a[4];
         return {
             model: 'hwb',
-            values: Object(__WEBPACK_IMPORTED_MODULE_0__color_converter__["g" /* resolveHwb */])(h, w, b),
-            alpha: Object(__WEBPACK_IMPORTED_MODULE_2__util_util__["e" /* resolveAlpha */])(match[4]),
+            values: Object(__WEBPACK_IMPORTED_MODULE_0__color_converter__["g" /* resolveHwb */])(Object(__WEBPACK_IMPORTED_MODULE_2__util_util__["c" /* degree */])(h), Object(__WEBPACK_IMPORTED_MODULE_2__util_util__["a" /* clamp */])(parseFloat(w), 0, 100), Object(__WEBPACK_IMPORTED_MODULE_2__util_util__["a" /* clamp */])(parseFloat(b), 0, 100)),
+            alpha: Object(__WEBPACK_IMPORTED_MODULE_2__util_util__["e" /* resolveAlpha */])(a),
         };
     }
     else {
@@ -1054,15 +1046,15 @@ function parseHsv(input) {
     // tslint:disable-next-line:max-line-length
     var hsv = /^hsva?\s*\(\s*([+-]?\d*[\.]?\d+)(?:deg)?\s*,\s*([+-]?[\d\.]+)%\s*,\s*([+-]?[\d\.]+)%\s*(?:,\s*([+-]?[\d\.]+)\s*)?\)$/i;
     if (hsv.test(input)) {
-        var match = input.match(hsv);
+        var _a = input.match(hsv), h = _a[1], s = _a[2], v = _a[3], a = _a[4];
         return {
             model: 'hsv',
             values: [
-                Object(__WEBPACK_IMPORTED_MODULE_2__util_util__["c" /* degree */])(match[1]),
-                Object(__WEBPACK_IMPORTED_MODULE_2__util_util__["a" /* clamp */])(parseFloat(match[2]), 0, 100),
-                Object(__WEBPACK_IMPORTED_MODULE_2__util_util__["a" /* clamp */])(parseFloat(match[3]), 0, 100),
+                Object(__WEBPACK_IMPORTED_MODULE_2__util_util__["c" /* degree */])(h),
+                Object(__WEBPACK_IMPORTED_MODULE_2__util_util__["a" /* clamp */])(parseFloat(s), 0, 100),
+                Object(__WEBPACK_IMPORTED_MODULE_2__util_util__["a" /* clamp */])(parseFloat(v), 0, 100),
             ],
-            alpha: Object(__WEBPACK_IMPORTED_MODULE_2__util_util__["e" /* resolveAlpha */])(match[4]),
+            alpha: Object(__WEBPACK_IMPORTED_MODULE_2__util_util__["e" /* resolveAlpha */])(a),
         };
     }
     else {
@@ -1073,16 +1065,16 @@ function parseCmyk(input) {
     // tslint:disable-next-line:max-line-length
     var cmyk = /^cmyk\s*\(\s*([+-]?[\d\.]+)%\s*,\s*([+-]?[\d\.]+)%\s*,\s*([+-]?[\d\.]+)%\s*,\s*([+-]?[\d\.]+)%\s*(?:,\s*([+-]?[\d\.]+)\s*)?\)$/i;
     if (cmyk.test(input)) {
-        var match = input.match(cmyk);
+        var _a = input.match(cmyk), c = _a[1], m = _a[2], y = _a[3], k = _a[4], a = _a[5];
         return {
             model: 'cmyk',
             values: [
-                Object(__WEBPACK_IMPORTED_MODULE_2__util_util__["a" /* clamp */])(parseFloat(match[1]), 0, 100),
-                Object(__WEBPACK_IMPORTED_MODULE_2__util_util__["a" /* clamp */])(parseFloat(match[2]), 0, 100),
-                Object(__WEBPACK_IMPORTED_MODULE_2__util_util__["a" /* clamp */])(parseFloat(match[3]), 0, 100),
-                Object(__WEBPACK_IMPORTED_MODULE_2__util_util__["a" /* clamp */])(parseFloat(match[4]), 0, 100),
+                Object(__WEBPACK_IMPORTED_MODULE_2__util_util__["a" /* clamp */])(parseFloat(c), 0, 100),
+                Object(__WEBPACK_IMPORTED_MODULE_2__util_util__["a" /* clamp */])(parseFloat(m), 0, 100),
+                Object(__WEBPACK_IMPORTED_MODULE_2__util_util__["a" /* clamp */])(parseFloat(y), 0, 100),
+                Object(__WEBPACK_IMPORTED_MODULE_2__util_util__["a" /* clamp */])(parseFloat(k), 0, 100),
             ],
-            alpha: Object(__WEBPACK_IMPORTED_MODULE_2__util_util__["e" /* resolveAlpha */])(match[5]),
+            alpha: Object(__WEBPACK_IMPORTED_MODULE_2__util_util__["e" /* resolveAlpha */])(a),
         };
     }
     else {
