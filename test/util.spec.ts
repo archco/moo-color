@@ -43,4 +43,12 @@ describe('#Util', () => {
       expect(d).toEqual(315);
     });
   });
+
+  describe('#arrayIsEqual', () => {
+    it('works.', () => {
+      expect(Util.arrayIsEqual([1, 2, 3], [1, 2, 3])).toBe(true);
+      expect(Util.arrayIsEqual([1, 2, 3], [2, 2, 3])).toBe(false);
+      expect(Util.arrayIsEqual([1, [2, 3], 4], [1, [2, 3], 4])).toBe(true);
+    });
+  });
 });

@@ -23,11 +23,21 @@ describe('#ColorFormatter', () => {
 
   describe('#toHex', () => {
     it('represent to hex string.', () => {
-      const color = parser('hsv(160, 50%, 100%)');
+      const color = parser('rgb(255, 255, 255)');
       const hex = cf.setColor(color).toHex();
-      expect(hex).toEqual('#80ffd4');
-      const color2 = parser('rgb(255, 255, 255)');
-      expect(cf.setColor(color2).toHex()).toEqual('#fff');
+      expect(hex).toEqual('#ffffff');
+    });
+
+    it('"short" mode.', () => {
+      const color = parser('rgb(255, 0, 0)');
+      const hex = cf.setColor(color).toHex('short');
+      expect(hex).toEqual('#f00');
+    });
+
+    it('"name" mode.', () => {
+      const color = parser('rgb(255, 0, 0)');
+      const hex = cf.setColor(color).toHex('name');
+      expect(hex).toEqual('red');
     });
   });
 
@@ -37,6 +47,12 @@ describe('#ColorFormatter', () => {
       expect(cf.setColor(color).toRgb()).toEqual('rgb(255, 0, 0)');
       color = parser('#ff000080');
       expect(cf.setColor(color).toRgb()).toEqual('rgba(255, 0, 0, 0.5)');
+    });
+
+    it('"percent" mode.', () => {
+      const color = parser('#f0f');
+      expect(cf.setColor(color).toRgb('percent')).toEqual('rgb(100%, 0%, 100%)');
+      expect(cf.setAlpha(.5).toRgb('percent')).toEqual('rgba(100%, 0%, 100%, 0.5)');
     });
   });
 

@@ -12,6 +12,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Add methods for manipulate. `complement()` and `invert()`. #2
 - Add method `random()`. #5
 
+### Changed
+
+- Improve formatter. #3
+  - `toHex()`: Change argument `enableShort: boolean` to `mode: 'full'|'short'|'name'`.
+  - `toRgb()`: add `mode: 'default'|'percent'` argument.
+
 ## [0.1.0]
 
 First release.

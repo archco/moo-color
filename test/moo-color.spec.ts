@@ -15,7 +15,7 @@ describe('#MooColor', () => {
     });
 
     it('if no argument, color is black.', () => {
-      expect(new MooColor().toHex(true)).toEqual('#000');
+      expect(new MooColor().toHex('short')).toEqual('#000');
     });
   });
 
@@ -127,9 +127,9 @@ describe('#MooColor', () => {
     it('rotate hue degree value.', () => {
       const c = new MooColor('hsl(0, 100%, 50%)');
       c.rotate(120);
-      expect(c.toHex(true)).toEqual('#0f0'); // 120 = green.
+      expect(c.toHex('short')).toEqual('#0f0'); // 120 = green.
       c.rotate(-180);
-      expect(c.toHex(true)).toEqual('#f0f'); // 300 = magenta.
+      expect(c.toHex('short')).toEqual('#f0f'); // 300 = magenta.
     });
   });
 
@@ -164,13 +164,13 @@ describe('#MooColor', () => {
     it('inverts rgb values.', () => {
       const c = new MooColor('#0ff');
       c.invert();
-      expect(c.toHex(true)).toEqual('#f00');
+      expect(c.toHex('short')).toEqual('#f00');
     });
 
     it("'percent' argument is the relative weight of the color color's inverse.", () => {
       const c = new MooColor('#f00');
       c.invert(75); // 75%
-      expect(c.toHex(true)).toEqual('#40bfbf');
+      expect(c.toHex('short')).toEqual('#40bfbf');
     });
   });
 

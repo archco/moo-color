@@ -3,9 +3,12 @@ import {
   Color,
   ColorRepresentable,
   ColorSettable,
+  HexMode,
+  RgbMode,
 } from './color';
 import * as Converter from './color-converter';
-import { decimal, resolveAlpha } from './util/util';
+import Names from './color-names';
+import { arrayIsEqual, decimal, resolveAlpha } from './util/util';
 
 export class ColorFormatter implements ColorSettable, ColorRepresentable {
   color?: Color;
@@ -69,26 +72,41 @@ export class ColorFormatter implements ColorSettable, ColorRepresentable {
   toString(model?: AcceptedModel|'hex', ...args: any[]): string {
     model = model ? model : this.color.model;
     switch (model) {
-      case 'hex': return this.toHex(args[0]);
+      case 'hex': return this.toHex(...args);
       case 'hwb': return this.toHwb();
       case 'hsl': return this.toHsl();
       case 'hsv': return this.toHsv();
       case 'cmyk': return this.toCmyk();
-      default: return this.toRgb();
+      default: return this.toRgb(...args);
     }
   }
 
   /**
    * Represents color as HEX notation.
    * @see https://www.w3.org/TR/css-color-4/#hex-notation
-   * @param {boolean} [enableShort] default is false.
+   *
+   * @param {HexMode} [mode='full'] 'full'|'short'|'name'
    * @returns {string}
    */
-  toHex(enableShort?: boolean): string {
+  toHex(mode: HexMode = 'full'): string {
     const color = this.getColorAs('rgb');
     const [r, g, b] = color.values.map(x => Math.round(x));
     const a = color.alpha === 1 ? null : color.alpha;
-    return `#${Converter.rgbToHex(r, g, b, a, true)}`;
+    const nameOrShort = () => {
+      let name = '';
+      for (const key of Object.keys(Names)) {
+        if (arrayIsEqual(Names[key], [r, g, b])) {
+          name = key; break;
+        }
+      }
+      return a === null && name !== '' ? name : `#${Converter.rgbToHex(r, g, b, a, true)}`;
+    };
+    switch (mode) {
+      case 'name': return nameOrShort();
+      case 'short': return `#${Converter.rgbToHex(r, g, b, a, true)}`;
+      case 'full':
+      default: return `#${Converter.rgbToHex(r, g, b, a)}`;
+    }
   }
 
   /**
@@ -96,9 +114,12 @@ export class ColorFormatter implements ColorSettable, ColorRepresentable {
    * @see https://www.w3.org/TR/css-color-4/#rgb-functions
    * @returns {string}
    */
-  toRgb(): string {
+  toRgb(mode: RgbMode = 'default'): string {
     const color = this.getColorAs('rgb');
-    const [r, g, b] = color.values.map(x => Math.round(x));
+    let [r, g, b]: number[]|string[] = color.values.map(x => Math.round(x));
+    if (mode === 'percent') {
+      [r, g, b] = [r, g, b].map(x => `${x / 255 * 100}%`);
+    }
     return color.alpha === 1
       ? `rgb(${r}, ${g}, ${b})`
       : `rgba(${r}, ${g}, ${b}, ${color.alpha})`;

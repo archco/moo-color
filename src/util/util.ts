@@ -39,3 +39,10 @@ export function getRandom(min: number, max: number, precision: number = 0): numb
   const num = Math.random() * (max - min) + min;
   return decimal(num, precision);
 }
+
+// https://stackoverflow.com/questions/7837456/how-to-compare-arrays-in-javascript#answer-19746771
+export function arrayIsEqual(arr1: any[], arr2: any[]): boolean {
+  return arr1.length === arr2.length && arr1.every((v, i) => {
+    return Array.isArray(v) ? arrayIsEqual(v, arr2[i]) : v === arr2[i];
+  });
+}

@@ -5,6 +5,7 @@ export interface ColorData {
   alpha?: number;
 }
 
+// for `ColorModifiable.random()` method.
 export interface RandomArguments {
   hue?: number|[number, number];
   white?: number|[number, number];
@@ -13,6 +14,11 @@ export interface RandomArguments {
 
 export type Color = ColorData;
 export type AcceptedModel = 'rgb'|'hwb'|'hsl'|'hsv'|'cmyk';
+
+/** Type for `ColorSettable.toHex()` method. */
+export type HexMode = 'full'|'short'|'name';
+/** Type for `ColorSettable.toRgb()` method. */
+export type RgbMode = 'default'|'percent';
 
 // It can set or get color data. and also can change color to another model.
 export interface ColorSettable {
@@ -34,8 +40,8 @@ export interface ColorRepresentable {
   color?: Color;
 
   toString(model?: AcceptedModel|'hex', ...args: any[]): string;
-  toHex(enableShort?: boolean): string;
-  toRgb(): string;
+  toHex(mode?: HexMode): string;
+  toRgb(mode?: RgbMode): string;
   toHwb(): string;
   toHsl(): string;
   toHsv(): string;
