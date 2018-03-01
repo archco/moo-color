@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Added
+
+- Add methods for manipulate. `complement()` and `invert()`. #2
+- Add method `random()`. #5
+
 ## [0.1.0]
 
 First release.

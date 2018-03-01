@@ -18,4 +18,29 @@ describe('#Util', () => {
       expect(res).toEqual('xx123123');
     });
   });
+
+  describe('#getRandom', () => {
+    it('works.', () => {
+      for (let i = 0; i < 10; i++) {
+        const num = Util.getRandom(0, 255, 2);
+        expect(num).toBeGreaterThanOrEqual(0);
+        expect(num).toBeLessThanOrEqual(255);
+      }
+    });
+
+    it('0-360', () => {
+      for (let i = 0; i < 10; i++) {
+        const num = Util.getRandom(0, 360);
+        expect(num).toBeGreaterThanOrEqual(0);
+        expect(num).toBeLessThanOrEqual(360);
+      }
+    });
+  });
+
+  describe('#degree', () => {
+    it('converts minus to plus degree.', () => {
+      const d = Util.degree(-45);
+      expect(d).toEqual(315);
+    });
+  });
 });

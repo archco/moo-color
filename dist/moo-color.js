@@ -78,12 +78,13 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (immutable) */ __webpack_exports__["d"] = padStart;
+/* harmony export (immutable) */ __webpack_exports__["e"] = padStart;
 /* unused harmony export padEnd */
 /* harmony export (immutable) */ __webpack_exports__["a"] = clamp;
 /* harmony export (immutable) */ __webpack_exports__["c"] = degree;
-/* harmony export (immutable) */ __webpack_exports__["e"] = resolveAlpha;
+/* harmony export (immutable) */ __webpack_exports__["f"] = resolveAlpha;
 /* harmony export (immutable) */ __webpack_exports__["b"] = decimal;
+/* harmony export (immutable) */ __webpack_exports__["d"] = getRandom;
 function padStart(str, length, chars) {
     var space = length - str.length;
     return space > 0 ? "" + makePad(chars, space) + str : str;
@@ -102,17 +103,22 @@ function clamp(num, min, max) {
     return Math.min(Math.max(min, num), max);
 }
 function degree(num) {
-    return ((parseFloat(num.toString()) % 360) + 360) % 360;
+    num = typeof num === 'string' ? parseFloat(num) : num;
+    return (num % 360 + 360) % 360;
 }
 function resolveAlpha(a) {
-    a = typeof a === 'number' ? a.toString() : a;
-    var num = parseFloat(a);
-    return clamp(isNaN(num) ? 1 : num, 0, 1);
+    a = typeof a === 'string' ? parseFloat(a) : a;
+    return clamp(isNaN(a) ? 1 : a, 0, 1);
 }
 // @see: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/round
 function decimal(num, precision) {
     var factor = Math.pow(10, precision);
     return Math.round(num * factor) / factor;
+}
+function getRandom(min, max, precision) {
+    if (precision === void 0) { precision = 0; }
+    var num = Math.random() * (max - min) + min;
+    return decimal(num, precision);
 }
 
 
@@ -387,7 +393,7 @@ function rgbToHex(r, g, b, a, enableShort) {
     if (typeof a === 'number') {
         arr.push(Math.round(a * 255));
     }
-    var hex = arr.map(function (x) { return Object(__WEBPACK_IMPORTED_MODULE_0__util_util__["d" /* padStart */])(x.toString(16), 2, '0'); }).join('');
+    var hex = arr.map(function (x) { return Object(__WEBPACK_IMPORTED_MODULE_0__util_util__["e" /* padStart */])(x.toString(16), 2, '0'); }).join('');
     return enableShort ? hexToShorthand(hex) : hex;
 }
 function hexToShorthand(hex) {
@@ -653,6 +659,47 @@ var MooColor = /** @class */ (function (_super) {
             alpha: a,
         }).changeModel(m);
     };
+    /**
+     * Sets color to the complement of a color.
+     *
+     * @returns {this}
+     */
+    MooColor.prototype.complement = function () {
+        return this.manipulate('hsl', function (h, s, l) { return [Object(__WEBPACK_IMPORTED_MODULE_2__util_util__["c" /* degree */])(h + 180), s, l]; });
+    };
+    /**
+     * Sets color to the inverse (negative) of a color.
+     *
+     * @param {number} [percent=100] The relative percent of the color that inverse.
+     * @returns {this}
+     */
+    MooColor.prototype.invert = function (percent) {
+        if (percent === void 0) { percent = 100; }
+        percent /= 100;
+        var absRound = function (x) { return Math.round(Math.abs(x)); };
+        return this.manipulate('rgb', function (r, g, b) { return [r, g, b].map(function (x) { return absRound(255 * percent - x); }); });
+    };
+    MooColor.prototype.random = function (_a) {
+        var _b = _a === void 0 ? {} : _a, hue = _b.hue, white = _b.white, black = _b.black;
+        _c = [hue, white, black].map(function (x, i) {
+            if (typeof x === 'number') {
+                return x;
+            }
+            else if (Array.isArray(x)) {
+                var precision = i === 0 ? 0 : 2;
+                return Object(__WEBPACK_IMPORTED_MODULE_2__util_util__["d" /* getRandom */])(Math.min.apply(Math, x), Math.max.apply(Math, x), precision);
+            }
+            else {
+                return i === 0 ? Object(__WEBPACK_IMPORTED_MODULE_2__util_util__["d" /* getRandom */])(0, 360) : Object(__WEBPACK_IMPORTED_MODULE_2__util_util__["d" /* getRandom */])(0, 100, 2);
+            }
+        }), hue = _c[0], white = _c[1], black = _c[2];
+        return this.setColor({
+            model: 'hwb',
+            values: this.resolveHwb(Object(__WEBPACK_IMPORTED_MODULE_2__util_util__["c" /* degree */])(hue), Object(__WEBPACK_IMPORTED_MODULE_2__util_util__["a" /* clamp */])(white, 0, 100), Object(__WEBPACK_IMPORTED_MODULE_2__util_util__["a" /* clamp */])(black, 0, 100)),
+            alpha: 1,
+        });
+        var _c;
+    };
     MooColor.prototype.manipulate = function (asModel, callback) {
         var m = this.color.model;
         var color = this.getColorAs(asModel);
@@ -680,7 +727,7 @@ var ColorFormatter = /** @class */ (function () {
         this.resolveHwb = __WEBPACK_IMPORTED_MODULE_0__color_converter__["g" /* resolveHwb */];
     }
     ColorFormatter.prototype.setColor = function (color) {
-        color.alpha = Object(__WEBPACK_IMPORTED_MODULE_1__util_util__["e" /* resolveAlpha */])(color.alpha);
+        color.alpha = Object(__WEBPACK_IMPORTED_MODULE_1__util_util__["f" /* resolveAlpha */])(color.alpha);
         this.color = color;
         return this;
     };
@@ -992,12 +1039,12 @@ function parseRgb(input) {
     else if (rgba.test(input)) {
         var _c = input.match(rgba), r = _c[1], g = _c[2], b = _c[3], a = _c[4];
         values = [r, g, b].map(function (x) { return parseInt(x, 0); });
-        alpha = Object(__WEBPACK_IMPORTED_MODULE_2__util_util__["e" /* resolveAlpha */])(a);
+        alpha = Object(__WEBPACK_IMPORTED_MODULE_2__util_util__["f" /* resolveAlpha */])(a);
     }
     else if (percent.test(input)) {
         var _d = input.match(percent), r = _d[1], g = _d[2], b = _d[3], a = _d[4];
         values = [r, g, b].map(function (x) { return Math.round(parseFloat(x) * 2.55); });
-        alpha = Object(__WEBPACK_IMPORTED_MODULE_2__util_util__["e" /* resolveAlpha */])(a);
+        alpha = Object(__WEBPACK_IMPORTED_MODULE_2__util_util__["f" /* resolveAlpha */])(a);
     }
     else {
         return null;
@@ -1020,7 +1067,7 @@ function parseHsl(input) {
                 Object(__WEBPACK_IMPORTED_MODULE_2__util_util__["a" /* clamp */])(parseFloat(s), 0, 100),
                 Object(__WEBPACK_IMPORTED_MODULE_2__util_util__["a" /* clamp */])(parseFloat(l), 0, 100),
             ],
-            alpha: Object(__WEBPACK_IMPORTED_MODULE_2__util_util__["e" /* resolveAlpha */])(a),
+            alpha: Object(__WEBPACK_IMPORTED_MODULE_2__util_util__["f" /* resolveAlpha */])(a),
         };
     }
     else {
@@ -1035,7 +1082,7 @@ function parseHwb(input) {
         return {
             model: 'hwb',
             values: Object(__WEBPACK_IMPORTED_MODULE_0__color_converter__["g" /* resolveHwb */])(Object(__WEBPACK_IMPORTED_MODULE_2__util_util__["c" /* degree */])(h), Object(__WEBPACK_IMPORTED_MODULE_2__util_util__["a" /* clamp */])(parseFloat(w), 0, 100), Object(__WEBPACK_IMPORTED_MODULE_2__util_util__["a" /* clamp */])(parseFloat(b), 0, 100)),
-            alpha: Object(__WEBPACK_IMPORTED_MODULE_2__util_util__["e" /* resolveAlpha */])(a),
+            alpha: Object(__WEBPACK_IMPORTED_MODULE_2__util_util__["f" /* resolveAlpha */])(a),
         };
     }
     else {
@@ -1054,7 +1101,7 @@ function parseHsv(input) {
                 Object(__WEBPACK_IMPORTED_MODULE_2__util_util__["a" /* clamp */])(parseFloat(s), 0, 100),
                 Object(__WEBPACK_IMPORTED_MODULE_2__util_util__["a" /* clamp */])(parseFloat(v), 0, 100),
             ],
-            alpha: Object(__WEBPACK_IMPORTED_MODULE_2__util_util__["e" /* resolveAlpha */])(a),
+            alpha: Object(__WEBPACK_IMPORTED_MODULE_2__util_util__["f" /* resolveAlpha */])(a),
         };
     }
     else {
@@ -1074,7 +1121,7 @@ function parseCmyk(input) {
                 Object(__WEBPACK_IMPORTED_MODULE_2__util_util__["a" /* clamp */])(parseFloat(y), 0, 100),
                 Object(__WEBPACK_IMPORTED_MODULE_2__util_util__["a" /* clamp */])(parseFloat(k), 0, 100),
             ],
-            alpha: Object(__WEBPACK_IMPORTED_MODULE_2__util_util__["e" /* resolveAlpha */])(a),
+            alpha: Object(__WEBPACK_IMPORTED_MODULE_2__util_util__["f" /* resolveAlpha */])(a),
         };
     }
     else {

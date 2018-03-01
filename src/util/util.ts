@@ -20,17 +20,22 @@ export function clamp(num: number, min: number, max: number): number {
 }
 
 export function degree(num: string|number): number {
-  return ((parseFloat(num.toString()) % 360) + 360) % 360;
+  num = typeof num === 'string' ? parseFloat(num) : num;
+  return (num % 360 + 360) % 360;
 }
 
 export function resolveAlpha(a: string|number): number {
-  a = typeof a === 'number' ? a.toString() : a;
-  const num = parseFloat(a);
-  return clamp(isNaN(num) ? 1 : num, 0, 1);
+  a = typeof a === 'string' ? parseFloat(a) : a;
+  return clamp(isNaN(a) ? 1 : a, 0, 1);
 }
 
 // @see: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/round
 export function decimal(num: number, precision: number): number {
   const factor = Math.pow(10, precision);
   return Math.round(num * factor) / factor;
+}
+
+export function getRandom(min: number, max: number, precision: number = 0): number {
+  const num = Math.random() * (max - min) + min;
+  return decimal(num, precision);
 }

@@ -5,6 +5,12 @@ export interface ColorData {
   alpha?: number;
 }
 
+export interface RandomArguments {
+  hue?: number|[number, number];
+  white?: number|[number, number];
+  black?: number|[number, number];
+}
+
 export type Color = ColorData;
 export type AcceptedModel = 'rgb'|'hwb'|'hsl'|'hsv'|'cmyk';
 
@@ -66,4 +72,5 @@ export interface ColorModifiable<T extends ColorSettable> {
   mix(color: T, percent?: number): T;
   complement(): this;
   invert(percent?: number): this;
+  random(arg?: RandomArguments): this;
 }
