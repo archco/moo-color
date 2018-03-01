@@ -149,4 +149,28 @@ describe('#MooColor', () => {
       expect(c3.toString()).toEqual('rgb(255, 128, 0)');
     });
   });
+
+  describe('#complement', () => {
+    it('adjusts hue value to 180 degree.', () => {
+      const c = new MooColor('hsl(30, 100%, 50%)');
+      c.complement();
+      expect(c.toString()).toEqual('hsl(210, 100%, 50%)');
+      c.complement();
+      expect(c.toString()).toEqual('hsl(30, 100%, 50%)');
+    });
+  });
+
+  describe('#invert', () => {
+    it('inverts rgb values.', () => {
+      const c = new MooColor('#0ff');
+      c.invert();
+      expect(c.toHex(true)).toEqual('#f00');
+    });
+
+    it("'percent' argument is the relative weight of the color color's inverse.", () => {
+      const c = new MooColor('#f00');
+      c.invert(75); // 75%
+      expect(c.toHex(true)).toEqual('#40bfbf');
+    });
+  });
 });

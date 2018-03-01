@@ -64,7 +64,6 @@ export interface ColorModifiable<T extends ColorSettable> {
   blacken(amount: number): this;
   rotate(degree: number): this;
   mix(color: T, percent?: number): T;
-
-  // TODO: add methods: complement, invert
-  // @see http://sass-lang.com/documentation/Sass/Script/Functions.html
+  complement(): this;
+  invert(percent?: number): this;
 }

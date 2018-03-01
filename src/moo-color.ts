@@ -211,6 +211,27 @@ export class MooColor extends ColorFormatter implements ColorModifiable<MooColor
     }).changeModel(m);
   }
 
+  /**
+   * Sets color to the complement of a color.
+   *
+   * @returns {this}
+   */
+  complement(): this {
+    return this.manipulate('hsl', (h, s, l) => [degree(h + 180), s, l]);
+  }
+
+  /**
+   * Sets color to the inverse (negative) of a color.
+   *
+   * @param {number} [percent=100] The relative percent of the color that inverse.
+   * @returns {this}
+   */
+  invert(percent: number = 100): this {
+    percent /= 100;
+    const absRound = (x: number) => Math.round(Math.abs(x));
+    return this.manipulate('rgb', (r, g, b) => [r, g, b].map(x => absRound(255 * percent - x)));
+  }
+
   protected manipulate(asModel: AcceptedModel, callback: manipulateFn): this {
     const m = this.color.model;
     const color = this.getColorAs(asModel);
