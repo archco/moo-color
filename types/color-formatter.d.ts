@@ -18,6 +18,15 @@ export class ColorFormatter implements ColorSettable, ColorRepresentable {
   getAlpha(): number;
   setAlpha(alpha: number): this;
   convert(color: Color, m: AcceptedModel): Color;
+
+  /**
+   * Represents color as notation of specific color model.
+   *
+   * @param {(AcceptedModel|'hex')} [model] - Specify color model.
+   * If not specifying this value, then returns current color model.
+   * @param {...any[]} args - Arguments for the represent methods.
+   * @returns {string}
+   */
   toString(model?: AcceptedModel|'hex', ...args: any[]): string;
 
   /**

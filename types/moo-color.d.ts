@@ -15,7 +15,7 @@ export class MooColor extends ColorFormatter implements ColorModifiable<MooColor
   static mix(color1: string|MooColor, color2: string|MooColor, percentOf1?: number): MooColor;
 
   /**
-   * Color brightness. 0-255 (It based RGB)
+   * Returns color brightness from 0 to 255. (It based RGB)
    * @see https://www.w3.org/TR/AERT/#color-contrast
    * @readonly
    * @type {number}
@@ -37,8 +37,8 @@ export class MooColor extends ColorFormatter implements ColorModifiable<MooColor
   readonly isLight: boolean;
 
   /**
-   * Returns luminance value of color.
-   * @see https://www.w3.org/WAI/WCAG20/quickref/#qr-visual-audio-contrast-contrast
+   * Returns luminance value of the color. value from 0 to 1.
+   * @see https://www.w3.org/TR/2008/REC-WCAG20-20081211/#relativeluminancedef
    * @readonly
    * @type {number}
    */
@@ -55,7 +55,7 @@ export class MooColor extends ColorFormatter implements ColorModifiable<MooColor
 
   /**
    * Returns contrast ratio with other color. range from 0 to 21.
-   * @see https://www.w3.org/TR/UNDERSTANDING-WCAG20/visual-audio-contrast-contrast.html#contrast-ratiodef
+   * @see https://www.w3.org/TR/2008/REC-WCAG20-20081211/#relativeluminancedef
    * @param {MooColor} color
    * @returns {number} 0-21
    */
@@ -63,6 +63,7 @@ export class MooColor extends ColorFormatter implements ColorModifiable<MooColor
 
   /**
    * Return true if contrast ratio >= 4.5
+   * @see https://www.w3.org/WAI/WCAG20/quickref/#qr-visual-audio-contrast-contrast
    * @param {MooColor} color
    * @returns {boolean}
    */
@@ -70,28 +71,28 @@ export class MooColor extends ColorFormatter implements ColorModifiable<MooColor
 
   /**
    * Increase lightness.
-   * @param {number} amount 0-100
+   * @param {number} amount The amount from 0 to 100.
    * @returns {this}
    */
   lighten(amount: number): this;
 
   /**
    * Decrease lightness.
-   * @param {number} amount 0-100
+   * @param {number} amount The amount from 0 to 100.
    * @returns {this}
    */
   darken(amount: number): this;
 
   /**
    * Increase saturation.
-   * @param {number} amount 0-100
+   * @param {number} amount The amount from 0 to 100.
    * @returns {this}
    */
   saturate(amount: number): this;
 
   /**
    * Decrease saturation.
-   * @param {number} amount 0-100
+   * @param {number} amount The amount from 0 to 100.
    * @returns {this}
    */
   desaturate(amount: number): this;
@@ -104,14 +105,14 @@ export class MooColor extends ColorFormatter implements ColorModifiable<MooColor
 
   /**
    * Modify whiteness.
-   * @param {number} amount -100-100
+   * @param {number} amount The amount from -100 to 100.
    * @returns {this}
    */
   whiten(amount: number): this;
 
   /**
    * Modify blackness.
-   * @param {number} amount -100-100
+   * @param {number} amount The amount from -100 to 100.
    * @returns {this}
    */
   blacken(amount: number): this;
@@ -125,9 +126,9 @@ export class MooColor extends ColorFormatter implements ColorModifiable<MooColor
 
   /**
    * Mix two colors.
-   * @param {MooColor} color the color to mixed.
-   * @param {number} [percent=50] percentage of color to be mixed.
-   * @returns {MooColor}
+   * @param {MooColor} color The color to mixed.
+   * @param {number} [percent=50] The percentage value of color to be mixed.
+   * @returns {MooColor} The mixed color that as a new instance of `MooColor`.
    */
   mix(color: MooColor, percent?: number): MooColor;
 

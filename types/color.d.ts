@@ -1,3 +1,11 @@
+export type Color = ColorData;
+export type AcceptedModel = 'rgb'|'hwb'|'hsl'|'hsv'|'cmyk';
+
+/** Type for `ColorSettable.toHex()` method. */
+export type HexMode = 'full'|'short'|'name';
+/** Type for `ColorSettable.toRgb()` method. */
+export type RgbMode = 'default'|'percent';
+
 /** A data object that includes color data. */
 export interface ColorData {
   model: AcceptedModel;
@@ -14,14 +22,6 @@ export interface RandomArguments {
   /** The blackness value from 0 to 100. Also you can give this as range. e.g. [0, 50] */
   black?: number|[number, number];
 }
-
-export type Color = ColorData;
-export type AcceptedModel = 'rgb'|'hwb'|'hsl'|'hsv'|'cmyk';
-
-/** Type for `ColorSettable.toHex()` method. */
-export type HexMode = 'full'|'short'|'name';
-/** Type for `ColorSettable.toRgb()` method. */
-export type RgbMode = 'default'|'percent';
 
 /** It can set or get color data. and also can change color to another model. */
 export interface ColorSettable {
