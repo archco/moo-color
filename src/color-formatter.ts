@@ -50,23 +50,19 @@ export class ColorFormatter implements ColorSettable, ColorRepresentable {
     return this;
   }
 
-  convert(color: Color, m: AcceptedModel): Color {
-    let val: number[];
+  convert(color: Color, model: AcceptedModel): Color {
+    let values: number[];
     switch (color.model) {
-      case 'rgb': val = this.convertFromRgb(color.values, m); break;
-      case 'hwb': val = this.convertFromHwb(color.values, m); break;
-      case 'hsl': val = this.convertFromHsl(color.values, m); break;
-      case 'hsv': val = this.convertFromHsv(color.values, m); break;
-      case 'cmyk': val = this.convertFromCmyk(color.values, m); break;
+      case 'rgb': values = this.convertFromRgb(color.values, model); break;
+      case 'hwb': values = this.convertFromHwb(color.values, model); break;
+      case 'hsl': values = this.convertFromHsl(color.values, model); break;
+      case 'hsv': values = this.convertFromHsv(color.values, model); break;
+      case 'cmyk': values = this.convertFromCmyk(color.values, model); break;
     }
-    if (!val.length) {
+    if (!values.length) {
       throw new Error('Converting Error!');
     }
-    return {
-      model: m,
-      values: val,
-      alpha: color.alpha,
-    };
+    return { model, values, alpha: color.alpha};
   }
 
   /**
@@ -184,71 +180,57 @@ export class ColorFormatter implements ColorSettable, ColorRepresentable {
     return `cmyk(${c}%, ${m}%, ${y}%, ${k}%${a})`;
   }
 
-  protected convertFromRgb(values: number[], model: AcceptedModel): number[] {
-    const [r, g, b] = values;
+  protected convertFromRgb([r, g, b]: number[], model: AcceptedModel): number[] {
     switch (model) {
-      case 'rgb': break;
-      case 'hwb': values = Converter.rgbToHwb(r, g, b); break;
-      case 'hsl': values = Converter.rgbToHsl(r, g, b); break;
-      case 'hsv': values = Converter.rgbToHsv(r, g, b); break;
-      case 'cmyk': values = Converter.rgbToCmyk(r, g, b); break;
+      case 'rgb': return [r, g, b];
+      case 'hwb': return Converter.rgbToHwb(r, g, b);
+      case 'hsl': return Converter.rgbToHsl(r, g, b);
+      case 'hsv': return Converter.rgbToHsv(r, g, b);
+      case 'cmyk': return Converter.rgbToCmyk(r, g, b);
     }
-    return values;
   }
 
-  protected convertFromHwb(values: number[], model: AcceptedModel): number[] {
-    const [h, w, b] = values;
-    const rgb = Converter.hwbToRgb(h, w, b);
-    const [red, green, blue] = rgb;
+  protected convertFromHwb([h, w, b]: number[], model: AcceptedModel): number[] {
+    const [red, green, blue] = Converter.hwbToRgb(h, w, b);
     switch (model) {
-      case 'rgb': values = rgb; break;
-      case 'hwb': break;
-      case 'hsl': values = Converter.rgbToHsl(red, green, blue); break;
-      case 'hsv': values = Converter.hwbToHsv(h, w, b); break;
-      case 'cmyk': values = Converter.rgbToCmyk(red, green, blue); break;
+      case 'rgb': return [red, green, blue];
+      case 'hwb': return [h, w, b];
+      case 'hsl': return Converter.rgbToHsl(red, green, blue);
+      case 'hsv': return Converter.hwbToHsv(h, w, b);
+      case 'cmyk': return Converter.rgbToCmyk(red, green, blue);
     }
-    return values;
   }
 
-  protected convertFromHsl(values: number[], model: AcceptedModel): number[] {
-    const [h, s, l] = values;
-    const rgb = Converter.hslToRgb(h, s, l);
-    const [red, green, blue] = rgb;
+  protected convertFromHsl([h, s, l]: number[], model: AcceptedModel): number[] {
+    const [red, green, blue] = Converter.hslToRgb(h, s, l);
     switch (model) {
-      case 'rgb': values = rgb; break;
-      case 'hwb': values = Converter.rgbToHwb(red, green, blue); break;
-      case 'hsl': break;
-      case 'hsv': values = Converter.rgbToHsv(red, green, blue); break;
-      case 'cmyk': values = Converter.rgbToCmyk(red, green, blue); break;
+      case 'rgb': return [red, green, blue];
+      case 'hwb': return Converter.rgbToHwb(red, green, blue);
+      case 'hsl': return [h, s, l];
+      case 'hsv': return Converter.rgbToHsv(red, green, blue);
+      case 'cmyk': return Converter.rgbToCmyk(red, green, blue);
     }
-    return values;
   }
 
-  protected convertFromHsv(values: number[], model: AcceptedModel): number[] {
-    const [h, s, v] = values;
-    const rgb = Converter.hsvToRgb(h, s, v);
-    const [red, green, blue] = rgb;
+  protected convertFromHsv([h, s, v]: number[], model: AcceptedModel): number[] {
+    const [red, green, blue] = Converter.hsvToRgb(h, s, v);
     switch (model) {
-      case 'rgb': values = rgb; break;
-      case 'hwb': values = Converter.hsvToHwb(h, s, v); break;
-      case 'hsl': values = Converter.rgbToHsl(red, green, blue); break;
-      case 'hsv': break;
-      case 'cmyk': values = Converter.rgbToCmyk(red, green, blue); break;
+      case 'rgb': return [red, green, blue];
+      case 'hwb': return Converter.hsvToHwb(h, s, v);
+      case 'hsl': return Converter.rgbToHsl(red, green, blue);
+      case 'hsv': return [h, s, v];
+      case 'cmyk': return Converter.rgbToCmyk(red, green, blue);
     }
-    return values;
   }
 
-  protected convertFromCmyk(values: number[], model: AcceptedModel): number[] {
-    const [c, m, y, k] = values;
-    const rgb = Converter.cmykToRgb(c, m, y, k);
-    const [red, green, blue] = rgb;
+  protected convertFromCmyk([c, m, y, k]: number[], model: AcceptedModel): number[] {
+    const [red, green, blue] = Converter.cmykToRgb(c, m, y, k);
     switch (model) {
-      case 'rgb': values = rgb; break;
-      case 'hwb': values = Converter.rgbToHwb(red, green, blue); break;
-      case 'hsl': values = Converter.rgbToHsl(red, green, blue); break;
-      case 'hsv': values = Converter.rgbToHsv(red, green, blue); break;
-      case 'cmyk': break;
+      case 'rgb': return [red, green, blue];
+      case 'hwb': return Converter.rgbToHwb(red, green, blue);
+      case 'hsl': return Converter.rgbToHsl(red, green, blue);
+      case 'hsv': return Converter.rgbToHsv(red, green, blue);
+      case 'cmyk': return [c, m, y, k];
     }
-    return values;
   }
 }
