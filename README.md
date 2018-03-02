@@ -20,7 +20,7 @@ color.whiten(10).toString('hwb'); // returns 'hwb(0, 10%, 0)'
 
 ## API
 
-See you soon.
+Please see [MooColor API](https://github.com/archco/moo-color/tree/master/docs#moocolor-api).
 
 ## Change Log
 

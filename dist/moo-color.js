@@ -511,7 +511,7 @@ var MooColor = /** @class */ (function (_super) {
     };
     Object.defineProperty(MooColor.prototype, "brightness", {
         /**
-         * Color brightness. 0-255 (It based RGB)
+         * Returns color brightness from 0 to 255. (It based RGB)
          * @see https://www.w3.org/TR/AERT/#color-contrast
          * @readonly
          * @type {number}
@@ -549,8 +549,8 @@ var MooColor = /** @class */ (function (_super) {
     });
     Object.defineProperty(MooColor.prototype, "luminance", {
         /**
-         * Returns luminance value of color.
-         * @see https://www.w3.org/WAI/WCAG20/quickref/#qr-visual-audio-contrast-contrast
+         * Returns luminance value of the color. value from 0 to 1.
+         * @see https://www.w3.org/TR/2008/REC-WCAG20-20081211/#relativeluminancedef
          * @readonly
          * @type {number}
          */
@@ -563,7 +563,7 @@ var MooColor = /** @class */ (function (_super) {
     });
     /**
      * Returns contrast ratio with other color. range from 0 to 21.
-     * @see https://www.w3.org/TR/UNDERSTANDING-WCAG20/visual-audio-contrast-contrast.html#contrast-ratiodef
+     * @see https://www.w3.org/TR/2008/REC-WCAG20-20081211/#relativeluminancedef
      * @param {MooColor} color
      * @returns {number} 0-21
      */
@@ -574,6 +574,7 @@ var MooColor = /** @class */ (function (_super) {
     };
     /**
      * Return true if contrast ratio >= 4.5
+     * @see https://www.w3.org/WAI/WCAG20/quickref/#qr-visual-audio-contrast-contrast
      * @param {MooColor} color
      * @returns {boolean}
      */
@@ -582,7 +583,7 @@ var MooColor = /** @class */ (function (_super) {
     };
     /**
      * Increase lightness.
-     * @param {number} amount 0-100
+     * @param {number} amount The amount from 0 to 100.
      * @returns {this}
      */
     MooColor.prototype.lighten = function (amount) {
@@ -593,7 +594,7 @@ var MooColor = /** @class */ (function (_super) {
     };
     /**
      * Decrease lightness.
-     * @param {number} amount 0-100
+     * @param {number} amount The amount from 0 to 100.
      * @returns {this}
      */
     MooColor.prototype.darken = function (amount) {
@@ -604,7 +605,7 @@ var MooColor = /** @class */ (function (_super) {
     };
     /**
      * Increase saturation.
-     * @param {number} amount 0-100
+     * @param {number} amount The amount from 0 to 100.
      * @returns {this}
      */
     MooColor.prototype.saturate = function (amount) {
@@ -615,7 +616,7 @@ var MooColor = /** @class */ (function (_super) {
     };
     /**
      * Decrease saturation.
-     * @param {number} amount 0-100
+     * @param {number} amount The amount from 0 to 100.
      * @returns {this}
      */
     MooColor.prototype.desaturate = function (amount) {
@@ -625,7 +626,7 @@ var MooColor = /** @class */ (function (_super) {
         });
     };
     /**
-     * Set saturation to 0.
+     * Sets saturation value to 0.
      * @returns {this}
      */
     MooColor.prototype.grayscale = function () {
@@ -633,7 +634,7 @@ var MooColor = /** @class */ (function (_super) {
     };
     /**
      * Modify whiteness.
-     * @param {number} amount -100-100
+     * @param {number} amount The amount from -100 to 100.
      * @returns {this}
      */
     MooColor.prototype.whiten = function (amount) {
@@ -642,7 +643,7 @@ var MooColor = /** @class */ (function (_super) {
     };
     /**
      * Modify blackness.
-     * @param {number} amount -100-100
+     * @param {number} amount The amount from -100 to 100.
      * @returns {this}
      */
     MooColor.prototype.blacken = function (amount) {
@@ -659,9 +660,9 @@ var MooColor = /** @class */ (function (_super) {
     };
     /**
      * Mix two colors.
-     * @param {MooColor} color the color to mixed.
-     * @param {number} [percent=50] percentage of color to be mixed.
-     * @returns {MooColor}
+     * @param {MooColor} color The color to mixed.
+     * @param {number} [percent=50] The percentage value of color to be mixed.
+     * @returns {MooColor} The mixed color that as a new instance of `MooColor`.
      */
     MooColor.prototype.mix = function (color, percent) {
         if (percent === void 0) { percent = 50; }
@@ -669,12 +670,10 @@ var MooColor = /** @class */ (function (_super) {
         var m = this.getModel();
         var c1 = this.getColorAs('rgb');
         var c2 = color.getColorAs('rgb');
-        var val = c1.values.map(function (v, i) { return v + (c2.values[i] - v) * percent; });
-        var a = c1.alpha + (c2.alpha - c1.alpha) * percent;
         return new MooColor().setColor({
             model: 'rgb',
-            values: val,
-            alpha: a,
+            values: c1.values.map(function (v, i) { return v + (c2.values[i] - v) * percent; }),
+            alpha: c1.alpha + (c2.alpha - c1.alpha) * percent,
         }).changeModel(m);
     };
     /**
@@ -697,6 +696,12 @@ var MooColor = /** @class */ (function (_super) {
         var absRound = function (x) { return Math.round(Math.abs(x)); };
         return this.manipulate('rgb', function (r, g, b) { return [r, g, b].map(function (x) { return absRound(255 * percent - x); }); });
     };
+    /**
+     * Sets random color values as HWB color model.
+     *
+     * @param {RandomArguments} [{hue, white, black}={}]
+     * @returns {this}
+     */
     MooColor.prototype.random = function (_a) {
         var _b = _a === void 0 ? {} : _a, hue = _b.hue, white = _b.white, black = _b.black;
         _c = [hue, white, black].map(function (x, i) {
@@ -802,6 +807,14 @@ var ColorFormatter = /** @class */ (function () {
             alpha: color.alpha,
         };
     };
+    /**
+     * Represents color as notation of specific color model.
+     *
+     * @param {(AcceptedModel|'hex')} [model] - Specify color model.
+     * If not specifying this value, then returns current color model.
+     * @param {...any[]} args - Arguments for the represent methods.
+     * @returns {string}
+     */
     ColorFormatter.prototype.toString = function (model) {
         var args = [];
         for (var _i = 1; _i < arguments.length; _i++) {
@@ -850,6 +863,8 @@ var ColorFormatter = /** @class */ (function () {
     /**
      * Represents color as RGB notation.
      * @see https://www.w3.org/TR/css-color-4/#rgb-functions
+     *
+     * @param {RgbMode} [mode='default'] 'default'|'percent'
      * @returns {string}
      */
     ColorFormatter.prototype.toRgb = function (mode) {
