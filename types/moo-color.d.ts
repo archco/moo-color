@@ -3,6 +3,7 @@ import {
   Color,
   ColorModifiable,
   ColorStateAccessible,
+  RandomArguments,
 } from './color';
 import { ColorFormatter } from './color-formatter';
 
@@ -128,5 +129,28 @@ export class MooColor extends ColorFormatter implements ColorModifiable<MooColor
    * @param {number} [percent=50] percentage of color to be mixed.
    * @returns {MooColor}
    */
-  mix(color: MooColor, percent?: number): MooColor;;
+  mix(color: MooColor, percent?: number): MooColor;
+
+  /**
+   * Sets color to the complement of a color.
+   *
+   * @returns {this}
+   */
+  complement(): this;
+
+  /**
+   * Sets color to the inverse (negative) of a color.
+   *
+   * @param {number} [percent=100] The relative percent of the color that inverse.
+   * @returns {this}
+   */
+  invert(percent?: number): this;
+
+  /**
+   * Sets random color values as HWB color model.
+   *
+   * @param {RandomArguments} [{hue, white, black}={}]
+   * @returns {this}
+   */
+  random(arg?: RandomArguments): this;
 }

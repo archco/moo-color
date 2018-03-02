@@ -3,6 +3,8 @@ import {
   Color,
   ColorRepresentable,
   ColorSettable,
+  HexMode,
+  RgbMode,
 } from './color.d';
 
 export class ColorFormatter implements ColorSettable, ColorRepresentable {
@@ -21,17 +23,20 @@ export class ColorFormatter implements ColorSettable, ColorRepresentable {
   /**
    * Represents color as HEX notation.
    * @see https://www.w3.org/TR/css-color-4/#hex-notation
-   * @param {boolean} [enableShort] default is false.
+   *
+   * @param {HexMode} [mode='full'] 'full'|'short'|'name'
    * @returns {string}
    */
-  toHex(enableShort?: boolean): string;
+  toHex(mode?: HexMode): string;
 
   /**
    * Represents color as RGB notation.
    * @see https://www.w3.org/TR/css-color-4/#rgb-functions
+   *
+   * @param {RgbMode} [mode='default'] 'default'|'percent'
    * @returns {string}
    */
-  toRgb(): string;
+  toRgb(mode?: RgbMode): string;
 
   /**
    * Represents color as HWB notation.

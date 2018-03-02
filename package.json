@@ -4,6 +4,10 @@
   "description": "A simple color library.",
   "main": "dist/moo-color.js",
   "types": "types/moo-color.d.ts",
+  "directories": {
+    "doc": "docs",
+    "test": "test"
+  },
   "scripts": {
     "test": "npx jest",
     "build": "npx webpack --hide-modules",

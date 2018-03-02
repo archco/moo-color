@@ -1,14 +1,17 @@
-// A data object that includes color data.
+/** A data object that includes color data. */
 export interface ColorData {
   model: AcceptedModel;
   values: number[];
   alpha?: number;
 }
 
-// for `ColorModifiable.random()` method.
+/** An argument for `ColorModifiable.random()` method. */
 export interface RandomArguments {
+  /** The hue value from 0 to 360. Also you can give this as range. e.g. [0, 180] */
   hue?: number|[number, number];
+  /** The whiteness value from 0 to 100. Also you can give this as range. e.g. [0, 50] */
   white?: number|[number, number];
+  /** The blackness value from 0 to 100. Also you can give this as range. e.g. [0, 50] */
   black?: number|[number, number];
 }
 
@@ -20,7 +23,7 @@ export type HexMode = 'full'|'short'|'name';
 /** Type for `ColorSettable.toRgb()` method. */
 export type RgbMode = 'default'|'percent';
 
-// It can set or get color data. and also can change color to another model.
+/** It can set or get color data. and also can change color to another model. */
 export interface ColorSettable {
   color?: Color;
 
@@ -34,8 +37,10 @@ export interface ColorSettable {
   convert: (color: Color, model: AcceptedModel) => Color;
 }
 
-// It can represent color to multiple notations.
-// accepted color models: 'rgb'|'hwb'|'hsl'|'hsv'|'cmyk' + 'hex'
+/**
+ * It can represent color to multiple notations.
+ * accepted color models: 'rgb'|'hwb'|'hsl'|'hsv'|'cmyk' + 'hex'
+ */
 export interface ColorRepresentable {
   color?: Color;
 
@@ -48,9 +53,11 @@ export interface ColorRepresentable {
   toCmyk(): string;
 }
 
-// It can access color state. such as brightness, luminance..
-// @see https://www.w3.org/TR/AERT/#color-contrast
-// @see https://www.w3.org/TR/2008/REC-WCAG20-20081211/#contrast-ratiodef
+/**
+ * It can access color state. such as brightness, luminance..
+ * @see https://www.w3.org/TR/AERT/#color-contrast
+ * @see https://www.w3.org/TR/2008/REC-WCAG20-20081211/#contrast-ratiodef
+ */
 export interface ColorStateAccessible {
   color?: Color;
 
@@ -63,7 +70,9 @@ export interface ColorStateAccessible {
   isContrastEnough(color: ColorStateAccessible): boolean;
 }
 
-// It can manipulate color values.
+/**
+ * It can manipulate color values.
+ */
 export interface ColorModifiable<T extends ColorSettable> {
   color?: Color;
 

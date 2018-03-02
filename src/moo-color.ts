@@ -233,6 +233,12 @@ export class MooColor extends ColorFormatter implements ColorModifiable<MooColor
     return this.manipulate('rgb', (r, g, b) => [r, g, b].map(x => absRound(255 * percent - x)));
   }
 
+  /**
+   * Sets random color values as HWB color model.
+   *
+   * @param {RandomArguments} [{hue, white, black}={}]
+   * @returns {this}
+   */
   random({hue, white, black}: RandomArguments = {}): this {
     [hue, white, black] = [hue, white, black].map((x, i) => {
       if (typeof x === 'number') {

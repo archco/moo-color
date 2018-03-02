@@ -112,6 +112,8 @@ export class ColorFormatter implements ColorSettable, ColorRepresentable {
   /**
    * Represents color as RGB notation.
    * @see https://www.w3.org/TR/css-color-4/#rgb-functions
+   *
+   * @param {RgbMode} [mode='default'] 'default'|'percent'
    * @returns {string}
    */
   toRgb(mode: RgbMode = 'default'): string {
