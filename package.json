@@ -1,6 +1,6 @@
 {
   "name": "moo-color",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "A simple color library.",
   "main": "dist/moo-color.js",
   "types": "types/moo-color.d.ts",
@@ -10,7 +10,7 @@
   },
   "scripts": {
     "test": "jest",
-    "build": "webpack --hide-modules",
+    "build": "webpack --hide-modules --mode=\"development\"",
     "watch": "npm run build -- --watch"
   },
   "keywords": [
@@ -31,16 +31,16 @@
     "color-name": "^1.1.3"
   },
   "devDependencies": {
-    "@types/jest": "^22.1.4",
+    "@types/jest": "^22.2.0",
     "jest": "^22.4.2",
     "source-map-loader": "^0.2.3",
-    "ts-jest": "^22.4.0",
-    "ts-loader": "^3.5.0",
+    "ts-jest": "^22.4.1",
+    "ts-loader": "^4.0.1",
     "typescript": "^2.7.2",
-    "uglifyjs-webpack-plugin": "^1.2.2",
-    "webpack": "^3.11.0",
-    "webpack-cli": "^2.0.10",
-    "webpack-notifier": "^1.5.1"
+    "webpack": "^4.1.1",
+    "webpack-cli": "^2.0.11",
+    "webpack-merge": "^4.1.2",
+    "webpack-notifier": "^1.6.0"
   },
   "jest": {
     "transform": {

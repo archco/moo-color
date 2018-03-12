@@ -1,17 +1,15 @@
 const path = require('path');
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+const merge = require('webpack-merge');
 const WebpackNotifierPlugin = require('webpack-notifier');
 
-module.exports = {
-  entry: {
-    'moo-color': './src/moo-color.ts',
-    'moo-color.min': './src/moo-color.ts',
-  },
+const dev = {
+  entry: './src/moo-color.ts',
   output: {
     path: path.resolve(__dirname, 'dist'),
-    filename: '[name].js',
+    filename: 'moo-color.js',
     library: 'MooColor',
     libraryTarget: 'umd',
+    globalObject: 'this',
   },
   module: {
     rules: [
@@ -30,16 +28,24 @@ module.exports = {
   resolve: {
     extensions: ['.js', '.ts'],
   },
+  devtool: 'source-map',
+};
+
+const min = merge(dev, {
+  output: {
+    filename: 'moo-color.min.js',
+  },
+  optimization: {
+    minimize: true,
+  },
+  devtool: false,
   plugins: [
-    new UglifyJsPlugin({
-      sourceMap: false,
-      include: /\.min\.js$/,
-    }),
     new WebpackNotifierPlugin({
       title: 'Webpack',
       alwaysNotify: true,
       sound: false,
     }),
   ],
-  devtool: 'source-map',
-};
+});
+
+module.exports = [dev, min];

@@ -7,7 +7,7 @@
 		exports["MooColor"] = factory();
 	else
 		root["MooColor"] = factory();
-})(typeof self !== 'undefined' ? self : this, function() {
+})(this, function() {
 return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
@@ -54,6 +54,11 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ 		}
 /******/ 	};
 /******/
+/******/ 	// define __esModule on exports
+/******/ 	__webpack_require__.r = function(exports) {
+/******/ 		Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 	};
+/******/
 /******/ 	// getDefaultExport function for compatibility with non-harmony modules
 /******/ 	__webpack_require__.n = function(module) {
 /******/ 		var getter = module && module.__esModule ?
@@ -69,85 +74,200 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// __webpack_public_path__
 /******/ 	__webpack_require__.p = "";
 /******/
+/******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 3);
+/******/ 	return __webpack_require__(__webpack_require__.s = "./src/moo-color.ts");
 /******/ })
 /************************************************************************/
-/******/ ([
-/* 0 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/******/ ({
+
+/***/ "./node_modules/color-name/index.js":
+/*!******************************************!*\
+  !*** ./node_modules/color-name/index.js ***!
+  \******************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* harmony export (immutable) */ __webpack_exports__["f"] = padStart;
-/* unused harmony export padEnd */
-/* harmony export (immutable) */ __webpack_exports__["b"] = clamp;
-/* harmony export (immutable) */ __webpack_exports__["d"] = degree;
-/* harmony export (immutable) */ __webpack_exports__["g"] = resolveAlpha;
-/* harmony export (immutable) */ __webpack_exports__["c"] = decimal;
-/* harmony export (immutable) */ __webpack_exports__["e"] = getRandom;
-/* harmony export (immutable) */ __webpack_exports__["a"] = arrayIsEqual;
-function padStart(str, length, chars) {
-    var space = length - str.length;
-    return space > 0 ? "" + makePad(chars, space) + str : str;
-}
-function padEnd(str, length, chars) {
-    var space = length - str.length;
-    return space > 0 ? "" + str + makePad(chars, space) : str;
-}
-function makePad(chars, limit) {
-    while (chars.length < limit) {
-        chars += chars;
-    }
-    return chars.length > limit ? chars.substring(chars.length - limit) : chars;
-}
-function clamp(num, min, max) {
-    return Math.min(Math.max(min, num), max);
-}
-function degree(num) {
-    num = typeof num === 'string' ? parseFloat(num) : num;
-    return (num % 360 + 360) % 360;
-}
-function resolveAlpha(a) {
-    a = typeof a === 'string' ? parseFloat(a) : a;
-    return clamp(isNaN(a) ? 1 : a, 0, 1);
-}
-// @see: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/round
-function decimal(num, precision) {
-    var factor = Math.pow(10, precision);
-    return Math.round(num * factor) / factor;
-}
-function getRandom(min, max, precision) {
-    if (precision === void 0) { precision = 0; }
-    var num = Math.random() * (max - min) + min;
-    return decimal(num, precision);
-}
-// https://stackoverflow.com/questions/7837456/how-to-compare-arrays-in-javascript#answer-19746771
-function arrayIsEqual(arr1, arr2) {
-    return arr1.length === arr2.length && arr1.every(function (v, i) {
-        return Array.isArray(v) ? arrayIsEqual(v, arr2[i]) : v === arr2[i];
-    });
-}
+
+
+module.exports = {
+	"aliceblue": [240, 248, 255],
+	"antiquewhite": [250, 235, 215],
+	"aqua": [0, 255, 255],
+	"aquamarine": [127, 255, 212],
+	"azure": [240, 255, 255],
+	"beige": [245, 245, 220],
+	"bisque": [255, 228, 196],
+	"black": [0, 0, 0],
+	"blanchedalmond": [255, 235, 205],
+	"blue": [0, 0, 255],
+	"blueviolet": [138, 43, 226],
+	"brown": [165, 42, 42],
+	"burlywood": [222, 184, 135],
+	"cadetblue": [95, 158, 160],
+	"chartreuse": [127, 255, 0],
+	"chocolate": [210, 105, 30],
+	"coral": [255, 127, 80],
+	"cornflowerblue": [100, 149, 237],
+	"cornsilk": [255, 248, 220],
+	"crimson": [220, 20, 60],
+	"cyan": [0, 255, 255],
+	"darkblue": [0, 0, 139],
+	"darkcyan": [0, 139, 139],
+	"darkgoldenrod": [184, 134, 11],
+	"darkgray": [169, 169, 169],
+	"darkgreen": [0, 100, 0],
+	"darkgrey": [169, 169, 169],
+	"darkkhaki": [189, 183, 107],
+	"darkmagenta": [139, 0, 139],
+	"darkolivegreen": [85, 107, 47],
+	"darkorange": [255, 140, 0],
+	"darkorchid": [153, 50, 204],
+	"darkred": [139, 0, 0],
+	"darksalmon": [233, 150, 122],
+	"darkseagreen": [143, 188, 143],
+	"darkslateblue": [72, 61, 139],
+	"darkslategray": [47, 79, 79],
+	"darkslategrey": [47, 79, 79],
+	"darkturquoise": [0, 206, 209],
+	"darkviolet": [148, 0, 211],
+	"deeppink": [255, 20, 147],
+	"deepskyblue": [0, 191, 255],
+	"dimgray": [105, 105, 105],
+	"dimgrey": [105, 105, 105],
+	"dodgerblue": [30, 144, 255],
+	"firebrick": [178, 34, 34],
+	"floralwhite": [255, 250, 240],
+	"forestgreen": [34, 139, 34],
+	"fuchsia": [255, 0, 255],
+	"gainsboro": [220, 220, 220],
+	"ghostwhite": [248, 248, 255],
+	"gold": [255, 215, 0],
+	"goldenrod": [218, 165, 32],
+	"gray": [128, 128, 128],
+	"green": [0, 128, 0],
+	"greenyellow": [173, 255, 47],
+	"grey": [128, 128, 128],
+	"honeydew": [240, 255, 240],
+	"hotpink": [255, 105, 180],
+	"indianred": [205, 92, 92],
+	"indigo": [75, 0, 130],
+	"ivory": [255, 255, 240],
+	"khaki": [240, 230, 140],
+	"lavender": [230, 230, 250],
+	"lavenderblush": [255, 240, 245],
+	"lawngreen": [124, 252, 0],
+	"lemonchiffon": [255, 250, 205],
+	"lightblue": [173, 216, 230],
+	"lightcoral": [240, 128, 128],
+	"lightcyan": [224, 255, 255],
+	"lightgoldenrodyellow": [250, 250, 210],
+	"lightgray": [211, 211, 211],
+	"lightgreen": [144, 238, 144],
+	"lightgrey": [211, 211, 211],
+	"lightpink": [255, 182, 193],
+	"lightsalmon": [255, 160, 122],
+	"lightseagreen": [32, 178, 170],
+	"lightskyblue": [135, 206, 250],
+	"lightslategray": [119, 136, 153],
+	"lightslategrey": [119, 136, 153],
+	"lightsteelblue": [176, 196, 222],
+	"lightyellow": [255, 255, 224],
+	"lime": [0, 255, 0],
+	"limegreen": [50, 205, 50],
+	"linen": [250, 240, 230],
+	"magenta": [255, 0, 255],
+	"maroon": [128, 0, 0],
+	"mediumaquamarine": [102, 205, 170],
+	"mediumblue": [0, 0, 205],
+	"mediumorchid": [186, 85, 211],
+	"mediumpurple": [147, 112, 219],
+	"mediumseagreen": [60, 179, 113],
+	"mediumslateblue": [123, 104, 238],
+	"mediumspringgreen": [0, 250, 154],
+	"mediumturquoise": [72, 209, 204],
+	"mediumvioletred": [199, 21, 133],
+	"midnightblue": [25, 25, 112],
+	"mintcream": [245, 255, 250],
+	"mistyrose": [255, 228, 225],
+	"moccasin": [255, 228, 181],
+	"navajowhite": [255, 222, 173],
+	"navy": [0, 0, 128],
+	"oldlace": [253, 245, 230],
+	"olive": [128, 128, 0],
+	"olivedrab": [107, 142, 35],
+	"orange": [255, 165, 0],
+	"orangered": [255, 69, 0],
+	"orchid": [218, 112, 214],
+	"palegoldenrod": [238, 232, 170],
+	"palegreen": [152, 251, 152],
+	"paleturquoise": [175, 238, 238],
+	"palevioletred": [219, 112, 147],
+	"papayawhip": [255, 239, 213],
+	"peachpuff": [255, 218, 185],
+	"peru": [205, 133, 63],
+	"pink": [255, 192, 203],
+	"plum": [221, 160, 221],
+	"powderblue": [176, 224, 230],
+	"purple": [128, 0, 128],
+	"rebeccapurple": [102, 51, 153],
+	"red": [255, 0, 0],
+	"rosybrown": [188, 143, 143],
+	"royalblue": [65, 105, 225],
+	"saddlebrown": [139, 69, 19],
+	"salmon": [250, 128, 114],
+	"sandybrown": [244, 164, 96],
+	"seagreen": [46, 139, 87],
+	"seashell": [255, 245, 238],
+	"sienna": [160, 82, 45],
+	"silver": [192, 192, 192],
+	"skyblue": [135, 206, 235],
+	"slateblue": [106, 90, 205],
+	"slategray": [112, 128, 144],
+	"slategrey": [112, 128, 144],
+	"snow": [255, 250, 250],
+	"springgreen": [0, 255, 127],
+	"steelblue": [70, 130, 180],
+	"tan": [210, 180, 140],
+	"teal": [0, 128, 128],
+	"thistle": [216, 191, 216],
+	"tomato": [255, 99, 71],
+	"turquoise": [64, 224, 208],
+	"violet": [238, 130, 238],
+	"wheat": [245, 222, 179],
+	"white": [255, 255, 255],
+	"whitesmoke": [245, 245, 245],
+	"yellow": [255, 255, 0],
+	"yellowgreen": [154, 205, 50]
+};
 
 
 /***/ }),
-/* 1 */
+
+/***/ "./src/color-converter.ts":
+/*!********************************!*\
+  !*** ./src/color-converter.ts ***!
+  \********************************/
+/*! exports provided: hslToRgb, rgbToHsl, hwbToRgb, rgbToHwb, cmykToRgb, rgbToCmyk, hsvToRgb, rgbToHsv, hsvToHwb, hwbToHsv, rgbToHex, hexToRgb, resolveHwb */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (immutable) */ __webpack_exports__["b"] = hslToRgb;
-/* harmony export (immutable) */ __webpack_exports__["j"] = rgbToHsl;
-/* harmony export (immutable) */ __webpack_exports__["f"] = hwbToRgb;
-/* harmony export (immutable) */ __webpack_exports__["l"] = rgbToHwb;
-/* harmony export (immutable) */ __webpack_exports__["a"] = cmykToRgb;
-/* harmony export (immutable) */ __webpack_exports__["h"] = rgbToCmyk;
-/* harmony export (immutable) */ __webpack_exports__["d"] = hsvToRgb;
-/* harmony export (immutable) */ __webpack_exports__["k"] = rgbToHsv;
-/* harmony export (immutable) */ __webpack_exports__["c"] = hsvToHwb;
-/* harmony export (immutable) */ __webpack_exports__["e"] = hwbToHsv;
-/* harmony export (immutable) */ __webpack_exports__["i"] = rgbToHex;
-/* unused harmony export hexToRgb */
-/* harmony export (immutable) */ __webpack_exports__["g"] = resolveHwb;
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__util_util__ = __webpack_require__(0);
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "hslToRgb", function() { return hslToRgb; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "rgbToHsl", function() { return rgbToHsl; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "hwbToRgb", function() { return hwbToRgb; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "rgbToHwb", function() { return rgbToHwb; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "cmykToRgb", function() { return cmykToRgb; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "rgbToCmyk", function() { return rgbToCmyk; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "hsvToRgb", function() { return hsvToRgb; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "rgbToHsv", function() { return rgbToHsv; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "hsvToHwb", function() { return hsvToHwb; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "hwbToHsv", function() { return hwbToHsv; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "rgbToHex", function() { return rgbToHex; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "hexToRgb", function() { return hexToRgb; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "resolveHwb", function() { return resolveHwb; });
+/* harmony import */ var _util_util__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./util/util */ "./src/util/util.ts");
 
 /**
  * Converts an HSL to RGB.
@@ -400,7 +520,7 @@ function rgbToHex(r, g, b, a, enableShort) {
     if (typeof a === 'number') {
         arr.push(Math.round(a * 255));
     }
-    var hex = arr.map(function (x) { return Object(__WEBPACK_IMPORTED_MODULE_0__util_util__["f" /* padStart */])(x.toString(16), 2, '0'); }).join('');
+    var hex = arr.map(function (x) { return Object(_util_util__WEBPACK_IMPORTED_MODULE_0__["padStart"])(x.toString(16), 2, '0'); }).join('');
     return enableShort ? hexToShorthand(hex) : hex;
 }
 function hexToShorthand(hex) {
@@ -448,311 +568,30 @@ function resolveHwb(h, w, b) {
 
 
 /***/ }),
-/* 2 */
+
+/***/ "./src/color-formatter.ts":
+/*!********************************!*\
+  !*** ./src/color-formatter.ts ***!
+  \********************************/
+/*! exports provided: ColorFormatter */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_color_name__ = __webpack_require__(5);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_color_name___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_color_name__);
-
-/* harmony default export */ __webpack_exports__["a"] = (__WEBPACK_IMPORTED_MODULE_0_color_name__);
-
-
-/***/ }),
-/* 3 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MooColor", function() { return MooColor; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__color_formatter__ = __webpack_require__(4);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__input_parser__ = __webpack_require__(6);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__util_util__ = __webpack_require__(0);
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
-
-
-
-var MooColor = /** @class */ (function (_super) {
-    __extends(MooColor, _super);
-    /**
-     * Creates an instance of MooColor.
-     * @param {*} [color] color string. e.g. '#ff0000' 'rgba(255, 0, 0, .5)' 'hsl(120, 50%, 100%)'
-     */
-    function MooColor(color) {
-        var _this = _super.call(this) || this;
-        color = color ? color : '#000';
-        _this.setColorByParser(color);
-        return _this;
-    }
-    MooColor.mix = function (color1, color2, percentOf1) {
-        if (percentOf1 === void 0) { percentOf1 = 50; }
-        var c1 = (typeof color1 === 'string') ? new MooColor(color1) : color1;
-        var c2 = (typeof color2 === 'string') ? new MooColor(color2) : color2;
-        return c2.mix(c1, percentOf1);
-    };
-    MooColor.prototype.setColorByParser = function (str) {
-        var color = Object(__WEBPACK_IMPORTED_MODULE_1__input_parser__["a" /* default */])(str);
-        if (!color) {
-            throw new Error('parsing error!');
-        }
-        return this.setColor(color);
-    };
-    MooColor.prototype.clone = function () {
-        return new MooColor().setColor(this.color);
-    };
-    Object.defineProperty(MooColor.prototype, "brightness", {
-        /**
-         * Returns color brightness from 0 to 255. (It based RGB)
-         * @see https://www.w3.org/TR/AERT/#color-contrast
-         * @readonly
-         * @type {number}
-         */
-        get: function () {
-            var _a = this.getColorAs('rgb').values, r = _a[0], g = _a[1], b = _a[2];
-            return ((r * 299) + (g * 587) + (b * 114)) / 1000;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(MooColor.prototype, "isLight", {
-        /**
-         * Returns whether color is light or not.
-         * @readonly
-         * @type {boolean}
-         */
-        get: function () {
-            return this.brightness >= 128;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(MooColor.prototype, "isDark", {
-        /**
-         * Returns whether color is dark or not.
-         * @readonly
-         * @type {boolean}
-         */
-        get: function () {
-            return this.brightness < 128;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(MooColor.prototype, "luminance", {
-        /**
-         * Returns luminance value of the color. value from 0 to 1.
-         * @see https://www.w3.org/TR/2008/REC-WCAG20-20081211/#relativeluminancedef
-         * @readonly
-         * @type {number}
-         */
-        get: function () {
-            var _a = this.getColorAs('rgb').values.map(function (x) { return x / 255; }), r = _a[0], g = _a[1], b = _a[2];
-            return 0.2126 * r + 0.7152 * g + 0.0722 * b;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    /**
-     * Returns contrast ratio with other color. range from 0 to 21.
-     * @see https://www.w3.org/TR/2008/REC-WCAG20-20081211/#relativeluminancedef
-     * @param {MooColor} color
-     * @returns {number} 0-21
-     */
-    MooColor.prototype.contrastRatioWith = function (color) {
-        var max = Math.max(this.luminance, color.luminance);
-        var min = Math.min(this.luminance, color.luminance);
-        return (max + 0.05) / (min + 0.05);
-    };
-    /**
-     * Return true if contrast ratio >= 4.5
-     * @see https://www.w3.org/WAI/WCAG20/quickref/#qr-visual-audio-contrast-contrast
-     * @param {MooColor} color
-     * @returns {boolean}
-     */
-    MooColor.prototype.isContrastEnough = function (color) {
-        return this.contrastRatioWith(color) >= 4.5;
-    };
-    /**
-     * Increase lightness.
-     * @param {number} amount The amount from 0 to 100.
-     * @returns {this}
-     */
-    MooColor.prototype.lighten = function (amount) {
-        return this.manipulate('hsl', function (h, s, l) {
-            l = Object(__WEBPACK_IMPORTED_MODULE_2__util_util__["b" /* clamp */])(l + amount, 0, 100);
-            return [h, s, l];
-        });
-    };
-    /**
-     * Decrease lightness.
-     * @param {number} amount The amount from 0 to 100.
-     * @returns {this}
-     */
-    MooColor.prototype.darken = function (amount) {
-        return this.manipulate('hsl', function (h, s, l) {
-            l = Object(__WEBPACK_IMPORTED_MODULE_2__util_util__["b" /* clamp */])(l - amount, 0, 100);
-            return [h, s, l];
-        });
-    };
-    /**
-     * Increase saturation.
-     * @param {number} amount The amount from 0 to 100.
-     * @returns {this}
-     */
-    MooColor.prototype.saturate = function (amount) {
-        return this.manipulate('hsl', function (h, s, l) {
-            s = Object(__WEBPACK_IMPORTED_MODULE_2__util_util__["b" /* clamp */])(s + amount, 0, 100);
-            return [h, s, l];
-        });
-    };
-    /**
-     * Decrease saturation.
-     * @param {number} amount The amount from 0 to 100.
-     * @returns {this}
-     */
-    MooColor.prototype.desaturate = function (amount) {
-        return this.manipulate('hsl', function (h, s, l) {
-            s = Object(__WEBPACK_IMPORTED_MODULE_2__util_util__["b" /* clamp */])(s - amount, 0, 100);
-            return [h, s, l];
-        });
-    };
-    /**
-     * Sets saturation value to 0.
-     * @returns {this}
-     */
-    MooColor.prototype.grayscale = function () {
-        return this.manipulate('hsl', function (h, s, l) { return [h, 0, l]; });
-    };
-    /**
-     * Modify whiteness.
-     * @param {number} amount The amount from -100 to 100.
-     * @returns {this}
-     */
-    MooColor.prototype.whiten = function (amount) {
-        var _this = this;
-        return this.manipulate('hwb', function (h, w, b) { return _this.resolveHwb(h, Object(__WEBPACK_IMPORTED_MODULE_2__util_util__["b" /* clamp */])(w + amount, 0, 100), b); });
-    };
-    /**
-     * Modify blackness.
-     * @param {number} amount The amount from -100 to 100.
-     * @returns {this}
-     */
-    MooColor.prototype.blacken = function (amount) {
-        var _this = this;
-        return this.manipulate('hwb', function (h, w, b) { return _this.resolveHwb(h, w, Object(__WEBPACK_IMPORTED_MODULE_2__util_util__["b" /* clamp */])(b + amount, 0, 100)); });
-    };
-    /**
-     * Rotate hue value.
-     * @param {number} d degree 0-360
-     * @returns {this}
-     */
-    MooColor.prototype.rotate = function (d) {
-        return this.manipulate('hsl', function (h, s, l) { return [Object(__WEBPACK_IMPORTED_MODULE_2__util_util__["d" /* degree */])(h + d), s, l]; });
-    };
-    /**
-     * Mix two colors.
-     * @param {MooColor} color The color to mixed.
-     * @param {number} [percent=50] The percentage value of color to be mixed.
-     * @returns {MooColor} The mixed color that as a new instance of `MooColor`.
-     */
-    MooColor.prototype.mix = function (color, percent) {
-        if (percent === void 0) { percent = 50; }
-        percent /= 100;
-        var m = this.getModel();
-        var c1 = this.getColorAs('rgb');
-        var c2 = color.getColorAs('rgb');
-        return new MooColor().setColor({
-            model: 'rgb',
-            values: c1.values.map(function (v, i) { return v + (c2.values[i] - v) * percent; }),
-            alpha: c1.alpha + (c2.alpha - c1.alpha) * percent,
-        }).changeModel(m);
-    };
-    /**
-     * Sets color to the complement of a color.
-     *
-     * @returns {this}
-     */
-    MooColor.prototype.complement = function () {
-        return this.manipulate('hsl', function (h, s, l) { return [Object(__WEBPACK_IMPORTED_MODULE_2__util_util__["d" /* degree */])(h + 180), s, l]; });
-    };
-    /**
-     * Sets color to the inverse (negative) of a color.
-     *
-     * @param {number} [percent=100] The relative percent of the color that inverse.
-     * @returns {this}
-     */
-    MooColor.prototype.invert = function (percent) {
-        if (percent === void 0) { percent = 100; }
-        percent /= 100;
-        var absRound = function (x) { return Math.round(Math.abs(x)); };
-        return this.manipulate('rgb', function (r, g, b) { return [r, g, b].map(function (x) { return absRound(255 * percent - x); }); });
-    };
-    /**
-     * Sets random color values as HWB color model.
-     *
-     * @param {RandomArguments} [{hue, white, black}={}]
-     * @returns {this}
-     */
-    MooColor.prototype.random = function (_a) {
-        var _b = _a === void 0 ? {} : _a, hue = _b.hue, white = _b.white, black = _b.black;
-        _c = [hue, white, black].map(function (x, i) {
-            if (typeof x === 'number') {
-                return x;
-            }
-            else if (Array.isArray(x)) {
-                var precision = i === 0 ? 0 : 2;
-                return Object(__WEBPACK_IMPORTED_MODULE_2__util_util__["e" /* getRandom */])(Math.min.apply(Math, x), Math.max.apply(Math, x), precision);
-            }
-            else {
-                return i === 0 ? Object(__WEBPACK_IMPORTED_MODULE_2__util_util__["e" /* getRandom */])(0, 360) : Object(__WEBPACK_IMPORTED_MODULE_2__util_util__["e" /* getRandom */])(0, 100, 2);
-            }
-        }), hue = _c[0], white = _c[1], black = _c[2];
-        return this.setColor({
-            model: 'hwb',
-            values: this.resolveHwb(Object(__WEBPACK_IMPORTED_MODULE_2__util_util__["d" /* degree */])(hue), Object(__WEBPACK_IMPORTED_MODULE_2__util_util__["b" /* clamp */])(white, 0, 100), Object(__WEBPACK_IMPORTED_MODULE_2__util_util__["b" /* clamp */])(black, 0, 100)),
-            alpha: 1,
-        });
-        var _c;
-    };
-    MooColor.prototype.manipulate = function (asModel, callback) {
-        var m = this.color.model;
-        var color = this.getColorAs(asModel);
-        color.values = callback.apply(void 0, color.values);
-        return this.setColor(color).changeModel(m);
-    };
-    return MooColor;
-}(__WEBPACK_IMPORTED_MODULE_0__color_formatter__["a" /* ColorFormatter */]));
-
-
-
-/***/ }),
-/* 4 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ColorFormatter; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__color_converter__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__color_names__ = __webpack_require__(2);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__util_util__ = __webpack_require__(0);
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ColorFormatter", function() { return ColorFormatter; });
+/* harmony import */ var _color_converter__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./color-converter */ "./src/color-converter.ts");
+/* harmony import */ var _color_names__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./color-names */ "./src/color-names.ts");
+/* harmony import */ var _util_util__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./util/util */ "./src/util/util.ts");
 
 
 
 var ColorFormatter = /** @class */ (function () {
     function ColorFormatter() {
         // In hwb model, whiteness and blackness value's adjust will required.
-        this.resolveHwb = __WEBPACK_IMPORTED_MODULE_0__color_converter__["g" /* resolveHwb */];
+        this.resolveHwb = _color_converter__WEBPACK_IMPORTED_MODULE_0__["resolveHwb"];
     }
     ColorFormatter.prototype.setColor = function (color) {
-        color.alpha = Object(__WEBPACK_IMPORTED_MODULE_2__util_util__["g" /* resolveAlpha */])(color.alpha);
+        color.alpha = Object(_util_util__WEBPACK_IMPORTED_MODULE_2__["resolveAlpha"])(color.alpha);
         this.color = color;
         return this;
     };
@@ -840,20 +679,20 @@ var ColorFormatter = /** @class */ (function () {
         var a = color.alpha === 1 ? null : color.alpha;
         var nameOrShort = function () {
             var name = '';
-            for (var _i = 0, _a = Object.keys(__WEBPACK_IMPORTED_MODULE_1__color_names__["a" /* default */]); _i < _a.length; _i++) {
+            for (var _i = 0, _a = Object.keys(_color_names__WEBPACK_IMPORTED_MODULE_1__["default"]); _i < _a.length; _i++) {
                 var key = _a[_i];
-                if (Object(__WEBPACK_IMPORTED_MODULE_2__util_util__["a" /* arrayIsEqual */])(__WEBPACK_IMPORTED_MODULE_1__color_names__["a" /* default */][key], [r, g, b])) {
+                if (Object(_util_util__WEBPACK_IMPORTED_MODULE_2__["arrayIsEqual"])(_color_names__WEBPACK_IMPORTED_MODULE_1__["default"][key], [r, g, b])) {
                     name = key;
                     break;
                 }
             }
-            return a === null && name !== '' ? name : "#" + __WEBPACK_IMPORTED_MODULE_0__color_converter__["i" /* rgbToHex */](r, g, b, a, true);
+            return a === null && name !== '' ? name : "#" + _color_converter__WEBPACK_IMPORTED_MODULE_0__["rgbToHex"](r, g, b, a, true);
         };
         switch (mode) {
             case 'name': return nameOrShort();
-            case 'short': return "#" + __WEBPACK_IMPORTED_MODULE_0__color_converter__["i" /* rgbToHex */](r, g, b, a, true);
+            case 'short': return "#" + _color_converter__WEBPACK_IMPORTED_MODULE_0__["rgbToHex"](r, g, b, a, true);
             case 'full':
-            default: return "#" + __WEBPACK_IMPORTED_MODULE_0__color_converter__["i" /* rgbToHex */](r, g, b, a);
+            default: return "#" + _color_converter__WEBPACK_IMPORTED_MODULE_0__["rgbToHex"](r, g, b, a);
         }
     };
     /**
@@ -882,7 +721,7 @@ var ColorFormatter = /** @class */ (function () {
      */
     ColorFormatter.prototype.toHwb = function () {
         var color = this.getColorAs('hwb');
-        var _a = color.values.map(function (x) { return Object(__WEBPACK_IMPORTED_MODULE_2__util_util__["c" /* decimal */])(x, 2); }), h = _a[0], w = _a[1], b = _a[2];
+        var _a = color.values.map(function (x) { return Object(_util_util__WEBPACK_IMPORTED_MODULE_2__["decimal"])(x, 2); }), h = _a[0], w = _a[1], b = _a[2];
         var a = color.alpha === 1 ? '' : ", " + color.alpha;
         return "hwb(" + h + ", " + w + "%, " + b + "%" + a + ")";
     };
@@ -893,7 +732,7 @@ var ColorFormatter = /** @class */ (function () {
      */
     ColorFormatter.prototype.toHsl = function () {
         var color = this.getColorAs('hsl');
-        var _a = color.values.map(function (x) { return Object(__WEBPACK_IMPORTED_MODULE_2__util_util__["c" /* decimal */])(x, 2); }), h = _a[0], s = _a[1], l = _a[2];
+        var _a = color.values.map(function (x) { return Object(_util_util__WEBPACK_IMPORTED_MODULE_2__["decimal"])(x, 2); }), h = _a[0], s = _a[1], l = _a[2];
         return color.alpha === 1
             ? "hsl(" + h + ", " + s + "%, " + l + "%)"
             : "hsla(" + h + ", " + s + "%, " + l + "%, " + color.alpha + ")";
@@ -904,7 +743,7 @@ var ColorFormatter = /** @class */ (function () {
      */
     ColorFormatter.prototype.toHsv = function () {
         var color = this.getColorAs('hsv');
-        var _a = color.values.map(function (x) { return Object(__WEBPACK_IMPORTED_MODULE_2__util_util__["c" /* decimal */])(x, 2); }), h = _a[0], s = _a[1], v = _a[2];
+        var _a = color.values.map(function (x) { return Object(_util_util__WEBPACK_IMPORTED_MODULE_2__["decimal"])(x, 2); }), h = _a[0], s = _a[1], v = _a[2];
         return color.alpha === 1
             ? "hsv(" + h + ", " + s + "%, " + v + "%)"
             : "hsva(" + h + ", " + s + "%, " + v + "%, " + color.alpha + ")";
@@ -916,7 +755,7 @@ var ColorFormatter = /** @class */ (function () {
      */
     ColorFormatter.prototype.toCmyk = function () {
         var color = this.getColorAs('cmyk');
-        var _a = color.values.map(function (x) { return Object(__WEBPACK_IMPORTED_MODULE_2__util_util__["c" /* decimal */])(x, 2); }), c = _a[0], m = _a[1], y = _a[2], k = _a[3];
+        var _a = color.values.map(function (x) { return Object(_util_util__WEBPACK_IMPORTED_MODULE_2__["decimal"])(x, 2); }), c = _a[0], m = _a[1], y = _a[2], k = _a[3];
         var a = color.alpha === 1 ? '' : ", " + color.alpha;
         return "cmyk(" + c + "%, " + m + "%, " + y + "%, " + k + "%" + a + ")";
     };
@@ -924,53 +763,53 @@ var ColorFormatter = /** @class */ (function () {
         var r = _a[0], g = _a[1], b = _a[2];
         switch (model) {
             case 'rgb': return [r, g, b];
-            case 'hwb': return __WEBPACK_IMPORTED_MODULE_0__color_converter__["l" /* rgbToHwb */](r, g, b);
-            case 'hsl': return __WEBPACK_IMPORTED_MODULE_0__color_converter__["j" /* rgbToHsl */](r, g, b);
-            case 'hsv': return __WEBPACK_IMPORTED_MODULE_0__color_converter__["k" /* rgbToHsv */](r, g, b);
-            case 'cmyk': return __WEBPACK_IMPORTED_MODULE_0__color_converter__["h" /* rgbToCmyk */](r, g, b);
+            case 'hwb': return _color_converter__WEBPACK_IMPORTED_MODULE_0__["rgbToHwb"](r, g, b);
+            case 'hsl': return _color_converter__WEBPACK_IMPORTED_MODULE_0__["rgbToHsl"](r, g, b);
+            case 'hsv': return _color_converter__WEBPACK_IMPORTED_MODULE_0__["rgbToHsv"](r, g, b);
+            case 'cmyk': return _color_converter__WEBPACK_IMPORTED_MODULE_0__["rgbToCmyk"](r, g, b);
         }
     };
     ColorFormatter.prototype.convertFromHwb = function (_a, model) {
         var h = _a[0], w = _a[1], b = _a[2];
-        var _b = __WEBPACK_IMPORTED_MODULE_0__color_converter__["f" /* hwbToRgb */](h, w, b), red = _b[0], green = _b[1], blue = _b[2];
+        var _b = _color_converter__WEBPACK_IMPORTED_MODULE_0__["hwbToRgb"](h, w, b), red = _b[0], green = _b[1], blue = _b[2];
         switch (model) {
             case 'rgb': return [red, green, blue];
             case 'hwb': return [h, w, b];
-            case 'hsl': return __WEBPACK_IMPORTED_MODULE_0__color_converter__["j" /* rgbToHsl */](red, green, blue);
-            case 'hsv': return __WEBPACK_IMPORTED_MODULE_0__color_converter__["e" /* hwbToHsv */](h, w, b);
-            case 'cmyk': return __WEBPACK_IMPORTED_MODULE_0__color_converter__["h" /* rgbToCmyk */](red, green, blue);
+            case 'hsl': return _color_converter__WEBPACK_IMPORTED_MODULE_0__["rgbToHsl"](red, green, blue);
+            case 'hsv': return _color_converter__WEBPACK_IMPORTED_MODULE_0__["hwbToHsv"](h, w, b);
+            case 'cmyk': return _color_converter__WEBPACK_IMPORTED_MODULE_0__["rgbToCmyk"](red, green, blue);
         }
     };
     ColorFormatter.prototype.convertFromHsl = function (_a, model) {
         var h = _a[0], s = _a[1], l = _a[2];
-        var _b = __WEBPACK_IMPORTED_MODULE_0__color_converter__["b" /* hslToRgb */](h, s, l), red = _b[0], green = _b[1], blue = _b[2];
+        var _b = _color_converter__WEBPACK_IMPORTED_MODULE_0__["hslToRgb"](h, s, l), red = _b[0], green = _b[1], blue = _b[2];
         switch (model) {
             case 'rgb': return [red, green, blue];
-            case 'hwb': return __WEBPACK_IMPORTED_MODULE_0__color_converter__["l" /* rgbToHwb */](red, green, blue);
+            case 'hwb': return _color_converter__WEBPACK_IMPORTED_MODULE_0__["rgbToHwb"](red, green, blue);
             case 'hsl': return [h, s, l];
-            case 'hsv': return __WEBPACK_IMPORTED_MODULE_0__color_converter__["k" /* rgbToHsv */](red, green, blue);
-            case 'cmyk': return __WEBPACK_IMPORTED_MODULE_0__color_converter__["h" /* rgbToCmyk */](red, green, blue);
+            case 'hsv': return _color_converter__WEBPACK_IMPORTED_MODULE_0__["rgbToHsv"](red, green, blue);
+            case 'cmyk': return _color_converter__WEBPACK_IMPORTED_MODULE_0__["rgbToCmyk"](red, green, blue);
         }
     };
     ColorFormatter.prototype.convertFromHsv = function (_a, model) {
         var h = _a[0], s = _a[1], v = _a[2];
-        var _b = __WEBPACK_IMPORTED_MODULE_0__color_converter__["d" /* hsvToRgb */](h, s, v), red = _b[0], green = _b[1], blue = _b[2];
+        var _b = _color_converter__WEBPACK_IMPORTED_MODULE_0__["hsvToRgb"](h, s, v), red = _b[0], green = _b[1], blue = _b[2];
         switch (model) {
             case 'rgb': return [red, green, blue];
-            case 'hwb': return __WEBPACK_IMPORTED_MODULE_0__color_converter__["c" /* hsvToHwb */](h, s, v);
-            case 'hsl': return __WEBPACK_IMPORTED_MODULE_0__color_converter__["j" /* rgbToHsl */](red, green, blue);
+            case 'hwb': return _color_converter__WEBPACK_IMPORTED_MODULE_0__["hsvToHwb"](h, s, v);
+            case 'hsl': return _color_converter__WEBPACK_IMPORTED_MODULE_0__["rgbToHsl"](red, green, blue);
             case 'hsv': return [h, s, v];
-            case 'cmyk': return __WEBPACK_IMPORTED_MODULE_0__color_converter__["h" /* rgbToCmyk */](red, green, blue);
+            case 'cmyk': return _color_converter__WEBPACK_IMPORTED_MODULE_0__["rgbToCmyk"](red, green, blue);
         }
     };
     ColorFormatter.prototype.convertFromCmyk = function (_a, model) {
         var c = _a[0], m = _a[1], y = _a[2], k = _a[3];
-        var _b = __WEBPACK_IMPORTED_MODULE_0__color_converter__["a" /* cmykToRgb */](c, m, y, k), red = _b[0], green = _b[1], blue = _b[2];
+        var _b = _color_converter__WEBPACK_IMPORTED_MODULE_0__["cmykToRgb"](c, m, y, k), red = _b[0], green = _b[1], blue = _b[2];
         switch (model) {
             case 'rgb': return [red, green, blue];
-            case 'hwb': return __WEBPACK_IMPORTED_MODULE_0__color_converter__["l" /* rgbToHwb */](red, green, blue);
-            case 'hsl': return __WEBPACK_IMPORTED_MODULE_0__color_converter__["j" /* rgbToHsl */](red, green, blue);
-            case 'hsv': return __WEBPACK_IMPORTED_MODULE_0__color_converter__["k" /* rgbToHsv */](red, green, blue);
+            case 'hwb': return _color_converter__WEBPACK_IMPORTED_MODULE_0__["rgbToHwb"](red, green, blue);
+            case 'hsl': return _color_converter__WEBPACK_IMPORTED_MODULE_0__["rgbToHsl"](red, green, blue);
+            case 'hsv': return _color_converter__WEBPACK_IMPORTED_MODULE_0__["rgbToHsv"](red, green, blue);
             case 'cmyk': return [c, m, y, k];
         }
     };
@@ -980,183 +819,47 @@ var ColorFormatter = /** @class */ (function () {
 
 
 /***/ }),
-/* 5 */
-/***/ (function(module, exports, __webpack_require__) {
 
-"use strict";
-
-
-module.exports = {
-	"aliceblue": [240, 248, 255],
-	"antiquewhite": [250, 235, 215],
-	"aqua": [0, 255, 255],
-	"aquamarine": [127, 255, 212],
-	"azure": [240, 255, 255],
-	"beige": [245, 245, 220],
-	"bisque": [255, 228, 196],
-	"black": [0, 0, 0],
-	"blanchedalmond": [255, 235, 205],
-	"blue": [0, 0, 255],
-	"blueviolet": [138, 43, 226],
-	"brown": [165, 42, 42],
-	"burlywood": [222, 184, 135],
-	"cadetblue": [95, 158, 160],
-	"chartreuse": [127, 255, 0],
-	"chocolate": [210, 105, 30],
-	"coral": [255, 127, 80],
-	"cornflowerblue": [100, 149, 237],
-	"cornsilk": [255, 248, 220],
-	"crimson": [220, 20, 60],
-	"cyan": [0, 255, 255],
-	"darkblue": [0, 0, 139],
-	"darkcyan": [0, 139, 139],
-	"darkgoldenrod": [184, 134, 11],
-	"darkgray": [169, 169, 169],
-	"darkgreen": [0, 100, 0],
-	"darkgrey": [169, 169, 169],
-	"darkkhaki": [189, 183, 107],
-	"darkmagenta": [139, 0, 139],
-	"darkolivegreen": [85, 107, 47],
-	"darkorange": [255, 140, 0],
-	"darkorchid": [153, 50, 204],
-	"darkred": [139, 0, 0],
-	"darksalmon": [233, 150, 122],
-	"darkseagreen": [143, 188, 143],
-	"darkslateblue": [72, 61, 139],
-	"darkslategray": [47, 79, 79],
-	"darkslategrey": [47, 79, 79],
-	"darkturquoise": [0, 206, 209],
-	"darkviolet": [148, 0, 211],
-	"deeppink": [255, 20, 147],
-	"deepskyblue": [0, 191, 255],
-	"dimgray": [105, 105, 105],
-	"dimgrey": [105, 105, 105],
-	"dodgerblue": [30, 144, 255],
-	"firebrick": [178, 34, 34],
-	"floralwhite": [255, 250, 240],
-	"forestgreen": [34, 139, 34],
-	"fuchsia": [255, 0, 255],
-	"gainsboro": [220, 220, 220],
-	"ghostwhite": [248, 248, 255],
-	"gold": [255, 215, 0],
-	"goldenrod": [218, 165, 32],
-	"gray": [128, 128, 128],
-	"green": [0, 128, 0],
-	"greenyellow": [173, 255, 47],
-	"grey": [128, 128, 128],
-	"honeydew": [240, 255, 240],
-	"hotpink": [255, 105, 180],
-	"indianred": [205, 92, 92],
-	"indigo": [75, 0, 130],
-	"ivory": [255, 255, 240],
-	"khaki": [240, 230, 140],
-	"lavender": [230, 230, 250],
-	"lavenderblush": [255, 240, 245],
-	"lawngreen": [124, 252, 0],
-	"lemonchiffon": [255, 250, 205],
-	"lightblue": [173, 216, 230],
-	"lightcoral": [240, 128, 128],
-	"lightcyan": [224, 255, 255],
-	"lightgoldenrodyellow": [250, 250, 210],
-	"lightgray": [211, 211, 211],
-	"lightgreen": [144, 238, 144],
-	"lightgrey": [211, 211, 211],
-	"lightpink": [255, 182, 193],
-	"lightsalmon": [255, 160, 122],
-	"lightseagreen": [32, 178, 170],
-	"lightskyblue": [135, 206, 250],
-	"lightslategray": [119, 136, 153],
-	"lightslategrey": [119, 136, 153],
-	"lightsteelblue": [176, 196, 222],
-	"lightyellow": [255, 255, 224],
-	"lime": [0, 255, 0],
-	"limegreen": [50, 205, 50],
-	"linen": [250, 240, 230],
-	"magenta": [255, 0, 255],
-	"maroon": [128, 0, 0],
-	"mediumaquamarine": [102, 205, 170],
-	"mediumblue": [0, 0, 205],
-	"mediumorchid": [186, 85, 211],
-	"mediumpurple": [147, 112, 219],
-	"mediumseagreen": [60, 179, 113],
-	"mediumslateblue": [123, 104, 238],
-	"mediumspringgreen": [0, 250, 154],
-	"mediumturquoise": [72, 209, 204],
-	"mediumvioletred": [199, 21, 133],
-	"midnightblue": [25, 25, 112],
-	"mintcream": [245, 255, 250],
-	"mistyrose": [255, 228, 225],
-	"moccasin": [255, 228, 181],
-	"navajowhite": [255, 222, 173],
-	"navy": [0, 0, 128],
-	"oldlace": [253, 245, 230],
-	"olive": [128, 128, 0],
-	"olivedrab": [107, 142, 35],
-	"orange": [255, 165, 0],
-	"orangered": [255, 69, 0],
-	"orchid": [218, 112, 214],
-	"palegoldenrod": [238, 232, 170],
-	"palegreen": [152, 251, 152],
-	"paleturquoise": [175, 238, 238],
-	"palevioletred": [219, 112, 147],
-	"papayawhip": [255, 239, 213],
-	"peachpuff": [255, 218, 185],
-	"peru": [205, 133, 63],
-	"pink": [255, 192, 203],
-	"plum": [221, 160, 221],
-	"powderblue": [176, 224, 230],
-	"purple": [128, 0, 128],
-	"rebeccapurple": [102, 51, 153],
-	"red": [255, 0, 0],
-	"rosybrown": [188, 143, 143],
-	"royalblue": [65, 105, 225],
-	"saddlebrown": [139, 69, 19],
-	"salmon": [250, 128, 114],
-	"sandybrown": [244, 164, 96],
-	"seagreen": [46, 139, 87],
-	"seashell": [255, 245, 238],
-	"sienna": [160, 82, 45],
-	"silver": [192, 192, 192],
-	"skyblue": [135, 206, 235],
-	"slateblue": [106, 90, 205],
-	"slategray": [112, 128, 144],
-	"slategrey": [112, 128, 144],
-	"snow": [255, 250, 250],
-	"springgreen": [0, 255, 127],
-	"steelblue": [70, 130, 180],
-	"tan": [210, 180, 140],
-	"teal": [0, 128, 128],
-	"thistle": [216, 191, 216],
-	"tomato": [255, 99, 71],
-	"turquoise": [64, 224, 208],
-	"violet": [238, 130, 238],
-	"wheat": [245, 222, 179],
-	"white": [255, 255, 255],
-	"whitesmoke": [245, 245, 245],
-	"yellow": [255, 255, 0],
-	"yellowgreen": [154, 205, 50]
-};
-
-
-/***/ }),
-/* 6 */
+/***/ "./src/color-names.ts":
+/*!****************************!*\
+  !*** ./src/color-names.ts ***!
+  \****************************/
+/*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (immutable) */ __webpack_exports__["a"] = inputParser;
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__color_converter__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__color_names__ = __webpack_require__(2);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__util_util__ = __webpack_require__(0);
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var color_name__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! color-name */ "./node_modules/color-name/index.js");
+/* harmony import */ var color_name__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(color_name__WEBPACK_IMPORTED_MODULE_0__);
+
+/* harmony default export */ __webpack_exports__["default"] = (color_name__WEBPACK_IMPORTED_MODULE_0__);
+
+
+/***/ }),
+
+/***/ "./src/input-parser.ts":
+/*!*****************************!*\
+  !*** ./src/input-parser.ts ***!
+  \*****************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return inputParser; });
+/* harmony import */ var _color_converter__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./color-converter */ "./src/color-converter.ts");
+/* harmony import */ var _color_names__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./color-names */ "./src/color-names.ts");
+/* harmony import */ var _util_util__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./util/util */ "./src/util/util.ts");
 
 
 
 function inputParser(input) {
     if (typeof input === 'string') {
-        if (input in __WEBPACK_IMPORTED_MODULE_1__color_names__["a" /* default */]) {
+        if (input in _color_names__WEBPACK_IMPORTED_MODULE_1__["default"]) {
             // Named colors.
             return {
                 model: 'rgb',
-                values: __WEBPACK_IMPORTED_MODULE_1__color_names__["a" /* default */][input],
+                values: _color_names__WEBPACK_IMPORTED_MODULE_1__["default"][input],
                 alpha: 1,
             };
         }
@@ -1203,20 +906,20 @@ function parseRgb(input) {
     else if (rgba.test(input)) {
         var _c = input.match(rgba), r = _c[1], g = _c[2], b = _c[3], a = _c[4];
         values = [r, g, b].map(function (x) { return parseInt(x, 0); });
-        alpha = Object(__WEBPACK_IMPORTED_MODULE_2__util_util__["g" /* resolveAlpha */])(a);
+        alpha = Object(_util_util__WEBPACK_IMPORTED_MODULE_2__["resolveAlpha"])(a);
     }
     else if (percent.test(input)) {
         var _d = input.match(percent), r = _d[1], g = _d[2], b = _d[3], a = _d[4];
         values = [r, g, b].map(function (x) { return Math.round(parseFloat(x) * 2.55); });
-        alpha = Object(__WEBPACK_IMPORTED_MODULE_2__util_util__["g" /* resolveAlpha */])(a);
+        alpha = Object(_util_util__WEBPACK_IMPORTED_MODULE_2__["resolveAlpha"])(a);
     }
     else {
         return null;
     }
     return {
         model: 'rgb',
-        values: values.map(function (x) { return Object(__WEBPACK_IMPORTED_MODULE_2__util_util__["b" /* clamp */])(x, 0, 255); }),
-        alpha: Object(__WEBPACK_IMPORTED_MODULE_2__util_util__["b" /* clamp */])(alpha, 0, 1),
+        values: values.map(function (x) { return Object(_util_util__WEBPACK_IMPORTED_MODULE_2__["clamp"])(x, 0, 255); }),
+        alpha: Object(_util_util__WEBPACK_IMPORTED_MODULE_2__["clamp"])(alpha, 0, 1),
     };
 }
 function parseHsl(input) {
@@ -1227,11 +930,11 @@ function parseHsl(input) {
         return {
             model: 'hsl',
             values: [
-                Object(__WEBPACK_IMPORTED_MODULE_2__util_util__["d" /* degree */])(h),
-                Object(__WEBPACK_IMPORTED_MODULE_2__util_util__["b" /* clamp */])(parseFloat(s), 0, 100),
-                Object(__WEBPACK_IMPORTED_MODULE_2__util_util__["b" /* clamp */])(parseFloat(l), 0, 100),
+                Object(_util_util__WEBPACK_IMPORTED_MODULE_2__["degree"])(h),
+                Object(_util_util__WEBPACK_IMPORTED_MODULE_2__["clamp"])(parseFloat(s), 0, 100),
+                Object(_util_util__WEBPACK_IMPORTED_MODULE_2__["clamp"])(parseFloat(l), 0, 100),
             ],
-            alpha: Object(__WEBPACK_IMPORTED_MODULE_2__util_util__["g" /* resolveAlpha */])(a),
+            alpha: Object(_util_util__WEBPACK_IMPORTED_MODULE_2__["resolveAlpha"])(a),
         };
     }
     else {
@@ -1245,8 +948,8 @@ function parseHwb(input) {
         var _a = input.match(hwb), h = _a[1], w = _a[2], b = _a[3], a = _a[4];
         return {
             model: 'hwb',
-            values: Object(__WEBPACK_IMPORTED_MODULE_0__color_converter__["g" /* resolveHwb */])(Object(__WEBPACK_IMPORTED_MODULE_2__util_util__["d" /* degree */])(h), Object(__WEBPACK_IMPORTED_MODULE_2__util_util__["b" /* clamp */])(parseFloat(w), 0, 100), Object(__WEBPACK_IMPORTED_MODULE_2__util_util__["b" /* clamp */])(parseFloat(b), 0, 100)),
-            alpha: Object(__WEBPACK_IMPORTED_MODULE_2__util_util__["g" /* resolveAlpha */])(a),
+            values: Object(_color_converter__WEBPACK_IMPORTED_MODULE_0__["resolveHwb"])(Object(_util_util__WEBPACK_IMPORTED_MODULE_2__["degree"])(h), Object(_util_util__WEBPACK_IMPORTED_MODULE_2__["clamp"])(parseFloat(w), 0, 100), Object(_util_util__WEBPACK_IMPORTED_MODULE_2__["clamp"])(parseFloat(b), 0, 100)),
+            alpha: Object(_util_util__WEBPACK_IMPORTED_MODULE_2__["resolveAlpha"])(a),
         };
     }
     else {
@@ -1261,11 +964,11 @@ function parseHsv(input) {
         return {
             model: 'hsv',
             values: [
-                Object(__WEBPACK_IMPORTED_MODULE_2__util_util__["d" /* degree */])(h),
-                Object(__WEBPACK_IMPORTED_MODULE_2__util_util__["b" /* clamp */])(parseFloat(s), 0, 100),
-                Object(__WEBPACK_IMPORTED_MODULE_2__util_util__["b" /* clamp */])(parseFloat(v), 0, 100),
+                Object(_util_util__WEBPACK_IMPORTED_MODULE_2__["degree"])(h),
+                Object(_util_util__WEBPACK_IMPORTED_MODULE_2__["clamp"])(parseFloat(s), 0, 100),
+                Object(_util_util__WEBPACK_IMPORTED_MODULE_2__["clamp"])(parseFloat(v), 0, 100),
             ],
-            alpha: Object(__WEBPACK_IMPORTED_MODULE_2__util_util__["g" /* resolveAlpha */])(a),
+            alpha: Object(_util_util__WEBPACK_IMPORTED_MODULE_2__["resolveAlpha"])(a),
         };
     }
     else {
@@ -1280,12 +983,12 @@ function parseCmyk(input) {
         return {
             model: 'cmyk',
             values: [
-                Object(__WEBPACK_IMPORTED_MODULE_2__util_util__["b" /* clamp */])(parseFloat(c), 0, 100),
-                Object(__WEBPACK_IMPORTED_MODULE_2__util_util__["b" /* clamp */])(parseFloat(m), 0, 100),
-                Object(__WEBPACK_IMPORTED_MODULE_2__util_util__["b" /* clamp */])(parseFloat(y), 0, 100),
-                Object(__WEBPACK_IMPORTED_MODULE_2__util_util__["b" /* clamp */])(parseFloat(k), 0, 100),
+                Object(_util_util__WEBPACK_IMPORTED_MODULE_2__["clamp"])(parseFloat(c), 0, 100),
+                Object(_util_util__WEBPACK_IMPORTED_MODULE_2__["clamp"])(parseFloat(m), 0, 100),
+                Object(_util_util__WEBPACK_IMPORTED_MODULE_2__["clamp"])(parseFloat(y), 0, 100),
+                Object(_util_util__WEBPACK_IMPORTED_MODULE_2__["clamp"])(parseFloat(k), 0, 100),
             ],
-            alpha: Object(__WEBPACK_IMPORTED_MODULE_2__util_util__["g" /* resolveAlpha */])(a),
+            alpha: Object(_util_util__WEBPACK_IMPORTED_MODULE_2__["resolveAlpha"])(a),
         };
     }
     else {
@@ -1294,7 +997,351 @@ function parseCmyk(input) {
 }
 
 
+/***/ }),
+
+/***/ "./src/moo-color.ts":
+/*!**************************!*\
+  !*** ./src/moo-color.ts ***!
+  \**************************/
+/*! exports provided: MooColor */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MooColor", function() { return MooColor; });
+/* harmony import */ var _color_formatter__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./color-formatter */ "./src/color-formatter.ts");
+/* harmony import */ var _input_parser__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./input-parser */ "./src/input-parser.ts");
+/* harmony import */ var _util_util__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./util/util */ "./src/util/util.ts");
+var __extends = (undefined && undefined.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+
+
+
+var MooColor = /** @class */ (function (_super) {
+    __extends(MooColor, _super);
+    /**
+     * Creates an instance of MooColor.
+     * @param {*} [color] color string. e.g. '#ff0000' 'rgba(255, 0, 0, .5)' 'hsl(120, 50%, 100%)'
+     */
+    function MooColor(color) {
+        var _this = _super.call(this) || this;
+        color = color ? color : '#000';
+        _this.setColorByParser(color);
+        return _this;
+    }
+    MooColor.mix = function (color1, color2, percentOf1) {
+        if (percentOf1 === void 0) { percentOf1 = 50; }
+        var c1 = (typeof color1 === 'string') ? new MooColor(color1) : color1;
+        var c2 = (typeof color2 === 'string') ? new MooColor(color2) : color2;
+        return c2.mix(c1, percentOf1);
+    };
+    MooColor.prototype.setColorByParser = function (str) {
+        var color = Object(_input_parser__WEBPACK_IMPORTED_MODULE_1__["default"])(str);
+        if (!color) {
+            throw new Error('parsing error!');
+        }
+        return this.setColor(color);
+    };
+    MooColor.prototype.clone = function () {
+        return new MooColor().setColor(this.color);
+    };
+    Object.defineProperty(MooColor.prototype, "brightness", {
+        /**
+         * Returns color brightness from 0 to 255. (It based RGB)
+         * @see https://www.w3.org/TR/AERT/#color-contrast
+         * @readonly
+         * @type {number}
+         */
+        get: function () {
+            var _a = this.getColorAs('rgb').values, r = _a[0], g = _a[1], b = _a[2];
+            return ((r * 299) + (g * 587) + (b * 114)) / 1000;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(MooColor.prototype, "isLight", {
+        /**
+         * Returns whether color is light or not.
+         * @readonly
+         * @type {boolean}
+         */
+        get: function () {
+            return this.brightness >= 128;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(MooColor.prototype, "isDark", {
+        /**
+         * Returns whether color is dark or not.
+         * @readonly
+         * @type {boolean}
+         */
+        get: function () {
+            return this.brightness < 128;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(MooColor.prototype, "luminance", {
+        /**
+         * Returns luminance value of the color. value from 0 to 1.
+         * @see https://www.w3.org/TR/2008/REC-WCAG20-20081211/#relativeluminancedef
+         * @readonly
+         * @type {number}
+         */
+        get: function () {
+            var _a = this.getColorAs('rgb').values.map(function (x) { return x / 255; }), r = _a[0], g = _a[1], b = _a[2];
+            return 0.2126 * r + 0.7152 * g + 0.0722 * b;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    /**
+     * Returns contrast ratio with other color. range from 0 to 21.
+     * @see https://www.w3.org/TR/2008/REC-WCAG20-20081211/#relativeluminancedef
+     * @param {MooColor} color
+     * @returns {number} 0-21
+     */
+    MooColor.prototype.contrastRatioWith = function (color) {
+        var max = Math.max(this.luminance, color.luminance);
+        var min = Math.min(this.luminance, color.luminance);
+        return (max + 0.05) / (min + 0.05);
+    };
+    /**
+     * Return true if contrast ratio >= 4.5
+     * @see https://www.w3.org/WAI/WCAG20/quickref/#qr-visual-audio-contrast-contrast
+     * @param {MooColor} color
+     * @returns {boolean}
+     */
+    MooColor.prototype.isContrastEnough = function (color) {
+        return this.contrastRatioWith(color) >= 4.5;
+    };
+    /**
+     * Increase lightness.
+     * @param {number} amount The amount from 0 to 100.
+     * @returns {this}
+     */
+    MooColor.prototype.lighten = function (amount) {
+        return this.manipulate('hsl', function (h, s, l) {
+            l = Object(_util_util__WEBPACK_IMPORTED_MODULE_2__["clamp"])(l + amount, 0, 100);
+            return [h, s, l];
+        });
+    };
+    /**
+     * Decrease lightness.
+     * @param {number} amount The amount from 0 to 100.
+     * @returns {this}
+     */
+    MooColor.prototype.darken = function (amount) {
+        return this.manipulate('hsl', function (h, s, l) {
+            l = Object(_util_util__WEBPACK_IMPORTED_MODULE_2__["clamp"])(l - amount, 0, 100);
+            return [h, s, l];
+        });
+    };
+    /**
+     * Increase saturation.
+     * @param {number} amount The amount from 0 to 100.
+     * @returns {this}
+     */
+    MooColor.prototype.saturate = function (amount) {
+        return this.manipulate('hsl', function (h, s, l) {
+            s = Object(_util_util__WEBPACK_IMPORTED_MODULE_2__["clamp"])(s + amount, 0, 100);
+            return [h, s, l];
+        });
+    };
+    /**
+     * Decrease saturation.
+     * @param {number} amount The amount from 0 to 100.
+     * @returns {this}
+     */
+    MooColor.prototype.desaturate = function (amount) {
+        return this.manipulate('hsl', function (h, s, l) {
+            s = Object(_util_util__WEBPACK_IMPORTED_MODULE_2__["clamp"])(s - amount, 0, 100);
+            return [h, s, l];
+        });
+    };
+    /**
+     * Sets saturation value to 0.
+     * @returns {this}
+     */
+    MooColor.prototype.grayscale = function () {
+        return this.manipulate('hsl', function (h, s, l) { return [h, 0, l]; });
+    };
+    /**
+     * Modify whiteness.
+     * @param {number} amount The amount from -100 to 100.
+     * @returns {this}
+     */
+    MooColor.prototype.whiten = function (amount) {
+        var _this = this;
+        return this.manipulate('hwb', function (h, w, b) { return _this.resolveHwb(h, Object(_util_util__WEBPACK_IMPORTED_MODULE_2__["clamp"])(w + amount, 0, 100), b); });
+    };
+    /**
+     * Modify blackness.
+     * @param {number} amount The amount from -100 to 100.
+     * @returns {this}
+     */
+    MooColor.prototype.blacken = function (amount) {
+        var _this = this;
+        return this.manipulate('hwb', function (h, w, b) { return _this.resolveHwb(h, w, Object(_util_util__WEBPACK_IMPORTED_MODULE_2__["clamp"])(b + amount, 0, 100)); });
+    };
+    /**
+     * Rotate hue value.
+     * @param {number} d degree 0-360
+     * @returns {this}
+     */
+    MooColor.prototype.rotate = function (d) {
+        return this.manipulate('hsl', function (h, s, l) { return [Object(_util_util__WEBPACK_IMPORTED_MODULE_2__["degree"])(h + d), s, l]; });
+    };
+    /**
+     * Mix two colors.
+     * @param {MooColor} color The color to mixed.
+     * @param {number} [percent=50] The percentage value of color to be mixed.
+     * @returns {MooColor} The mixed color that as a new instance of `MooColor`.
+     */
+    MooColor.prototype.mix = function (color, percent) {
+        if (percent === void 0) { percent = 50; }
+        percent /= 100;
+        var m = this.getModel();
+        var c1 = this.getColorAs('rgb');
+        var c2 = color.getColorAs('rgb');
+        return new MooColor().setColor({
+            model: 'rgb',
+            values: c1.values.map(function (v, i) { return v + (c2.values[i] - v) * percent; }),
+            alpha: c1.alpha + (c2.alpha - c1.alpha) * percent,
+        }).changeModel(m);
+    };
+    /**
+     * Sets color to the complement of a color.
+     *
+     * @returns {this}
+     */
+    MooColor.prototype.complement = function () {
+        return this.manipulate('hsl', function (h, s, l) { return [Object(_util_util__WEBPACK_IMPORTED_MODULE_2__["degree"])(h + 180), s, l]; });
+    };
+    /**
+     * Sets color to the inverse (negative) of a color.
+     *
+     * @param {number} [percent=100] The relative percent of the color that inverse.
+     * @returns {this}
+     */
+    MooColor.prototype.invert = function (percent) {
+        if (percent === void 0) { percent = 100; }
+        percent /= 100;
+        var absRound = function (x) { return Math.round(Math.abs(x)); };
+        return this.manipulate('rgb', function (r, g, b) { return [r, g, b].map(function (x) { return absRound(255 * percent - x); }); });
+    };
+    /**
+     * Sets random color values as HWB color model.
+     *
+     * @param {RandomArguments} [{hue, white, black}={}]
+     * @returns {this}
+     */
+    MooColor.prototype.random = function (_a) {
+        var _b = _a === void 0 ? {} : _a, hue = _b.hue, white = _b.white, black = _b.black;
+        _c = [hue, white, black].map(function (x, i) {
+            if (typeof x === 'number') {
+                return x;
+            }
+            else if (Array.isArray(x)) {
+                var precision = i === 0 ? 0 : 2;
+                return Object(_util_util__WEBPACK_IMPORTED_MODULE_2__["getRandom"])(Math.min.apply(Math, x), Math.max.apply(Math, x), precision);
+            }
+            else {
+                return i === 0 ? Object(_util_util__WEBPACK_IMPORTED_MODULE_2__["getRandom"])(0, 360) : Object(_util_util__WEBPACK_IMPORTED_MODULE_2__["getRandom"])(0, 100, 2);
+            }
+        }), hue = _c[0], white = _c[1], black = _c[2];
+        return this.setColor({
+            model: 'hwb',
+            values: this.resolveHwb(Object(_util_util__WEBPACK_IMPORTED_MODULE_2__["degree"])(hue), Object(_util_util__WEBPACK_IMPORTED_MODULE_2__["clamp"])(white, 0, 100), Object(_util_util__WEBPACK_IMPORTED_MODULE_2__["clamp"])(black, 0, 100)),
+            alpha: 1,
+        });
+        var _c;
+    };
+    MooColor.prototype.manipulate = function (asModel, callback) {
+        var m = this.color.model;
+        var color = this.getColorAs(asModel);
+        color.values = callback.apply(void 0, color.values);
+        return this.setColor(color).changeModel(m);
+    };
+    return MooColor;
+}(_color_formatter__WEBPACK_IMPORTED_MODULE_0__["ColorFormatter"]));
+
+
+
+/***/ }),
+
+/***/ "./src/util/util.ts":
+/*!**************************!*\
+  !*** ./src/util/util.ts ***!
+  \**************************/
+/*! exports provided: padStart, padEnd, clamp, degree, resolveAlpha, decimal, getRandom, arrayIsEqual */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "padStart", function() { return padStart; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "padEnd", function() { return padEnd; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "clamp", function() { return clamp; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "degree", function() { return degree; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "resolveAlpha", function() { return resolveAlpha; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "decimal", function() { return decimal; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getRandom", function() { return getRandom; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "arrayIsEqual", function() { return arrayIsEqual; });
+function padStart(str, length, chars) {
+    var space = length - str.length;
+    return space > 0 ? "" + makePad(chars, space) + str : str;
+}
+function padEnd(str, length, chars) {
+    var space = length - str.length;
+    return space > 0 ? "" + str + makePad(chars, space) : str;
+}
+function makePad(chars, limit) {
+    while (chars.length < limit) {
+        chars += chars;
+    }
+    return chars.length > limit ? chars.substring(chars.length - limit) : chars;
+}
+function clamp(num, min, max) {
+    return Math.min(Math.max(min, num), max);
+}
+function degree(num) {
+    num = typeof num === 'string' ? parseFloat(num) : num;
+    return (num % 360 + 360) % 360;
+}
+function resolveAlpha(a) {
+    a = typeof a === 'string' ? parseFloat(a) : a;
+    return clamp(isNaN(a) ? 1 : a, 0, 1);
+}
+// @see: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/round
+function decimal(num, precision) {
+    var factor = Math.pow(10, precision);
+    return Math.round(num * factor) / factor;
+}
+function getRandom(min, max, precision) {
+    if (precision === void 0) { precision = 0; }
+    var num = Math.random() * (max - min) + min;
+    return decimal(num, precision);
+}
+// https://stackoverflow.com/questions/7837456/how-to-compare-arrays-in-javascript#answer-19746771
+function arrayIsEqual(arr1, arr2) {
+    return arr1.length === arr2.length && arr1.every(function (v, i) {
+        return Array.isArray(v) ? arrayIsEqual(v, arr2[i]) : v === arr2[i];
+    });
+}
+
+
 /***/ })
-/******/ ]);
+
+/******/ });
 });
 //# sourceMappingURL=moo-color.js.map
