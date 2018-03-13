@@ -1,5 +1,10 @@
 # MooColor
 
+[![Build Status](https://travis-ci.org/archco/moo-color.svg?branch=master)](https://travis-ci.org/archco/moo-color)
+[![npm version](https://badge.fury.io/js/moo-color.svg)](https://www.npmjs.com/package/moo-color)
+[![Downloads](https://img.shields.io/npm/dm/moo-color.svg)](https://www.npmjs.com/package/moo-color)
+
+
 A simple color library for javascript.
 
 ## Install
