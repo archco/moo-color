@@ -5,9 +5,13 @@ import {
   ColorStateAccessible,
   RandomArguments,
 } from './color';
-import { ColorFormatter } from './color-formatter';
+import ColorFormatter from './color-formatter';
+
+export as namespace MooColor;
 
 export * from './color';
+
+export { ColorFormatter };
 
 type manipulateFn = (...args: number[]) => number[];
 
@@ -155,3 +159,5 @@ export class MooColor extends ColorFormatter implements ColorModifiable<MooColor
    */
   random(arg?: RandomArguments): this;
 }
+
+export default MooColor;

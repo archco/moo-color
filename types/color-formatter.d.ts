@@ -74,3 +74,5 @@ export class ColorFormatter implements ColorSettable, ColorRepresentable {
    */
   toCmyk(): string;
 }
+
+export default ColorFormatter;

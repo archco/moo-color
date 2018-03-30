@@ -5,11 +5,13 @@ import {
   ColorStateAccessible,
   RandomArguments,
 } from './color';
-import { ColorFormatter } from './color-formatter';
+import ColorFormatter from './color-formatter';
 import parser from './input-parser';
 import { clamp, decimal, degree, getRandom } from './util/util';
 
 export * from './color';
+
+export { ColorFormatter };
 
 type manipulateFn = (...args: number[]) => number[];
 
@@ -263,3 +265,5 @@ export class MooColor extends ColorFormatter implements ColorModifiable<MooColor
     return this.setColor(color).changeModel(m);
   }
 }
+
+export default MooColor;

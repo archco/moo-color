@@ -234,3 +234,5 @@ export class ColorFormatter implements ColorSettable, ColorRepresentable {
     }
   }
 }
+
+export default ColorFormatter;
