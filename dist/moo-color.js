@@ -573,7 +573,7 @@ function resolveHwb(h, w, b) {
 /*!********************************!*\
   !*** ./src/color-formatter.ts ***!
   \********************************/
-/*! exports provided: ColorFormatter */
+/*! exports provided: ColorFormatter, default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -816,6 +816,7 @@ var ColorFormatter = /** @class */ (function () {
     return ColorFormatter;
 }());
 
+/* harmony default export */ __webpack_exports__["default"] = (ColorFormatter);
 
 
 /***/ }),
@@ -1003,13 +1004,15 @@ function parseCmyk(input) {
 /*!**************************!*\
   !*** ./src/moo-color.ts ***!
   \**************************/
-/*! exports provided: MooColor */
+/*! exports provided: ColorFormatter, MooColor, default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MooColor", function() { return MooColor; });
 /* harmony import */ var _color_formatter__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./color-formatter */ "./src/color-formatter.ts");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "ColorFormatter", function() { return _color_formatter__WEBPACK_IMPORTED_MODULE_0__["default"]; });
+
 /* harmony import */ var _input_parser__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./input-parser */ "./src/input-parser.ts");
 /* harmony import */ var _util_util__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./util/util */ "./src/util/util.ts");
 var __extends = (undefined && undefined.__extends) || (function () {
@@ -1022,6 +1025,7 @@ var __extends = (undefined && undefined.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
+
 
 
 
@@ -1274,8 +1278,9 @@ var MooColor = /** @class */ (function (_super) {
         return this.setColor(color).changeModel(m);
     };
     return MooColor;
-}(_color_formatter__WEBPACK_IMPORTED_MODULE_0__["ColorFormatter"]));
+}(_color_formatter__WEBPACK_IMPORTED_MODULE_0__["default"]));
 
+/* harmony default export */ __webpack_exports__["default"] = (MooColor);
 
 
 /***/ }),
