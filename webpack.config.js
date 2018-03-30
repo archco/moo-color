@@ -4,6 +4,7 @@ const WebpackNotifierPlugin = require('webpack-notifier');
 
 const dev = {
   entry: './src/moo-color.ts',
+  mode: 'development',
   output: {
     path: path.resolve(__dirname, 'dist'),
     filename: 'moo-color.js',

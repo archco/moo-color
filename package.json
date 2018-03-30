@@ -10,7 +10,7 @@
   },
   "scripts": {
     "test": "jest",
-    "build": "webpack --hide-modules --mode=\"development\"",
+    "build": "webpack --hide-modules",
     "watch": "npm run build -- --watch"
   },
   "keywords": [
@@ -27,18 +27,18 @@
   },
   "homepage": "https://github.com/archco/moo-color#readme",
   "dependencies": {
-    "@types/color-name": "^1.1.0",
     "color-name": "^1.1.3"
   },
   "devDependencies": {
-    "@types/jest": "^22.2.0",
-    "jest": "^22.4.2",
+    "@types/color-name": "^1.1.0",
+    "@types/jest": "^22.2.2",
+    "jest": "^22.4.3",
     "source-map-loader": "^0.2.3",
-    "ts-jest": "^22.4.1",
-    "ts-loader": "^4.0.1",
-    "typescript": "^2.7.2",
-    "webpack": "^4.1.1",
-    "webpack-cli": "^2.0.11",
+    "ts-jest": "^22.4.2",
+    "ts-loader": "^4.1.0",
+    "typescript": "^2.8.1",
+    "webpack": "^4.4.1",
+    "webpack-cli": "^2.0.13",
     "webpack-merge": "^4.1.2",
     "webpack-notifier": "^1.6.0"
   },
@@ -49,9 +49,7 @@
     "testRegex": "(/__tests__/.*|(\\.|/)(test|spec))\\.(jsx?|tsx?)$",
     "moduleFileExtensions": [
       "ts",
-      "tsx",
       "js",
-      "jsx",
       "json",
       "node"
     ],
