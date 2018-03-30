@@ -22,9 +22,11 @@ interface ColorData {
 Set color data.
 
 - Syntax
+
   ``` js
   mooColor.setColor(color);
   ```
+
 - Param `Color` color - [Color data](#color-data)
 - Returns `this`
 
@@ -33,9 +35,11 @@ Set color data.
 Get color data.
 
 - Syntax
+
   ``` js
   const color = mooColor.getColor();
   ```
+
 - Returns `Color` - [Color data](#color-data)
 
 ### getColorAs
@@ -43,9 +47,11 @@ Get color data.
 Get color data as specific color model.
 
 - Syntax
+
   ``` js
   const color = mooColor.getColorAs(model);
   ```
+
 - Param `string` model - accepted model name. `rgb`|`hwb`|`hsl`|`hsv`|`cmyk`
 - Returns `Color` - [Color data](#color-data)
 
@@ -54,9 +60,11 @@ Get color data as specific color model.
 Get color model name.
 
 - Syntax
+
   ``` js
   const model = mooColor.getModel();
   ```
+
 - Returns `string` - model name. `rgb`|`hwb`|`hsl`|`hsv`|`cmyk`
 
 ### changeModel
@@ -64,9 +72,11 @@ Get color model name.
 Converts color data to given color model.
 
 - Syntax
+
   ``` js
   mooColor.changeModel(model);
   ```
+
 - Param `string` model - accepted model name. `rgb`|`hwb`|`hsl`|`hsv`|`cmyk`
 - Returns `this`
 
@@ -75,9 +85,11 @@ Converts color data to given color model.
 Get alpha value from `Color`.
 
 - Syntax
+
   ``` js
   const alpha = mooColor.getAlpha();
   ```
+
 - Returns `number` - alpha value from 0 to 1.
 
 ### setAlpha
@@ -85,8 +97,10 @@ Get alpha value from `Color`.
 Set alpha value to `Color`.
 
 - Syntax
+
   ``` js
   mooColor.setAlpha(alpha);
   ```
+
 - Param `number` alpha - alpha value from 0 to 1.
 - Returns `this`

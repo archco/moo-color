@@ -4,7 +4,6 @@
 [![npm version](https://badge.fury.io/js/moo-color.svg)](https://www.npmjs.com/package/moo-color)
 [![Downloads](https://img.shields.io/npm/dm/moo-color.svg)](https://www.npmjs.com/package/moo-color)
 
-
 A simple color library for javascript.
 
 ## Install
@@ -16,7 +15,7 @@ npm install moo-color
 ## Usage
 
 ``` js
-import { MooColor } from 'moo-color';
+import MooColor from 'moo-color';
 
 const color = new MooColor('#f00');
 

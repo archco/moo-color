@@ -5,9 +5,11 @@
 ### Constructor
 
 - Syntax
+
   ``` js
   const color = new MooColor(str = '');
   ```
+
 - Param `string` str - [parsable color string](#parsable-color-string). If not specify this value, then color set to `#000` (black).
 - Return `MooColor` - Instance of `MooColor`
 

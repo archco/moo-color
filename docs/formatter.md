@@ -32,9 +32,11 @@ type RgbMode = 'default'|'percent';
 Represents color as notation of specific color model.
 
 - Syntax
+
   ``` js
   const str = mooColor.toString(model = '', ...args);
   ```
+
 - Param `string` model - Specify color model. If not specifying this value, then returns current color model. `rgb`|`hwb`|`hsl`|`hsv`|`cmyk`|`hex`
 - Param `...any[]` args - Arguments for the represent methods.
 - Returns `string`
@@ -44,9 +46,11 @@ Represents color as notation of specific color model.
 Represents color as HEX notation.
 
 - Syntax
+
   ``` js
   const str = mooColor.toHex(mode = 'full');
   ```
+
 - Param [`HexMode`](#hex-mode) [mode = 'full'] - `full`|`short`|`name`
 - Returns `string` - e.g. `#ff0000` or `#f00` or `red`
 
@@ -55,9 +59,11 @@ Represents color as HEX notation.
 Represents color as RGB notation.
 
 - Syntax
+
   ``` js
   const str = mooColor.toRgb(mode = 'default');
   ```
+
 - Param [`RgbMode`](#rgb-mode) [mode = 'default'] - `default`|`percent`
 - Returns `string` - e.g. `rgb(255, 0, 0)` or `rgb(100%, 0%, 0%)`
 
@@ -66,9 +72,11 @@ Represents color as RGB notation.
 Represents color as HWB notation.
 
 - Syntax
+
   ``` js
   const str = mooColor.toHwb();
   ```
+
 - Returns `string` - e.g. `hwb(0, 0%, 0%)`
 
 ### toHsl
@@ -76,9 +84,11 @@ Represents color as HWB notation.
 Represents color as HSL notation.
 
 - Syntax
+
   ``` js
   const str = mooColor.toHsl();
   ```
+
 - Returns `string` - e.g. `hsl(0, 100%, 50%)`
 
 ### toHsv
@@ -86,9 +96,11 @@ Represents color as HSL notation.
 Represents color as HSV notation. This format is similar to HSL.
 
 - Syntax
+
   ``` js
   const str = mooColor.toHsv();
   ```
+
 - Returns `string` - e.g. `hsv(0, 100%, 100%)`
 
 ### toCmyk
@@ -96,7 +108,9 @@ Represents color as HSV notation. This format is similar to HSL.
 Represents color as CMYK notation.
 
 - Syntax
+
   ``` js
   const str = mooColor.toCmyk();
   ```
+
 - Returns `string` - e.g. `cmyk(0%, 100%, 100%, 0%)`
