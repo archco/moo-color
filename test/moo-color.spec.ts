@@ -17,6 +17,25 @@ describe('#MooColor', () => {
     it('if no argument, color is black.', () => {
       expect(new MooColor().toHex('short')).toEqual('#000');
     });
+
+    it('if parsing failed, occurs error.', () => {
+      expect(() => {
+        const color = new MooColor([]);
+      }).toThrowError();
+    });
+  });
+
+  describe('brightness', () => {
+    it('should works.', () => {
+      let color = new MooColor('#808080');
+      expect(color.brightness).toEqual(128);
+      expect(color.isLight).toBeTruthy();
+      expect(color.isDark).toBeFalsy();
+      color = new MooColor('#7f7f7f');
+      expect(color.brightness).toEqual(127);
+      expect(color.isLight).toBeFalsy();
+      expect(color.isDark).toBeTruthy();
+    });
   });
 
   describe('luminance', () => {

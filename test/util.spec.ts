@@ -17,6 +17,11 @@ describe('#Util', () => {
       res = Util.padEnd('xx', 8, '123');
       expect(res).toEqual('xx123123');
     });
+
+    it('no space, no change.', () => {
+      const str = Util.padEnd('1234', 4, '_');
+      expect(str).toEqual('1234');
+    });
   });
 
   describe('#getRandom', () => {

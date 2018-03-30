@@ -17,6 +17,12 @@ describe('#ColorConverter', () => {
       const hsl1 = Converter.rgbToHsl(255, 128, 64);
       expect(rounding(hsl1)).toEqual([20, 100, 63]);
     });
+
+    it('achromatic gray test. (none delta)', () => {
+      const [h, s] = Converter.rgbToHsl(128, 128, 128);
+      expect(h).toEqual(0);
+      expect(s).toEqual(0);
+    });
   });
 
   describe('#HWB', () => {
@@ -35,6 +41,8 @@ describe('#ColorConverter', () => {
     it('converts HSV to RGB', () => {
       const rgb = Converter.hsvToRgb(45, 80, 65);
       expect(rounding(rgb)).toEqual([166, 133, 33]);
+      const rgb1 = Converter.hsvToRgb(330, 85, 50);
+      expect(rounding(rgb1)).toEqual([128, 19, 73]);
     });
 
     it('converts RGB to HSV', () => {
