@@ -16,9 +16,10 @@ export { ColorFormatter };
 type manipulateFn = (...args: number[]) => number[];
 
 export class MooColor extends ColorFormatter implements ColorModifiable<MooColor>, ColorStateAccessible {
-  static mix(color1: string|MooColor, color2: string|MooColor, percentOf1: number = 50): MooColor {
-    const c1 = (typeof color1 === 'string') ? new MooColor(color1) : color1;
-    const c2 = (typeof color2 === 'string') ? new MooColor(color2) : color2;
+
+  static mix(color1: MooColor|string|Color, color2: MooColor|string|Color, percentOf1: number = 50): MooColor {
+    const c1 = (color1 instanceof MooColor) ? color1 : new MooColor(color1);
+    const c2 = (color2 instanceof MooColor) ? color2 : new MooColor(color2);
     return c2.mix(c1, percentOf1);
   }
 
@@ -46,7 +47,7 @@ export class MooColor extends ColorFormatter implements ColorModifiable<MooColor
   }
 
   clone(): MooColor {
-    return new MooColor().setColor(this.color);
+    return new MooColor(this.color);
   }
 
   /**
@@ -211,7 +212,7 @@ export class MooColor extends ColorFormatter implements ColorModifiable<MooColor
     const m = this.getModel();
     const c1 = this.getColorAs('rgb');
     const c2 = color.getColorAs('rgb');
-    return new MooColor().setColor({
+    return new MooColor({
       model: 'rgb',
       values: c1.values.map((v, i) => v + (c2.values[i] - v) * percent),
       alpha: c1.alpha + (c2.alpha - c1.alpha) * percent,
