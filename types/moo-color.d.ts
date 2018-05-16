@@ -19,6 +19,16 @@ export class MooColor extends ColorFormatter implements ColorModifiable<MooColor
   static mix(color1: string|MooColor, color2: string|MooColor, percentOf1?: number): MooColor;
 
   /**
+   * Create random color as HWB color model.
+   *
+   * @static
+   * @param {RandomArguments} [arg]
+   * @returns {MooColor}
+   * @memberof MooColor
+   */
+  static random(arg?: RandomArguments): MooColor;
+
+  /**
    * Returns color brightness from 0 to 255. (It based RGB)
    * @see https://www.w3.org/TR/AERT/#color-contrast
    * @readonly
@@ -151,14 +161,6 @@ export class MooColor extends ColorFormatter implements ColorModifiable<MooColor
    * @returns {this}
    */
   invert(percent?: number): this;
-
-  /**
-   * Sets random color values as HWB color model.
-   *
-   * @param {RandomArguments} [{hue, white, black}={}]
-   * @returns {this}
-   */
-  random(arg?: RandomArguments): this;
 }
 
 export default MooColor;

@@ -8,6 +8,49 @@ describe('#MooColor', () => {
     });
   });
 
+  describe('static #random', () => {
+    it('sets random color.', () => {
+      for (let i = 0; i < 10; i++) {
+        const c = MooColor.random();
+        const [h, w, b] = c.getColorAs('hwb').values;
+
+        expect(h).toBeGreaterThanOrEqual(0);
+        expect(h).toBeLessThanOrEqual(360);
+        expect(w).toBeGreaterThanOrEqual(0);
+        expect(w).toBeLessThanOrEqual(100);
+        expect(b).toBeGreaterThanOrEqual(0);
+        expect(b).toBeLessThanOrEqual(100);
+      }
+    });
+
+    it('specifying whiteness.', () => {
+      for (let i = 0; i < 10; i++) {
+        const c = MooColor.random({white: 50, black: [0, 50]});
+        const [h, w, b] = c.getColorAs('hwb').values;
+
+        expect(h).toBeGreaterThanOrEqual(0);
+        expect(h).toBeLessThanOrEqual(360);
+        expect(w).toEqual(50);
+        expect(b).toBeGreaterThanOrEqual(0);
+        expect(b).toBeLessThanOrEqual(100);
+      }
+    });
+
+    it('range setting: hue', () => {
+      for (let i = 0; i < 10; i++) {
+        const c = MooColor.random({ hue: [0, 60] });
+        const [h, w, b] = c.getColorAs('hwb').values;
+
+        expect(h).toBeGreaterThanOrEqual(0);
+        expect(h).toBeLessThanOrEqual(60);
+        expect(w).toBeGreaterThanOrEqual(0);
+        expect(w).toBeLessThanOrEqual(100);
+        expect(b).toBeGreaterThanOrEqual(0);
+        expect(b).toBeLessThanOrEqual(100);
+      }
+    });
+  });
+
   describe('#constructor', () => {
     it('color argument.', () => {
       const color = new MooColor('#f00');
@@ -193,49 +236,6 @@ describe('#MooColor', () => {
       const c = new MooColor('#f00');
       c.invert(75); // 75%
       expect(c.toHex('short')).toEqual('#40bfbf');
-    });
-  });
-
-  describe('#random', () => {
-    it('sets random color.', () => {
-      for (let i = 0; i < 10; i++) {
-        const c = new MooColor().random();
-        const [h, w, b] = c.getColorAs('hwb').values;
-
-        expect(h).toBeGreaterThanOrEqual(0);
-        expect(h).toBeLessThanOrEqual(360);
-        expect(w).toBeGreaterThanOrEqual(0);
-        expect(w).toBeLessThanOrEqual(100);
-        expect(b).toBeGreaterThanOrEqual(0);
-        expect(b).toBeLessThanOrEqual(100);
-      }
-    });
-
-    it('specifying whiteness.', () => {
-      for (let i = 0; i < 10; i++) {
-        const c = new MooColor().random({white: 50, black: [0, 50]});
-        const [h, w, b] = c.getColorAs('hwb').values;
-
-        expect(h).toBeGreaterThanOrEqual(0);
-        expect(h).toBeLessThanOrEqual(360);
-        expect(w).toEqual(50);
-        expect(b).toBeGreaterThanOrEqual(0);
-        expect(b).toBeLessThanOrEqual(100);
-      }
-    });
-
-    it('range setting: hue', () => {
-      for (let i = 0; i < 10; i++) {
-        const c = new MooColor().random({ hue: [0, 60] });
-        const [h, w, b] = c.getColorAs('hwb').values;
-
-        expect(h).toBeGreaterThanOrEqual(0);
-        expect(h).toBeLessThanOrEqual(60);
-        expect(w).toBeGreaterThanOrEqual(0);
-        expect(w).toBeLessThanOrEqual(100);
-        expect(b).toBeGreaterThanOrEqual(0);
-        expect(b).toBeLessThanOrEqual(100);
-      }
     });
   });
 });

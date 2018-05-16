@@ -5,9 +5,15 @@ import {
   ColorStateAccessible,
   RandomArguments,
 } from './color';
+import { resolveHwb } from './color-converter';
 import ColorFormatter from './color-formatter';
 import parser from './input-parser';
-import { clamp, decimal, degree, getRandom } from './util/util';
+import {
+  clamp,
+  decimal,
+  degree,
+  getRandom,
+} from './util/util';
 
 export * from './color';
 
@@ -21,6 +27,32 @@ export class MooColor extends ColorFormatter implements ColorModifiable<MooColor
     const c1 = (color1 instanceof MooColor) ? color1 : new MooColor(color1);
     const c2 = (color2 instanceof MooColor) ? color2 : new MooColor(color2);
     return c2.mix(c1, percentOf1);
+  }
+
+  /**
+   * Create random color as HWB color model.
+   *
+   * @static
+   * @param {RandomArguments} [{hue, white, black}={}]
+   * @returns {MooColor}
+   * @memberof MooColor
+   */
+  static random({hue, white, black}: RandomArguments = {}): MooColor {
+    [hue, white, black] = [hue, white, black].map((x, i) => {
+      if (typeof x === 'number') {
+        return x;
+      } else if (Array.isArray(x)) {
+        const precision = i === 0 ? 0 : 2;
+        return getRandom(Math.min(...x), Math.max(...x), precision);
+      } else {
+        return i === 0 ? getRandom(0, 360) : getRandom(0, 100, 2);
+      }
+    });
+    return new MooColor({
+      model: 'hwb',
+      values: resolveHwb(degree(hue), clamp(white, 0, 100), clamp(black, 0, 100)),
+      alpha: 1,
+    });
   }
 
   /**
@@ -238,30 +270,6 @@ export class MooColor extends ColorFormatter implements ColorModifiable<MooColor
     percent /= 100;
     const absRound = (x: number) => Math.round(Math.abs(x));
     return this.manipulate('rgb', (r, g, b) => [r, g, b].map(x => absRound(255 * percent - x)));
-  }
-
-  /**
-   * Sets random color values as HWB color model.
-   *
-   * @param {RandomArguments} [{hue, white, black}={}]
-   * @returns {this}
-   */
-  random({hue, white, black}: RandomArguments = {}): this {
-    [hue, white, black] = [hue, white, black].map((x, i) => {
-      if (typeof x === 'number') {
-        return x;
-      } else if (Array.isArray(x)) {
-        const precision = i === 0 ? 0 : 2;
-        return getRandom(Math.min(...x), Math.max(...x), precision);
-      } else {
-        return i === 0 ? getRandom(0, 360) : getRandom(0, 100, 2);
-      }
-    });
-    return this.setColor({
-      model: 'hwb',
-      values: this.resolveHwb(degree(hue), clamp(white, 0, 100), clamp(black, 0, 100)),
-      alpha: 1,
-    });
   }
 
   protected manipulate(asModel: AcceptedModel, callback: manipulateFn): this {
