@@ -16,6 +16,17 @@ export { ColorFormatter };
 type manipulateFn = (...args: number[]) => number[];
 
 export class MooColor extends ColorFormatter implements ColorModifiable<MooColor>, ColorStateAccessible {
+
+  /**
+   * Helper method for `mix()`.
+   *
+   * @static
+   * @param {(string|MooColor)} color1
+   * @param {(string|MooColor)} color2
+   * @param {number} [percentOf1]
+   * @returns {MooColor}
+   * @memberof MooColor
+   */
   static mix(color1: string|MooColor, color2: string|MooColor, percentOf1?: number): MooColor;
 
   /**

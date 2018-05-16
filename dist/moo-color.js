@@ -855,33 +855,31 @@ __webpack_require__.r(__webpack_exports__);
 
 
 function inputParser(input) {
-    if (typeof input === 'string') {
-        if (input in _color_names__WEBPACK_IMPORTED_MODULE_1__["default"]) {
-            // Named colors.
-            return {
-                model: 'rgb',
-                values: _color_names__WEBPACK_IMPORTED_MODULE_1__["default"][input],
-                alpha: 1,
-            };
-        }
-        else if (input === 'transparent') {
-            // 'transparent'.
-            return {
-                model: 'rgb',
-                values: [0, 0, 0],
-                alpha: 0,
-            };
-        }
-        else {
-            // parse string.
-            var prefix = input.substr(0, 3).toLowerCase();
-            switch (prefix) {
-                case 'hwb': return parseHwb(input);
-                case 'hsl': return parseHsl(input);
-                case 'hsv': return parseHsv(input);
-                case 'cmy': return parseCmyk(input);
-                default: return parseRgb(input);
-            }
+    if (input in _color_names__WEBPACK_IMPORTED_MODULE_1__["default"]) {
+        // Named colors.
+        return {
+            model: 'rgb',
+            values: _color_names__WEBPACK_IMPORTED_MODULE_1__["default"][input],
+            alpha: 1,
+        };
+    }
+    else if (input === 'transparent') {
+        // 'transparent'.
+        return {
+            model: 'rgb',
+            values: [0, 0, 0],
+            alpha: 0,
+        };
+    }
+    else {
+        // parse string.
+        var prefix = input.substr(0, 3).toLowerCase();
+        switch (prefix) {
+            case 'hwb': return parseHwb(input);
+            case 'hsl': return parseHsl(input);
+            case 'hsv': return parseHsv(input);
+            case 'cmy': return parseCmyk(input);
+            default: return parseRgb(input);
         }
     }
 }
@@ -1010,11 +1008,12 @@ function parseCmyk(input) {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MooColor", function() { return MooColor; });
-/* harmony import */ var _color_formatter__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./color-formatter */ "./src/color-formatter.ts");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "ColorFormatter", function() { return _color_formatter__WEBPACK_IMPORTED_MODULE_0__["default"]; });
+/* harmony import */ var _color_converter__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./color-converter */ "./src/color-converter.ts");
+/* harmony import */ var _color_formatter__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./color-formatter */ "./src/color-formatter.ts");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "ColorFormatter", function() { return _color_formatter__WEBPACK_IMPORTED_MODULE_1__["default"]; });
 
-/* harmony import */ var _input_parser__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./input-parser */ "./src/input-parser.ts");
-/* harmony import */ var _util_util__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./util/util */ "./src/util/util.ts");
+/* harmony import */ var _input_parser__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./input-parser */ "./src/input-parser.ts");
+/* harmony import */ var _util_util__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./util/util */ "./src/util/util.ts");
 var __extends = (undefined && undefined.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
         ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
@@ -1029,33 +1028,69 @@ var __extends = (undefined && undefined.__extends) || (function () {
 
 
 
+
 var MooColor = /** @class */ (function (_super) {
     __extends(MooColor, _super);
     /**
      * Creates an instance of MooColor.
-     * @param {*} [color] color string. e.g. '#ff0000' 'rgba(255, 0, 0, .5)' 'hsl(120, 50%, 100%)'
+     * @param {(string|Color)} [color] color value. e.g. '#ff0000' 'rgba(255, 0, 0, .5)' 'hsl(120, 50%, 100%)'
+     * @memberof MooColor
      */
     function MooColor(color) {
         var _this = _super.call(this) || this;
-        color = color ? color : '#000';
-        _this.setColorByParser(color);
+        if (typeof color === 'object' && color !== null) {
+            _this.setColor(color);
+        }
+        else if (typeof color === 'string' || typeof color === 'undefined') {
+            color = color ? color : '#000';
+            _this.setColorByParser(color);
+        }
         return _this;
     }
     MooColor.mix = function (color1, color2, percentOf1) {
         if (percentOf1 === void 0) { percentOf1 = 50; }
-        var c1 = (typeof color1 === 'string') ? new MooColor(color1) : color1;
-        var c2 = (typeof color2 === 'string') ? new MooColor(color2) : color2;
+        var c1 = (color1 instanceof MooColor) ? color1 : new MooColor(color1);
+        var c2 = (color2 instanceof MooColor) ? color2 : new MooColor(color2);
         return c2.mix(c1, percentOf1);
     };
+    /**
+     * Create random color as HWB color model.
+     *
+     * @static
+     * @param {RandomArguments} [{hue, white, black}={}]
+     * @returns {MooColor}
+     * @memberof MooColor
+     */
+    MooColor.random = function (_a) {
+        var _b = _a === void 0 ? {} : _a, hue = _b.hue, white = _b.white, black = _b.black;
+        _c = [hue, white, black].map(function (x, i) {
+            if (typeof x === 'number') {
+                return x;
+            }
+            else if (Array.isArray(x)) {
+                var precision = i === 0 ? 0 : 2;
+                return Object(_util_util__WEBPACK_IMPORTED_MODULE_3__["getRandom"])(Math.min.apply(Math, x), Math.max.apply(Math, x), precision);
+            }
+            else {
+                return i === 0 ? Object(_util_util__WEBPACK_IMPORTED_MODULE_3__["getRandom"])(0, 360) : Object(_util_util__WEBPACK_IMPORTED_MODULE_3__["getRandom"])(0, 100, 2);
+            }
+        }), hue = _c[0], white = _c[1], black = _c[2];
+        return new MooColor({
+            model: 'hwb',
+            values: Object(_color_converter__WEBPACK_IMPORTED_MODULE_0__["resolveHwb"])(Object(_util_util__WEBPACK_IMPORTED_MODULE_3__["degree"])(hue), Object(_util_util__WEBPACK_IMPORTED_MODULE_3__["clamp"])(white, 0, 100), Object(_util_util__WEBPACK_IMPORTED_MODULE_3__["clamp"])(black, 0, 100)),
+            alpha: 1,
+        });
+        var _c;
+    };
     MooColor.prototype.setColorByParser = function (str) {
-        var color = Object(_input_parser__WEBPACK_IMPORTED_MODULE_1__["default"])(str);
+        var color = Object(_input_parser__WEBPACK_IMPORTED_MODULE_2__["default"])(str);
         if (!color) {
             throw new Error('parsing error!');
         }
         return this.setColor(color);
     };
     MooColor.prototype.clone = function () {
-        return new MooColor().setColor(this.color);
+        return new MooColor(this.color);
     };
     Object.defineProperty(MooColor.prototype, "brightness", {
         /**
@@ -1136,7 +1171,7 @@ var MooColor = /** @class */ (function (_super) {
      */
     MooColor.prototype.lighten = function (amount) {
         return this.manipulate('hsl', function (h, s, l) {
-            l = Object(_util_util__WEBPACK_IMPORTED_MODULE_2__["clamp"])(l + amount, 0, 100);
+            l = Object(_util_util__WEBPACK_IMPORTED_MODULE_3__["clamp"])(l + amount, 0, 100);
             return [h, s, l];
         });
     };
@@ -1147,7 +1182,7 @@ var MooColor = /** @class */ (function (_super) {
      */
     MooColor.prototype.darken = function (amount) {
         return this.manipulate('hsl', function (h, s, l) {
-            l = Object(_util_util__WEBPACK_IMPORTED_MODULE_2__["clamp"])(l - amount, 0, 100);
+            l = Object(_util_util__WEBPACK_IMPORTED_MODULE_3__["clamp"])(l - amount, 0, 100);
             return [h, s, l];
         });
     };
@@ -1158,7 +1193,7 @@ var MooColor = /** @class */ (function (_super) {
      */
     MooColor.prototype.saturate = function (amount) {
         return this.manipulate('hsl', function (h, s, l) {
-            s = Object(_util_util__WEBPACK_IMPORTED_MODULE_2__["clamp"])(s + amount, 0, 100);
+            s = Object(_util_util__WEBPACK_IMPORTED_MODULE_3__["clamp"])(s + amount, 0, 100);
             return [h, s, l];
         });
     };
@@ -1169,7 +1204,7 @@ var MooColor = /** @class */ (function (_super) {
      */
     MooColor.prototype.desaturate = function (amount) {
         return this.manipulate('hsl', function (h, s, l) {
-            s = Object(_util_util__WEBPACK_IMPORTED_MODULE_2__["clamp"])(s - amount, 0, 100);
+            s = Object(_util_util__WEBPACK_IMPORTED_MODULE_3__["clamp"])(s - amount, 0, 100);
             return [h, s, l];
         });
     };
@@ -1187,7 +1222,7 @@ var MooColor = /** @class */ (function (_super) {
      */
     MooColor.prototype.whiten = function (amount) {
         var _this = this;
-        return this.manipulate('hwb', function (h, w, b) { return _this.resolveHwb(h, Object(_util_util__WEBPACK_IMPORTED_MODULE_2__["clamp"])(w + amount, 0, 100), b); });
+        return this.manipulate('hwb', function (h, w, b) { return _this.resolveHwb(h, Object(_util_util__WEBPACK_IMPORTED_MODULE_3__["clamp"])(w + amount, 0, 100), b); });
     };
     /**
      * Modify blackness.
@@ -1196,7 +1231,7 @@ var MooColor = /** @class */ (function (_super) {
      */
     MooColor.prototype.blacken = function (amount) {
         var _this = this;
-        return this.manipulate('hwb', function (h, w, b) { return _this.resolveHwb(h, w, Object(_util_util__WEBPACK_IMPORTED_MODULE_2__["clamp"])(b + amount, 0, 100)); });
+        return this.manipulate('hwb', function (h, w, b) { return _this.resolveHwb(h, w, Object(_util_util__WEBPACK_IMPORTED_MODULE_3__["clamp"])(b + amount, 0, 100)); });
     };
     /**
      * Rotate hue value.
@@ -1204,7 +1239,7 @@ var MooColor = /** @class */ (function (_super) {
      * @returns {this}
      */
     MooColor.prototype.rotate = function (d) {
-        return this.manipulate('hsl', function (h, s, l) { return [Object(_util_util__WEBPACK_IMPORTED_MODULE_2__["degree"])(h + d), s, l]; });
+        return this.manipulate('hsl', function (h, s, l) { return [Object(_util_util__WEBPACK_IMPORTED_MODULE_3__["degree"])(h + d), s, l]; });
     };
     /**
      * Mix two colors.
@@ -1218,7 +1253,7 @@ var MooColor = /** @class */ (function (_super) {
         var m = this.getModel();
         var c1 = this.getColorAs('rgb');
         var c2 = color.getColorAs('rgb');
-        return new MooColor().setColor({
+        return new MooColor({
             model: 'rgb',
             values: c1.values.map(function (v, i) { return v + (c2.values[i] - v) * percent; }),
             alpha: c1.alpha + (c2.alpha - c1.alpha) * percent,
@@ -1230,7 +1265,7 @@ var MooColor = /** @class */ (function (_super) {
      * @returns {this}
      */
     MooColor.prototype.complement = function () {
-        return this.manipulate('hsl', function (h, s, l) { return [Object(_util_util__WEBPACK_IMPORTED_MODULE_2__["degree"])(h + 180), s, l]; });
+        return this.manipulate('hsl', function (h, s, l) { return [Object(_util_util__WEBPACK_IMPORTED_MODULE_3__["degree"])(h + 180), s, l]; });
     };
     /**
      * Sets color to the inverse (negative) of a color.
@@ -1244,33 +1279,6 @@ var MooColor = /** @class */ (function (_super) {
         var absRound = function (x) { return Math.round(Math.abs(x)); };
         return this.manipulate('rgb', function (r, g, b) { return [r, g, b].map(function (x) { return absRound(255 * percent - x); }); });
     };
-    /**
-     * Sets random color values as HWB color model.
-     *
-     * @param {RandomArguments} [{hue, white, black}={}]
-     * @returns {this}
-     */
-    MooColor.prototype.random = function (_a) {
-        var _b = _a === void 0 ? {} : _a, hue = _b.hue, white = _b.white, black = _b.black;
-        _c = [hue, white, black].map(function (x, i) {
-            if (typeof x === 'number') {
-                return x;
-            }
-            else if (Array.isArray(x)) {
-                var precision = i === 0 ? 0 : 2;
-                return Object(_util_util__WEBPACK_IMPORTED_MODULE_2__["getRandom"])(Math.min.apply(Math, x), Math.max.apply(Math, x), precision);
-            }
-            else {
-                return i === 0 ? Object(_util_util__WEBPACK_IMPORTED_MODULE_2__["getRandom"])(0, 360) : Object(_util_util__WEBPACK_IMPORTED_MODULE_2__["getRandom"])(0, 100, 2);
-            }
-        }), hue = _c[0], white = _c[1], black = _c[2];
-        return this.setColor({
-            model: 'hwb',
-            values: this.resolveHwb(Object(_util_util__WEBPACK_IMPORTED_MODULE_2__["degree"])(hue), Object(_util_util__WEBPACK_IMPORTED_MODULE_2__["clamp"])(white, 0, 100), Object(_util_util__WEBPACK_IMPORTED_MODULE_2__["clamp"])(black, 0, 100)),
-            alpha: 1,
-        });
-        var _c;
-    };
     MooColor.prototype.manipulate = function (asModel, callback) {
         var m = this.color.model;
         var color = this.getColorAs(asModel);
@@ -1278,7 +1286,7 @@ var MooColor = /** @class */ (function (_super) {
         return this.setColor(color).changeModel(m);
     };
     return MooColor;
-}(_color_formatter__WEBPACK_IMPORTED_MODULE_0__["default"]));
+}(_color_formatter__WEBPACK_IMPORTED_MODULE_1__["default"]));
 
 /* harmony default export */ __webpack_exports__["default"] = (MooColor);
 
