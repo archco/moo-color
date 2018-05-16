@@ -87,5 +87,4 @@ export interface ColorModifiable<T extends ColorSettable> {
   mix(color: T, percent?: number): T;
   complement(): this;
   invert(percent?: number): this;
-  random(arg?: RandomArguments): this;
 }

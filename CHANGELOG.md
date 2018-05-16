@@ -7,6 +7,15 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Changed
+
+- Now available give color argument as `ColorData` in MooColor constructor. #7
+- Changes `random()` to static method. #6
+
+### Removed
+
+- Removed `random()` method. use static `random()` method instead.
+
 ## [0.1.3] - 2018-03-30
 
 ### Added

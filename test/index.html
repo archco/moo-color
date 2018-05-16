@@ -8,13 +8,13 @@
 </head>
 <body>
   <h1>MooColor</h1>
-  <div id="target" style="display:inline-block;padding:1em;font-size:2em;cursor:pointer;">Click me</div>
+  <div id="target" style="display:inline-block;padding:1em;font-size:2em;cursor:pointer;user-select: none;">Click me</div>
   <script src="../dist/moo-color.js"></script>
   <script>
     (function () {
       const t = document.querySelector('#target');
       t.addEventListener('click', () => {
-        const color = new window.MooColor.MooColor().random({
+        const color = new window.MooColor.MooColor.random({
           black: [0, 70],
           white: 30,
         });

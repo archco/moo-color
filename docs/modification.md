@@ -1,20 +1,4 @@
-# Modifier
-
-## Declarations
-
-### Random arguments
-
-``` ts
-/** An argument for `ColorModifiable.random()` method. */
-interface RandomArguments {
-  /** The hue value from 0 to 360. Also you can give this as range. e.g. [0, 180] */
-  hue?: number|[number, number];
-  /** The whiteness value from 0 to 100. Also you can give this as range. e.g. [0, 50] */
-  white?: number|[number, number];
-  /** The blackness value from 0 to 100. Also you can give this as range. e.g. [0, 50] */
-  black?: number|[number, number];
-}
-```
+# Modification
 
 ## Methods
 
@@ -159,29 +143,3 @@ Sets color to the inverse (negative) of a color.
 
 - Param `number` [percent = 100] - The relative percent of the color that inverse.
 - Returns `this`
-
-### random
-
-Sets random color values as HWB color model.
-
-- Syntax
-
-  ``` js
-  mooColor.random({ hue, white, black } = {});
-  ```
-
-- Param [`RandomArguments`](#random-arguments) [{ hue, white, black } = {}]
-  - `hue` - The hue value from 0 to 360. Also you can give this as range. e.g. [0, 180]
-  - `white` - The whiteness value from 0 to 100. Also you can give this as range. e.g. [0, 50]
-  - `black` - The blackness value from 0 to 100. Also you can give this as range. e.g. [0, 50]
-- Returns `this`
-- Examples
-
-  ``` js
-  // Make random color. (default)
-  const color1 = new MooColor().random();
-  // Make random color that specify whiteness and blackness values.
-  const color2 = new MooColor().random({ white: 0, black: 50 });
-  // Make random color that range between red and yellow (hue value from 0 to 60).
-  const color3 = new MooColor().random({ hue: [0, 60] });
-  ```

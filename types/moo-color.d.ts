@@ -16,7 +16,28 @@ export { ColorFormatter };
 type manipulateFn = (...args: number[]) => number[];
 
 export class MooColor extends ColorFormatter implements ColorModifiable<MooColor>, ColorStateAccessible {
+
+  /**
+   * Helper method for `mix()`.
+   *
+   * @static
+   * @param {(string|MooColor)} color1
+   * @param {(string|MooColor)} color2
+   * @param {number} [percentOf1]
+   * @returns {MooColor}
+   * @memberof MooColor
+   */
   static mix(color1: string|MooColor, color2: string|MooColor, percentOf1?: number): MooColor;
+
+  /**
+   * Create random color as HWB color model.
+   *
+   * @static
+   * @param {RandomArguments} [arg]
+   * @returns {MooColor}
+   * @memberof MooColor
+   */
+  static random(arg?: RandomArguments): MooColor;
 
   /**
    * Returns color brightness from 0 to 255. (It based RGB)
@@ -50,9 +71,10 @@ export class MooColor extends ColorFormatter implements ColorModifiable<MooColor
 
   /**
    * Creates an instance of MooColor.
-   * @param {*} [color] color string. e.g. '#ff0000' 'rgba(255, 0, 0, .5)' 'hsl(120, 50%, 100%)'
+   * @param {(string|Color)} [color] color value. e.g. '#ff0000' 'rgba(255, 0, 0, .5)' 'hsl(120, 50%, 100%)'
+   * @memberof MooColor
    */
-  constructor(color?: any);
+  constructor(color?: string|Color);
 
   setColorByParser(str: string): this;
   clone(): MooColor;
@@ -150,14 +172,6 @@ export class MooColor extends ColorFormatter implements ColorModifiable<MooColor
    * @returns {this}
    */
   invert(percent?: number): this;
-
-  /**
-   * Sets random color values as HWB color model.
-   *
-   * @param {RandomArguments} [{hue, white, black}={}]
-   * @returns {this}
-   */
-  random(arg?: RandomArguments): this;
 }
 
 export default MooColor;

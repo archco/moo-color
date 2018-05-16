@@ -1,6 +1,17 @@
 # MooColor API
 
-## Base
+### Table of contents
+
+- [Basic](#basic)
+  - [Constructor](#constructor)
+  - [Parsable color string](#parsable-color-string)
+- [Static](#static)
+- [Setter](#setter)
+- [Formatter](#formatter)
+- [State Access](#state-access)
+- [Modification](#modification)
+
+## Basic
 
 ### Constructor
 
@@ -35,6 +46,11 @@
 'cmyk(0%, 100%, 100%, 0%, 0.5)' // cmyk with alpha
 ```
 
+## [Static](static.md)
+
+- [mix](static.md#mix): Helper method for [`mix()`](modifier.md#mix) method.
+- [random](static.md#random): Create random color as HWB model.
+
 ## [Setter](setter.md)
 
 - [setColor](setter.md#setcolor): Set color data.
@@ -64,7 +80,7 @@
 - [contrastRatioWith](state-access.md#contrastratiowith): Returns contrast ratio with other color. range from 0 to 21.
 - [isContrastEnough](state-access.md#iscontrastenough): Return true if contrast ratio >= 4.5
 
-## [Modifier](modifier.md)
+## [Modification](modification.md)
 
 - [lighten](modifier.md#lighten): Increase lightness.
 - [darken](modifier.md#darken): Decrease darkness.
@@ -77,4 +93,3 @@
 - [mix](modifier.md#mix): Mix two colors.
 - [complement](modifier.md#complement): Sets color to the complement of a color.
 - [invert](modifier.md#invert): Sets color to the inverse (negative) of a color.
-- [random](modifier.md#random): Sets random color values as HWB color model.

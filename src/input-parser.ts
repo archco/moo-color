@@ -3,34 +3,30 @@ import { resolveHwb } from './color-converter';
 import Names from './color-names';
 import { clamp, degree, resolveAlpha } from './util/util';
 
-type AcceptedInput = string|string[]|number[]|object;
-
-export default function inputParser(input: AcceptedInput): Color|null {
- if (typeof input === 'string') {
-    if (input in Names) {
-      // Named colors.
-      return {
-        model: 'rgb',
-        values: Names[input],
-        alpha: 1,
-      };
-    } else if (input === 'transparent') {
-      // 'transparent'.
-      return {
-        model: 'rgb',
-        values: [0, 0, 0],
-        alpha: 0,
-      };
-    } else {
-      // parse string.
-      const prefix = input.substr(0, 3).toLowerCase();
-      switch (prefix) {
-        case 'hwb': return parseHwb(input);
-        case 'hsl': return parseHsl(input);
-        case 'hsv': return parseHsv(input);
-        case 'cmy': return parseCmyk(input);
-        default: return parseRgb(input);
-      }
+export default function inputParser(input: string): Color|null {
+  if (input in Names) {
+    // Named colors.
+    return {
+      model: 'rgb',
+      values: Names[input],
+      alpha: 1,
+    };
+  } else if (input === 'transparent') {
+    // 'transparent'.
+    return {
+      model: 'rgb',
+      values: [0, 0, 0],
+      alpha: 0,
+    };
+  } else {
+    // parse string.
+    const prefix = input.substr(0, 3).toLowerCase();
+    switch (prefix) {
+      case 'hwb': return parseHwb(input);
+      case 'hsl': return parseHsl(input);
+      case 'hsv': return parseHsv(input);
+      case 'cmy': return parseCmyk(input);
+      default: return parseRgb(input);
     }
   }
 }
