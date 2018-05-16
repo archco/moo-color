@@ -14,14 +14,17 @@ describe('#MooColor', () => {
       expect(color.getModel()).toEqual('rgb');
     });
 
+    it('can set color as a color data.', () => {
+      const color = new MooColor({ model: 'rgb', values: [255, 0, 0] });
+      expect(color.toHex('short')).toEqual('#f00');
+    });
+
     it('if no argument, color is black.', () => {
       expect(new MooColor().toHex('short')).toEqual('#000');
     });
 
     it('if parsing failed, occurs error.', () => {
-      expect(() => {
-        const color = new MooColor([]);
-      }).toThrowError();
+      expect(() => new MooColor('wrong string')).toThrow(Error);
     });
   });
 

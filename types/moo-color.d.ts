@@ -50,9 +50,10 @@ export class MooColor extends ColorFormatter implements ColorModifiable<MooColor
 
   /**
    * Creates an instance of MooColor.
-   * @param {*} [color] color string. e.g. '#ff0000' 'rgba(255, 0, 0, .5)' 'hsl(120, 50%, 100%)'
+   * @param {(string|Color)} [color] color value. e.g. '#ff0000' 'rgba(255, 0, 0, .5)' 'hsl(120, 50%, 100%)'
+   * @memberof MooColor
    */
-  constructor(color?: any);
+  constructor(color?: string|Color);
 
   setColorByParser(str: string): this;
   clone(): MooColor;
