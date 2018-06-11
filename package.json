@@ -1,6 +1,6 @@
 {
   "name": "moo-color",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "A simple color library.",
   "main": "dist/moo-color.js",
   "types": "types/moo-color.d.ts",

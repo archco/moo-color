@@ -46,17 +46,32 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// define getter function for harmony exports
 /******/ 	__webpack_require__.d = function(exports, name, getter) {
 /******/ 		if(!__webpack_require__.o(exports, name)) {
-/******/ 			Object.defineProperty(exports, name, {
-/******/ 				configurable: false,
-/******/ 				enumerable: true,
-/******/ 				get: getter
-/******/ 			});
+/******/ 			Object.defineProperty(exports, name, { enumerable: true, get: getter });
 /******/ 		}
 /******/ 	};
 /******/
 /******/ 	// define __esModule on exports
 /******/ 	__webpack_require__.r = function(exports) {
+/******/ 		if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 			Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/ 		}
 /******/ 		Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 	};
+/******/
+/******/ 	// create a fake namespace object
+/******/ 	// mode & 1: value is a module id, require it
+/******/ 	// mode & 2: merge all properties of value into the ns
+/******/ 	// mode & 4: return value when already ns object
+/******/ 	// mode & 8|1: behave like require
+/******/ 	__webpack_require__.t = function(value, mode) {
+/******/ 		if(mode & 1) value = __webpack_require__(value);
+/******/ 		if(mode & 8) return value;
+/******/ 		if((mode & 4) && typeof value === 'object' && value && value.__esModule) return value;
+/******/ 		var ns = Object.create(null);
+/******/ 		__webpack_require__.r(ns);
+/******/ 		Object.defineProperty(ns, 'default', { enumerable: true, value: value });
+/******/ 		if(mode & 2 && typeof value != 'string') for(var key in value) __webpack_require__.d(ns, key, function(key) { return value[key]; }.bind(null, key));
+/******/ 		return ns;
 /******/ 	};
 /******/
 /******/ 	// getDefaultExport function for compatibility with non-harmony modules
@@ -498,12 +513,12 @@ function hsvToHwb(h, s, v) {
  * @returns {number[]} [hue, saturation, value] (0-360, 0-100, 0-100)
  */
 function hwbToHsv(h, w, b) {
+    var _a;
     _a = resolveHwb(h, w, b), h = _a[0], w = _a[1], b = _a[2];
     w /= 100, b /= 100;
     var s = 1 - w / (1 - b);
     var v = 1 - b;
     return [h, s * 100, v * 100];
-    var _a;
 }
 /**
  * Converts RGB to HEX string.
@@ -703,16 +718,16 @@ var ColorFormatter = /** @class */ (function () {
      * @returns {string}
      */
     ColorFormatter.prototype.toRgb = function (mode) {
+        var _a;
         if (mode === void 0) { mode = 'default'; }
         var color = this.getColorAs('rgb');
-        var _a = color.values.map(function (x) { return Math.round(x); }), r = _a[0], g = _a[1], b = _a[2];
+        var _b = color.values.map(function (x) { return Math.round(x); }), r = _b[0], g = _b[1], b = _b[2];
         if (mode === 'percent') {
-            _b = [r, g, b].map(function (x) { return x / 255 * 100 + "%"; }), r = _b[0], g = _b[1], b = _b[2];
+            _a = [r, g, b].map(function (x) { return x / 255 * 100 + "%"; }), r = _a[0], g = _a[1], b = _a[2];
         }
         return color.alpha === 1
             ? "rgb(" + r + ", " + g + ", " + b + ")"
             : "rgba(" + r + ", " + g + ", " + b + ", " + color.alpha + ")";
-        var _b;
     };
     /**
      * Represents color as HWB notation.
@@ -1062,8 +1077,9 @@ var MooColor = /** @class */ (function (_super) {
      * @memberof MooColor
      */
     MooColor.random = function (_a) {
-        var _b = _a === void 0 ? {} : _a, hue = _b.hue, white = _b.white, black = _b.black;
-        _c = [hue, white, black].map(function (x, i) {
+        var _b;
+        var _c = _a === void 0 ? {} : _a, hue = _c.hue, white = _c.white, black = _c.black;
+        _b = [hue, white, black].map(function (x, i) {
             if (typeof x === 'number') {
                 return x;
             }
@@ -1074,13 +1090,12 @@ var MooColor = /** @class */ (function (_super) {
             else {
                 return i === 0 ? Object(_util_util__WEBPACK_IMPORTED_MODULE_3__["getRandom"])(0, 360) : Object(_util_util__WEBPACK_IMPORTED_MODULE_3__["getRandom"])(0, 100, 2);
             }
-        }), hue = _c[0], white = _c[1], black = _c[2];
+        }), hue = _b[0], white = _b[1], black = _b[2];
         return new MooColor({
             model: 'hwb',
             values: Object(_color_converter__WEBPACK_IMPORTED_MODULE_0__["resolveHwb"])(Object(_util_util__WEBPACK_IMPORTED_MODULE_3__["degree"])(hue), Object(_util_util__WEBPACK_IMPORTED_MODULE_3__["clamp"])(white, 0, 100), Object(_util_util__WEBPACK_IMPORTED_MODULE_3__["clamp"])(black, 0, 100)),
             alpha: 1,
         });
-        var _c;
     };
     MooColor.prototype.setColorByParser = function (str) {
         var color = Object(_input_parser__WEBPACK_IMPORTED_MODULE_2__["default"])(str);
