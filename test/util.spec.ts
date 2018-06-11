@@ -7,25 +7,18 @@ import {
 } from '../src/util/util';
 
 describe('#padStart', () => {
-  it('padStart', () => {
-    let res = padStart('xx', 4, 'O');
-    expect(res).toEqual('OOxx');
-    res = padStart('xx', 8, '12');
-    expect(res).toEqual('121212xx');
+  it('should works.', () => {
+    expect(padStart('abc', 5, '0')).toEqual('00abc');
+    expect(padStart('abcdef', 4, '0')).toEqual('abcdef');
+    expect(padStart('abc', 10, '123')).toEqual('1231231abc');
   });
 });
 
 describe('#padEnd', () => {
-  it('padEnd', () => {
-    let res = padEnd('4', 4, '-');
-    expect(res).toEqual('4---');
-    res = padEnd('xx', 8, '123');
-    expect(res).toEqual('xx123123');
-  });
-
-  it('no space, no change.', () => {
-    const str = padEnd('1234', 4, '_');
-    expect(str).toEqual('1234');
+  it('should works.', () => {
+    expect(padEnd('abc', 5, '0')).toEqual('abc00');
+    expect(padEnd('abcdef', 4, '0')).toEqual('abcdef');
+    expect(padEnd('abc', 10, '123')).toEqual('abc1231231');
   });
 });
 
