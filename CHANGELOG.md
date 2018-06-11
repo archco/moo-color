@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [0.2.2] - 2018-06-11
+
+### Fixed
+
+- Fix util methods `padStart()` and `padEnd()`. (1ded7bb88e1712fe5b60801aca29a5df44a4ecbc)
+
 ## [0.2.0] - 2018-05-16
 
 ### Changed
@@ -42,7 +48,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 First release.
 
-[Unreleased]: https://github.com/archco/moo-color/compare/v0.2.0...HEAD
+[Unreleased]: https://github.com/archco/moo-color/compare/v0.2.2...HEAD
+[0.2.2]: https://github.com/archco/moo-color/compare/v0.2.0...v0.2.2
 [0.2.0]: https://github.com/archco/moo-color/compare/v0.1.3...v0.2.0
 [0.1.3]: https://github.com/archco/moo-color/compare/v0.1.1...v0.1.3
 [0.1.1]: https://github.com/archco/moo-color/compare/v0.1.0...v0.1.1

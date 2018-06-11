@@ -1337,7 +1337,7 @@ function makePad(chars, limit) {
     while (chars.length < limit) {
         chars += chars;
     }
-    return chars.length > limit ? chars.substring(chars.length - limit) : chars;
+    return chars.substring(0, limit);
 }
 function clamp(num, min, max) {
     return Math.min(Math.max(min, num), max);
