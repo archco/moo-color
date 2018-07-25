@@ -718,8 +718,8 @@ var ColorFormatter = /** @class */ (function () {
      * @returns {string}
      */
     ColorFormatter.prototype.toRgb = function (mode) {
-        var _a;
         if (mode === void 0) { mode = 'default'; }
+        var _a;
         var color = this.getColorAs('rgb');
         var _b = color.values.map(function (x) { return Math.round(x); }), r = _b[0], g = _b[1], b = _b[2];
         if (mode === 'percent') {
@@ -1077,9 +1077,9 @@ var MooColor = /** @class */ (function (_super) {
      * @memberof MooColor
      */
     MooColor.random = function (_a) {
-        var _b;
-        var _c = _a === void 0 ? {} : _a, hue = _c.hue, white = _c.white, black = _c.black;
-        _b = [hue, white, black].map(function (x, i) {
+        var _b = _a === void 0 ? {} : _a, hue = _b.hue, white = _b.white, black = _b.black;
+        var _c;
+        _c = [hue, white, black].map(function (x, i) {
             if (typeof x === 'number') {
                 return x;
             }
@@ -1090,7 +1090,7 @@ var MooColor = /** @class */ (function (_super) {
             else {
                 return i === 0 ? Object(_util_util__WEBPACK_IMPORTED_MODULE_3__["getRandom"])(0, 360) : Object(_util_util__WEBPACK_IMPORTED_MODULE_3__["getRandom"])(0, 100, 2);
             }
-        }), hue = _b[0], white = _b[1], black = _b[2];
+        }), hue = _c[0], white = _c[1], black = _c[2];
         return new MooColor({
             model: 'hwb',
             values: Object(_color_converter__WEBPACK_IMPORTED_MODULE_0__["resolveHwb"])(Object(_util_util__WEBPACK_IMPORTED_MODULE_3__["degree"])(hue), Object(_util_util__WEBPACK_IMPORTED_MODULE_3__["clamp"])(white, 0, 100), Object(_util_util__WEBPACK_IMPORTED_MODULE_3__["clamp"])(black, 0, 100)),

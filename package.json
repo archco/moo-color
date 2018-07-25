@@ -1,6 +1,6 @@
 {
   "name": "moo-color",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "description": "A simple color library.",
   "main": "dist/moo-color.js",
   "types": "types/moo-color.d.ts",
@@ -31,15 +31,15 @@
   },
   "devDependencies": {
     "@types/color-name": "^1.1.0",
-    "@types/jest": "^23.0.0",
-    "jest": "^23.1.0",
+    "@types/jest": "^23.3.0",
+    "jest": "^23.4.1",
     "source-map-loader": "^0.2.3",
-    "ts-jest": "^22.4.6",
-    "ts-loader": "^4.4.1",
-    "typescript": "^2.9.1",
-    "webpack": "^4.12.0",
-    "webpack-cli": "^3.0.3",
-    "webpack-merge": "^4.1.2",
+    "ts-jest": "^23.0.1",
+    "ts-loader": "^4.4.2",
+    "typescript": "^2.9.2",
+    "webpack": "^4.16.2",
+    "webpack-cli": "^3.1.0",
+    "webpack-merge": "^4.1.3",
     "webpack-notifier": "^1.6.0"
   },
   "jest": {
