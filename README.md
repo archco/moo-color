@@ -4,7 +4,7 @@
 [![npm version](https://badge.fury.io/js/moo-color.svg)](https://www.npmjs.com/package/moo-color)
 [![Downloads](https://img.shields.io/npm/dm/moo-color.svg)](https://www.npmjs.com/package/moo-color)
 
-A simple color library for javascript.
+The simple javascript library that provides convenient methods for color parsing and manipulation.
 
 ## Install
 
