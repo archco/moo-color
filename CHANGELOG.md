@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [1.0.0] - 2019-10-17
+
+### Updated
+
+- Update dependencies.
+
 ## [0.2.2] - 2018-06-11
 
 ### Fixed
@@ -48,7 +54,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 First release.
 
-[Unreleased]: https://github.com/archco/moo-color/compare/v0.2.2...HEAD
+[Unreleased]: https://github.com/archco/moo-color/compare/v1.0.0...HEAD
+[1.0.0]: https://github.com/archco/moo-color/compare/v0.2.2...v1.0.0
 [0.2.2]: https://github.com/archco/moo-color/compare/v0.2.0...v0.2.2
 [0.2.0]: https://github.com/archco/moo-color/compare/v0.1.3...v0.2.0
 [0.1.3]: https://github.com/archco/moo-color/compare/v0.1.1...v0.1.3
