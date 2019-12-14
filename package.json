@@ -1,6 +1,6 @@
 {
   "name": "moo-color",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "The simple javascript library that provides convenient methods for color parsing and manipulation.",
   "main": "dist/moo-color.js",
   "types": "types/moo-color.d.ts",
@@ -31,32 +31,25 @@
   },
   "devDependencies": {
     "@types/color-name": "^1.1.1",
-    "@types/jest": "^24.0.19",
-    "@typescript-eslint/eslint-plugin": "^2.4.0",
-    "@typescript-eslint/parser": "^2.4.0",
-    "eslint": "^6.5.1",
+    "@types/jest": "^24.0.23",
+    "@typescript-eslint/eslint-plugin": "^2.11.0",
+    "@typescript-eslint/parser": "^2.11.0",
+    "eslint": "^6.7.2",
     "jest": "^24.9.0",
     "source-map-loader": "^0.2.4",
-    "ts-jest": "^24.1.0",
-    "ts-loader": "^6.2.0",
-    "typescript": "^3.6.4",
+    "ts-jest": "^24.2.0",
+    "ts-loader": "^6.2.1",
+    "typescript": "^3.7.3",
     "webpack": "^4.41.2",
-    "webpack-cli": "^3.3.9",
+    "webpack-cli": "^3.3.10",
     "webpack-merge": "^4.2.2",
     "webpack-notifier": "^1.8.0"
   },
   "jest": {
     "preset": "ts-jest",
-    "testRegex": "(/__tests__/.*|(\\.|/)(test|spec))\\.(jsx?|tsx?)$",
-    "moduleFileExtensions": [
-      "ts",
-      "js",
-      "json",
-      "node"
-    ],
     "collectCoverage": true,
     "collectCoverageFrom": [
-      "src/**/*.{ts}",
+      "src/**/*.ts",
       "!**/node_modules/**"
     ]
   }
