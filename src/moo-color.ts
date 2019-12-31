@@ -10,7 +10,6 @@ import ColorFormatter from './color-formatter';
 import parser from './input-parser';
 import {
   clamp,
-  decimal,
   degree,
   getRandom,
 } from './util/util';

@@ -11,7 +11,10 @@ export as namespace MooColor;
 
 export * from './color';
 
-export { ColorFormatter };
+export {
+  AcceptedModel,
+  ColorFormatter,
+};
 
 type manipulateFn = (...args: number[]) => number[];
 

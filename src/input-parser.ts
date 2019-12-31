@@ -34,9 +34,9 @@ export default function inputParser(input: string): Color|null {
 function parseRgb(input: string): Color|null {
   const hex = /^#?([a-f0-9]{6})([a-f0-9]{2})?$/i;
   const shortHex = /^#?([a-f0-9]{3})([a-f0-9]{1})?$/i;
-  const rgba = /^rgba?\s*\(\s*([+-]?\d+)\s*,\s*([+-]?\d+)\s*,\s*([+-]?\d+)\s*(?:,\s*([+-]?[\d\.]+)\s*)?\)$/;
+  const rgba = /^rgba?\s*\(\s*([+-]?\d+)\s*,\s*([+-]?\d+)\s*,\s*([+-]?\d+)\s*(?:,\s*([+-]?[\d.]+)\s*)?\)$/;
   // tslint:disable-next-line:max-line-length
-  const percent = /^rgba?\s*\(\s*([+-]?[\d\.]+)\%\s*,\s*([+-]?[\d\.]+)\%\s*,\s*([+-]?[\d\.]+)\%\s*(?:,\s*([+-]?[\d\.]+)\s*)?\)$/;
+  const percent = /^rgba?\s*\(\s*([+-]?[\d.]+)%\s*,\s*([+-]?[\d.]+)%\s*,\s*([+-]?[\d.]+)%\s*(?:,\s*([+-]?[\d.]+)\s*)?\)$/;
   const hexToAlpha = (num: string) => Math.round((parseInt(num, 16) / 255) * 100) / 100;
   let values: number[];
   let alpha: number;
@@ -69,7 +69,7 @@ function parseRgb(input: string): Color|null {
 
 function parseHsl(input: string): Color|null {
   // tslint:disable-next-line:max-line-length
-  const hsl = /^hsla?\s*\(\s*([+-]?\d*[\.]?\d+)(?:deg)?\s*,\s*([+-]?[\d\.]+)%\s*,\s*([+-]?[\d\.]+)%\s*(?:,\s*([+-]?[\d\.]+)\s*)?\)$/i;
+  const hsl = /^hsla?\s*\(\s*([+-]?\d*[.]?\d+)(?:deg)?\s*,\s*([+-]?[\d.]+)%\s*,\s*([+-]?[\d.]+)%\s*(?:,\s*([+-]?[\d.]+)\s*)?\)$/i;
 
   if (hsl.test(input)) {
     const [, h, s, l, a] = input.match(hsl);
@@ -89,7 +89,7 @@ function parseHsl(input: string): Color|null {
 
 function parseHwb(input: string): Color|null {
   // tslint:disable-next-line:max-line-length
-  const hwb = /^hwba?\s*\(\s*([+-]?\d*[\.]?\d+)(?:deg)?\s*,\s*([+-]?[\d\.]+)%\s*,\s*([+-]?[\d\.]+)%\s*(?:,\s*([+-]?[\d\.]+)\s*)?\)$/i;
+  const hwb = /^hwba?\s*\(\s*([+-]?\d*[.]?\d+)(?:deg)?\s*,\s*([+-]?[\d.]+)%\s*,\s*([+-]?[\d.]+)%\s*(?:,\s*([+-]?[\d.]+)\s*)?\)$/i;
 
   if (hwb.test(input)) {
     const [, h, w, b, a] = input.match(hwb);
@@ -109,7 +109,7 @@ function parseHwb(input: string): Color|null {
 
 function parseHsv(input: string): Color|null {
   // tslint:disable-next-line:max-line-length
-  const hsv = /^hsva?\s*\(\s*([+-]?\d*[\.]?\d+)(?:deg)?\s*,\s*([+-]?[\d\.]+)%\s*,\s*([+-]?[\d\.]+)%\s*(?:,\s*([+-]?[\d\.]+)\s*)?\)$/i;
+  const hsv = /^hsva?\s*\(\s*([+-]?\d*[.]?\d+)(?:deg)?\s*,\s*([+-]?[\d.]+)%\s*,\s*([+-]?[\d.]+)%\s*(?:,\s*([+-]?[\d.]+)\s*)?\)$/i;
 
   if (hsv.test(input)) {
     const [, h, s, v, a] = input.match(hsv);
@@ -129,7 +129,7 @@ function parseHsv(input: string): Color|null {
 
 function parseCmyk(input: string): Color|null {
   // tslint:disable-next-line:max-line-length
-  const cmyk = /^cmyk\s*\(\s*([+-]?[\d\.]+)%\s*,\s*([+-]?[\d\.]+)%\s*,\s*([+-]?[\d\.]+)%\s*,\s*([+-]?[\d\.]+)%\s*(?:,\s*([+-]?[\d\.]+)\s*)?\)$/i;
+  const cmyk = /^cmyk\s*\(\s*([+-]?[\d.]+)%\s*,\s*([+-]?[\d.]+)%\s*,\s*([+-]?[\d.]+)%\s*,\s*([+-]?[\d.]+)%\s*(?:,\s*([+-]?[\d.]+)\s*)?\)$/i;
 
   if (cmyk.test(input)) {
     const [, c, m, y, k, a] = input.match(cmyk);
