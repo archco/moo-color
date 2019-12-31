@@ -6,140 +6,140 @@
 
 Increase lightness.
 
-- Syntax
+Syntax
 
-  ``` js
-  mooColor.lighten(amount);
-  ```
+``` ts
+mooColor.lighten(amount: number): this;
+```
 
-- Param `number` amount - The amount from 0 to 100.
-- Returns `this`
+- @param `number` amount - The amount from 0 to 100.
+- @returns `this`
 
 ### darken
 
 Decrease lightness.
 
-- Syntax
+Syntax
 
-  ``` js
-  mooColor.darken(amount);
-  ```
+``` ts
+mooColor.darken(amount: number): this;
+```
 
-- Param `number` amount - The amount from 0 to 100.
-- Returns `this`
+- @param `number` amount - The amount from 0 to 100.
+- @returns `this`
 
 ### saturate
 
 Increase saturation.
 
-- Syntax
+Syntax
 
-  ``` js
-  mooColor.saturate(amount);
-  ```
+``` ts
+mooColor.saturate(amount: number): this;
+```
 
-- Param `number` amount - The amount from 0 to 100.
-- Returns `this`
+- @param `number` amount - The amount from 0 to 100.
+- @returns `this`
 
 ### desaturate
 
 Decrease saturation.
 
-- Syntax
+Syntax
 
-  ``` js
-  mooColor.desaturate(amount);
-  ```
+``` ts
+mooColor.desaturate(amount: number): this;
+```
 
-- Param `number` amount - The amount from 0 to 100.
-- Returns `this`
+- @param `number` amount - The amount from 0 to 100.
+- @returns `this`
 
 ### grayscale
 
 Sets saturation value to 0.
 
-- Syntax
+Syntax
 
-  ``` js
-  mooColor.grayscale();
-  ```
+``` ts
+mooColor.grayscale(): this;
+```
 
-- Returns `this`
+- @returns `this`
 
 ### whiten
 
 Modify whiteness.
 
-- Syntax
+Syntax
 
-  ``` js
-  mooColor.whiten(amount);
-  ```
+``` ts
+mooColor.whiten(amount: number): this;
+```
 
-- Param `number` amount - The amount from -100 to 100.
-- Returns `this`
+- @param `number` amount - The amount from -100 to 100.
+- @returns `this`
 
 ### blacken
 
 Modify blackness.
 
-- Syntax
+Syntax
 
-  ``` js
-  mooColor.blacken(amount);
-  ```
+``` ts
+mooColor.blacken(amount: number): this;
+```
 
-- Param `number` amount - The amount from -100 to 100.
-- Returns `this`
+- @param `number` amount - The amount from -100 to 100.
+- @returns `this`
 
 ### rotate
 
 Rotate hue value.
 
-- Syntax
+Syntax
 
-  ``` js
-  mooColor.rotate(degree);
-  ```
+``` ts
+mooColor.rotate(degree: number): this;
+```
 
-- Param `number` degree - The degree value from 0 to 360.
-- Returns `this`
+- @param `number` degree - The degree value from 0 to 360.
+- @returns `this`
 
 ### mix
 
 Mix two colors.
 
-- Syntax
+Syntax
 
-  ``` js
-  const mixedColor = mooColor.mix(color, percent = 50);
-  ```
+``` ts
+const mixedColor = mooColor.mix(color: MooColor, percent?: number): MooColor;
+```
 
-- Param `MooColor` color - The color to mixed.
-- Param `number` [percent = 50] - The percentage value of color to be mixed.
-- Returns `MooColor` - The mixed color that as a new instance of `MooColor`.
+- @param `MooColor` color - The color to mixed.
+- @param `number` [percent = 50] - The percentage value of color to be mixed.
+- @returns `MooColor` - The mixed color that as a new instance of `MooColor`.
 
 ### complement
 
 Sets color to the complement of a color. This is identical to `rotate(180)`.
 
-- Syntax
+Syntax
 
-  ``` js
-  mooColor.complement();
-  ```
+``` ts
+mooColor.complement(): this;
+```
 
-- Returns `this`
+- @returns `this`
 
 ### invert
 
 Sets color to the inverse (negative) of a color.
 
-- Syntax
+Syntax
 
-  ``` js
-  mooColor.invert();
-  ```
+``` ts
+mooColor.invert(percent?: number): this;
+```
 
-- Param `number` [percent = 100] - The relative percent of the color that inverse.
-- Returns `this`
+- @param `number` [percent = 100] - The relative percent of the color that inverse.
+- @returns `this`

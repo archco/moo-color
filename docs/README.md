@@ -15,14 +15,14 @@
 
 ### Constructor
 
-- Syntax
+Syntax
 
-  ``` js
-  const color = new MooColor(str = '');
-  ```
+``` js
+const color = new MooColor(str = '');
+```
 
-- Param `string` str - [parsable color string](#parsable-color-string). If not specify this value, then color set to `#000` (black).
-- Return `MooColor` - Instance of `MooColor`
+- @param `string` str - [parsable color string](#parsable-color-string). If not specify this value, then color set to `#000` (black).
+- @returns `MooColor` - Instance of `MooColor`
 
 ### Parsable color string
 
@@ -53,32 +53,32 @@
 
 ## [Setter](setter.md)
 
-- [setColor](setter.md#setcolor): Set color data.
-- [getColor](setter.md#getcolor): Get color data.
-- [getColorAs](setter.md#getcoloras): Get color data as specific color model.
-- [getModel](setter.md#getmodel): Get color model name.
-- [changeModel](setter.md#changemodel): Converts color data to given color model.
-- [getAlpha](setter.md#getalpha): Get alpha value from `Color`.
-- [setAlpha](setter.md#setalpha): Set alpha value to `Color`.
+- [setColor](setter.md#setColor): Set color data.
+- [getColor](setter.md#getColor): Get color data.
+- [getColorAs](setter.md#getColorAs): Get color data as specific color model.
+- [getModel](setter.md#getModel): Get color model name.
+- [changeModel](setter.md#changeModel): Converts color data to given color model.
+- [getAlpha](setter.md#getAlpha): Get alpha value from `Color`.
+- [setAlpha](setter.md#setAlpha): Set alpha value to `Color`.
 
 ## [Formatter](formatter.md)
 
-- [toString](formatter.md#tostring): Represents color as notation of specific color model.
-- [toHex](formatter.md#tohex): Represents color as HEX notation.
-- [toRgb](formatter.md#torgb): Represents color as RGB notation.
-- [toHwb](formatter.md#tohwb): Represents color as HWB notation.
-- [toHsl](formatter.md#tohsl): Represents color as HSL notation.
-- [toHsv](formatter.md#tohsv): Represents color as HSV notation. This format is similar to HSL.
-- [toCmyk](formatter.md#tocmyk): Represents color as CMYK notation.
+- [toString](formatter.md#toString): Represents color as notation of specific color model.
+- [toHex](formatter.md#toHex): Represents color as HEX notation.
+- [toRgb](formatter.md#toRgb): Represents color as RGB notation.
+- [toHwb](formatter.md#toHwb): Represents color as HWB notation.
+- [toHsl](formatter.md#toHsl): Represents color as HSL notation.
+- [toHsv](formatter.md#toHsv): Represents color as HSV notation. This format is similar to HSL.
+- [toCmyk](formatter.md#toCmyk): Represents color as CMYK notation.
 
 ## [State access](state-access.md)
 
 - [brightness](state-access.md#brightness): `readonly` Returns color brightness from 0 to 255.
-- [isLight](state-access.md#islight): `readonly` Returns whether color is light or not.
-- [isDark](state-access.md#isdark): `readonly` Returns whether color is dark or not.
+- [isLight](state-access.md#isLight): `readonly` Returns whether color is light or not.
+- [isDark](state-access.md#isDark): `readonly` Returns whether color is dark or not.
 - [luminance](state-access.md#luminance): `readonly` Returns luminance value of the color. range from 0 to 1.
-- [contrastRatioWith](state-access.md#contrastratiowith): Returns contrast ratio with other color. range from 0 to 21.
-- [isContrastEnough](state-access.md#iscontrastenough): Return true if contrast ratio >= 4.5
+- [contrastRatioWith](state-access.md#contrastRatioWith): Returns contrast ratio with other color. range from 0 to 21.
+- [isContrastEnough](state-access.md#isContrastEnough): Return true if contrast ratio >= 4.5
 
 ## [Modification](modification.md)
 

@@ -21,86 +21,86 @@ interface ColorData {
 
 Set color data.
 
-- Syntax
+Syntax
 
-  ``` js
-  mooColor.setColor(color);
-  ```
+``` ts
+mooColor.setColor(color: Color): this;
+```
 
-- Param `Color` color - [Color data](#color-data)
-- Returns `this`
+- @param `Color` color - [Color data](#color-data)
+- @returns `this`
 
 ### getColor
 
 Get color data.
 
-- Syntax
+Syntax
 
-  ``` js
-  const color = mooColor.getColor();
-  ```
+``` ts
+mooColor.getColor(): Color;
+```
 
-- Returns `Color` - [Color data](#color-data)
+- @returns `Color` - [Color data](#color-data)
 
 ### getColorAs
 
 Get color data as specific color model.
 
-- Syntax
+Syntax
 
-  ``` js
-  const color = mooColor.getColorAs(model);
-  ```
+``` ts
+mooColor.getColorAs(model: string): Color;
+```
 
-- Param `string` model - accepted model name. `rgb`|`hwb`|`hsl`|`hsv`|`cmyk`
-- Returns `Color` - [Color data](#color-data)
+- @param `string` model - accepted model name. `rgb`|`hwb`|`hsl`|`hsv`|`cmyk`
+- @returns `Color` - [Color data](#color-data)
 
 ### getModel
 
 Get color model name.
 
-- Syntax
+Syntax
 
-  ``` js
-  const model = mooColor.getModel();
-  ```
+``` ts
+mooColor.getModel(): string;
+```
 
-- Returns `string` - model name. `rgb`|`hwb`|`hsl`|`hsv`|`cmyk`
+- @returns `string` - model name. `rgb`|`hwb`|`hsl`|`hsv`|`cmyk`
 
 ### changeModel
 
 Converts color data to given color model.
 
-- Syntax
+Syntax
 
-  ``` js
-  mooColor.changeModel(model);
-  ```
+``` ts
+mooColor.changeModel(model: string): this;
+```
 
-- Param `string` model - accepted model name. `rgb`|`hwb`|`hsl`|`hsv`|`cmyk`
-- Returns `this`
+- @param `string` model - accepted model name. `rgb`|`hwb`|`hsl`|`hsv`|`cmyk`
+- @returns `this`
 
 ### getAlpha
 
 Get alpha value from `Color`.
 
-- Syntax
+Syntax
 
-  ``` js
-  const alpha = mooColor.getAlpha();
-  ```
+``` ts
+mooColor.getAlpha(): number;
+```
 
-- Returns `number` - alpha value from 0 to 1.
+- @returns `number` - alpha value from 0 to 1.
 
 ### setAlpha
 
 Set alpha value to `Color`.
 
-- Syntax
+Syntax
 
-  ``` js
-  mooColor.setAlpha(alpha);
-  ```
+``` ts
+mooColor.setAlpha(alpha: number): this;
+```
 
-- Param `number` alpha - alpha value from 0 to 1.
-- Returns `this`
+- @param `number` alpha - alpha value from 0 to 1.
+- @returns `this`
