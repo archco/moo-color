@@ -9,8 +9,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [1.0.2] - 2019-12-31
 
-- Refined some regex.
-- Update docs.
+- Refined some regex. (073832a8ef0a74503cc30cfe89489fbefbc1d160)
+- Update docs. (6ebd08963b19bc8a0fceb062d17a11fe7eb70144)
 
 ## [1.0.0] - 2019-10-17
 
@@ -59,7 +59,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 First release.
 
-[Unreleased]: https://github.com/archco/moo-color/compare/v1.0.0...HEAD
+[Unreleased]: https://github.com/archco/moo-color/compare/v1.0.2...HEAD
+[1.0.2]: https://github.com/archco/moo-color/compare/v1.0.0...v1.0.2
 [1.0.0]: https://github.com/archco/moo-color/compare/v0.2.2...v1.0.0
 [0.2.2]: https://github.com/archco/moo-color/compare/v0.2.0...v0.2.2
 [0.2.0]: https://github.com/archco/moo-color/compare/v0.1.3...v0.2.0
