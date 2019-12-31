@@ -901,9 +901,9 @@ function inputParser(input) {
 function parseRgb(input) {
     var hex = /^#?([a-f0-9]{6})([a-f0-9]{2})?$/i;
     var shortHex = /^#?([a-f0-9]{3})([a-f0-9]{1})?$/i;
-    var rgba = /^rgba?\s*\(\s*([+-]?\d+)\s*,\s*([+-]?\d+)\s*,\s*([+-]?\d+)\s*(?:,\s*([+-]?[\d\.]+)\s*)?\)$/;
+    var rgba = /^rgba?\s*\(\s*([+-]?\d+)\s*,\s*([+-]?\d+)\s*,\s*([+-]?\d+)\s*(?:,\s*([+-]?[\d.]+)\s*)?\)$/;
     // tslint:disable-next-line:max-line-length
-    var percent = /^rgba?\s*\(\s*([+-]?[\d\.]+)\%\s*,\s*([+-]?[\d\.]+)\%\s*,\s*([+-]?[\d\.]+)\%\s*(?:,\s*([+-]?[\d\.]+)\s*)?\)$/;
+    var percent = /^rgba?\s*\(\s*([+-]?[\d.]+)%\s*,\s*([+-]?[\d.]+)%\s*,\s*([+-]?[\d.]+)%\s*(?:,\s*([+-]?[\d.]+)\s*)?\)$/;
     var hexToAlpha = function (num) { return Math.round((parseInt(num, 16) / 255) * 100) / 100; };
     var values;
     var alpha;
@@ -938,7 +938,7 @@ function parseRgb(input) {
 }
 function parseHsl(input) {
     // tslint:disable-next-line:max-line-length
-    var hsl = /^hsla?\s*\(\s*([+-]?\d*[\.]?\d+)(?:deg)?\s*,\s*([+-]?[\d\.]+)%\s*,\s*([+-]?[\d\.]+)%\s*(?:,\s*([+-]?[\d\.]+)\s*)?\)$/i;
+    var hsl = /^hsla?\s*\(\s*([+-]?\d*[.]?\d+)(?:deg)?\s*,\s*([+-]?[\d.]+)%\s*,\s*([+-]?[\d.]+)%\s*(?:,\s*([+-]?[\d.]+)\s*)?\)$/i;
     if (hsl.test(input)) {
         var _a = input.match(hsl), h = _a[1], s = _a[2], l = _a[3], a = _a[4];
         return {
@@ -957,7 +957,7 @@ function parseHsl(input) {
 }
 function parseHwb(input) {
     // tslint:disable-next-line:max-line-length
-    var hwb = /^hwba?\s*\(\s*([+-]?\d*[\.]?\d+)(?:deg)?\s*,\s*([+-]?[\d\.]+)%\s*,\s*([+-]?[\d\.]+)%\s*(?:,\s*([+-]?[\d\.]+)\s*)?\)$/i;
+    var hwb = /^hwba?\s*\(\s*([+-]?\d*[.]?\d+)(?:deg)?\s*,\s*([+-]?[\d.]+)%\s*,\s*([+-]?[\d.]+)%\s*(?:,\s*([+-]?[\d.]+)\s*)?\)$/i;
     if (hwb.test(input)) {
         var _a = input.match(hwb), h = _a[1], w = _a[2], b = _a[3], a = _a[4];
         return {
@@ -972,7 +972,7 @@ function parseHwb(input) {
 }
 function parseHsv(input) {
     // tslint:disable-next-line:max-line-length
-    var hsv = /^hsva?\s*\(\s*([+-]?\d*[\.]?\d+)(?:deg)?\s*,\s*([+-]?[\d\.]+)%\s*,\s*([+-]?[\d\.]+)%\s*(?:,\s*([+-]?[\d\.]+)\s*)?\)$/i;
+    var hsv = /^hsva?\s*\(\s*([+-]?\d*[.]?\d+)(?:deg)?\s*,\s*([+-]?[\d.]+)%\s*,\s*([+-]?[\d.]+)%\s*(?:,\s*([+-]?[\d.]+)\s*)?\)$/i;
     if (hsv.test(input)) {
         var _a = input.match(hsv), h = _a[1], s = _a[2], v = _a[3], a = _a[4];
         return {
@@ -991,7 +991,7 @@ function parseHsv(input) {
 }
 function parseCmyk(input) {
     // tslint:disable-next-line:max-line-length
-    var cmyk = /^cmyk\s*\(\s*([+-]?[\d\.]+)%\s*,\s*([+-]?[\d\.]+)%\s*,\s*([+-]?[\d\.]+)%\s*,\s*([+-]?[\d\.]+)%\s*(?:,\s*([+-]?[\d\.]+)\s*)?\)$/i;
+    var cmyk = /^cmyk\s*\(\s*([+-]?[\d.]+)%\s*,\s*([+-]?[\d.]+)%\s*,\s*([+-]?[\d.]+)%\s*,\s*([+-]?[\d.]+)%\s*(?:,\s*([+-]?[\d.]+)\s*)?\)$/i;
     if (cmyk.test(input)) {
         var _a = input.match(cmyk), c = _a[1], m = _a[2], y = _a[3], k = _a[4], a = _a[5];
         return {
