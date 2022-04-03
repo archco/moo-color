@@ -1,6 +1,6 @@
 {
   "name": "moo-color",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "A javascript class that provides convenience for color parsing and manipulating.",
   "main": "dist/moo-color.js",
   "types": "types/moo-color.d.ts",

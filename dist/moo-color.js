@@ -252,8 +252,6 @@ function rgbToHsl(r, g, b) {
     var min = Math.min(r, g, b);
     var delta = max - min;
     var h;
-    var s;
-    var l;
     if (delta === 0) {
         h = 0;
     }
@@ -266,8 +264,8 @@ function rgbToHsl(r, g, b) {
     else {
         h = 60 * ((r - g) / delta + 4);
     }
-    l = (max + min) / 2;
-    s = delta === 0 ? 0 : delta / (1 - Math.abs(2 * l - 1));
+    var l = (max + min) / 2;
+    var s = delta === 0 ? 0 : delta / (1 - Math.abs(2 * l - 1));
     return [h, s * 100, l * 100];
 }
 /**
@@ -381,8 +379,6 @@ function hsvToRgb(h, s, v) {
 function rgbToHsv(r, g, b) {
     r /= 255, g /= 255, b /= 255;
     var h;
-    var s;
-    var v;
     var max = Math.max(r, g, b);
     var min = Math.min(r, g, b);
     var delta = max - min;
@@ -398,8 +394,8 @@ function rgbToHsv(r, g, b) {
     else {
         h = 60 * ((r - g) / delta + 4);
     }
-    s = max === 0 ? 0 : delta / max;
-    v = max;
+    var s = max === 0 ? 0 : delta / max;
+    var v = max;
     return [h, s * 100, v * 100];
 }
 /**
