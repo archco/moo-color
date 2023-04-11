@@ -1,7 +1,7 @@
-import * as ColorName from 'color-name';
+import Names from 'color-name';
 
 interface ColorNames {
   [index: string]: [number, number, number];
 }
 
-export default ColorName as ColorNames;
+export default Names as ColorNames;
