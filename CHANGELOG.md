@@ -7,15 +7,36 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
-## 2.0.0 - 2026-04-01
+## [2.0.0] - 2026-04-01
 
-- ESM migration
-  - `dist/index.js` Node.js (`import`)
-  - `dist/index.cjs` Node.js (`require`)
-  - `dist/index.d.ts`/`dist/index.d.cts` TypeScript types
-  - `dist/moo-color.global.js` minify for IIFE
-- update documentation
-- update dependencies
+### Breaking Changes
+
+- **Immutable API** — all manipulation methods (`lighten`, `darken`, `saturate`, `desaturate`,
+  `grayscale`, `whiten`, `blacken`, `rotate`, `complement`, `invert`) now return a **new `MooColor`
+  instance** instead of mutating the original.
+- **`setAlpha()` and `changeModel()`** also return a new instance.
+- **`setColor()` removed** — use the constructor directly.
+- **`engines: node >= 18`** required.
+
+### Added
+
+- **IIFE bundle** `dist/moo-color.global.js` — minified, browser-ready via `<script>`, exposes `window.MooColor`.
+- **Template Literal Types** — `HexColorString`, `RgbColorString`, `HslColorString`, etc. for static type checking of color strings.
+- **`clone()`** method — return an independent copy of the instance.
+- **`convert()`** method — convert a standalone `ColorData` object without creating a full instance.
+- **WCAG 2.1 `luminance`** — sRGB linearization applied per channel (previously used raw 8-bit value).
+
+### Changed
+
+- **Build toolchain** replaced: webpack → tsup (ESM + CJS + IIFE, all minified).
+- **Test runner** replaced: Jest → Vitest.
+- **Linter** replaced: TSLint → TypeScript strict mode (`strict`, `noUncheckedIndexedAccess`).
+- **CI** replaced: Travis CI → GitHub Actions (Node.js 18, 20, 22).
+- `RandomArguments` renamed to `RandomOptions`.
+- `dist/index.js` — ESM (`import`)
+- `dist/index.cjs` — CJS (`require`)
+- `dist/index.d.ts` / `dist/index.d.cts` — TypeScript types
+- Full API documentation rewritten for v2.
 
 ## 1.0.3 - 2022-04-04
 
@@ -75,7 +96,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 First release.
 
-[Unreleased]: https://github.com/archco/moo-color/compare/v1.0.2...HEAD
+[Unreleased]: https://github.com/archco/moo-color/compare/v2.0.0...HEAD
+[2.0.0]: https://github.com/archco/moo-color/compare/v1.0.3...v2.0.0
 [1.0.2]: https://github.com/archco/moo-color/compare/v1.0.0...v1.0.2
 [1.0.0]: https://github.com/archco/moo-color/compare/v0.2.2...v1.0.0
 [0.2.2]: https://github.com/archco/moo-color/compare/v0.2.0...v0.2.2
