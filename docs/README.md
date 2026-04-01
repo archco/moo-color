@@ -101,14 +101,14 @@ type ColorInput = ColorString | (string & {});
 
 ## [Data access](data-access.md)
 
-- [getColor](setter.md#getcolor) — return a copy of the internal color data.
-- [getColorAs](setter.md#getcoloras) — return color data converted to a target model.
-- [getModel](setter.md#getmodel) — return the current model identifier.
-- [changeModel](setter.md#changemodel) — return a new instance in a different model.
-- [getAlpha](setter.md#getalpha) — return the alpha channel value.
-- [setAlpha](setter.md#setalpha) — return a new instance with the given alpha.
-- [convert](setter.md#convert) — convert a standalone `ColorData` object.
-- [clone](setter.md#clone) — return an independent copy.
+- [getColor](data-access.md#getcolor) — return a copy of the internal color data.
+- [getColorAs](data-access.md#getcoloras) — return color data converted to a target model.
+- [getModel](data-access.md#getmodel) — return the current model identifier.
+- [changeModel](data-access.md#changemodel) — return a new instance in a different model.
+- [getAlpha](data-access.md#getalpha) — return the alpha channel value.
+- [setAlpha](data-access.md#setalpha) — return a new instance with the given alpha.
+- [convert](data-access.md#convert) — convert a standalone `ColorData` object.
+- [clone](data-access.md#clone) — return an independent copy.
 
 ## [Formatter](formatter.md)
 
