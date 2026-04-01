@@ -5,91 +5,142 @@
 - [Basic](#basic)
   - [Constructor](#constructor)
   - [Parsable color string](#parsable-color-string)
+  - [Color types](#color-types)
 - [Static](#static)
-- [Setter](#setter)
+- [Data access](#data-access)
 - [Formatter](#formatter)
-- [State Access](#state-access)
+- [State access](#state-access)
 - [Modification](#modification)
+
+> **v2 Breaking change — Immutability**
+>
+> All manipulation methods (`lighten`, `darken`, `rotate`, …) now return a **new `MooColor` instance**
+> instead of mutating the original. Chain calls are still supported, but the original is never changed.
 
 ## Basic
 
 ### Constructor
 
-Syntax
-
-``` js
-const color = new MooColor(str = '');
+```ts
+const color = new MooColor(color?: ColorInput | ColorData);
 ```
 
-- @param `string` str - [parsable color string](#parsable-color-string). If not specify this value, then color set to `#000` (black).
-- @returns `MooColor` - Instance of `MooColor`
+- `color` — any [parsable color string](#parsable-color-string), a [`ColorData`](#color-types) object, or `undefined` (defaults to `#000`).
+- Throws `Error` when the string cannot be parsed.
+
+```ts
+new MooColor('#ff0000');
+new MooColor('rgba(255, 0, 0, 0.5)');
+new MooColor('hsl(0, 100%, 50%)');
+new MooColor({ model: 'rgb', values: [255, 0, 0], alpha: 1 });
+new MooColor(); // black
+```
 
 ### Parsable color string
 
-``` js
-'red'                           // named color.
-'#ff0000'                       // Hex (full)
-'#ff000080'                     // Hex (full with alpha)
-'#f00'                          // Hex (shorthand)
-'#f008'                         // Hex (shorthand with alpha)
+```ts
+'red'                           // named color
+'transparent'                   // transparent
+'#ff0000'                       // hex (full)
+'#ff000080'                     // hex (full + alpha)
+'#f00'                          // hex (shorthand)
+'#f008'                         // hex (shorthand + alpha)
 'rgb(255, 0, 0)'                // rgb
 'rgba(255, 0, 0, 0.5)'          // rgba
-'rgb(100%, 0%, 0%)'             // rgb (percent)
-'rgba(100%, 0%, 0%, 0.5)'       // rgba (percent)
+'rgb(100%, 0%, 0%)'             // rgb percent
+'rgba(100%, 0%, 0%, 0.5)'       // rgba percent
 'hsl(0, 100%, 50%)'             // hsl
 'hsla(0, 100%, 50%, 0.5)'       // hsla
 'hwb(0, 0%, 0%)'                // hwb
-'hwb(0, 0%, 0%, 0.5)'           // hwb with alpha
+'hwb(0, 0%, 0%, 0.5)'           // hwb + alpha
 'hsv(0, 100%, 100%)'            // hsv
-'hsv(0, 100%, 100%, 0.5)'       // hsv with alpha
+'hsv(0, 100%, 100%, 0.5)'       // hsv + alpha
 'cmyk(0%, 100%, 100%, 0%)'      // cmyk
-'cmyk(0%, 100%, 100%, 0%, 0.5)' // cmyk with alpha
+'cmyk(0%, 100%, 100%, 0%, 0.5)' // cmyk + alpha
+```
+
+### Color types
+
+```ts
+/** Accepted color model identifiers. */
+type AcceptedModel = 'rgb' | 'hwb' | 'hsl' | 'hsv' | 'cmyk';
+
+/** Color output mode for toHex(). */
+type HexMode = 'full' | 'short' | 'name';
+
+/** Color output mode for toRgb(). */
+type RgbMode = 'default' | 'percent';
+
+/** A plain data object carrying internal color state. */
+interface ColorData {
+  readonly model: AcceptedModel;
+  values: number[];  // e.g. rgb → [255, 0, 0], cmyk → [0, 100, 100, 0]
+  alpha?: number;    // 0 (transparent) – 1 (opaque)
+}
+
+/** Template Literal Types for static color string validation. */
+type HexColorString  = `#${string}`;
+type RgbColorString  = `rgb(${string})` | `rgba(${string})`;
+type HslColorString  = `hsl(${string})` | `hsla(${string})`;
+type HwbColorString  = `hwb(${string})`;
+type HsvColorString  = `hsv(${string})` | `hsva(${string})`;
+type CmykColorString = `cmyk(${string})`;
+
+/** All recognized color string formats. */
+type ColorString = HexColorString | RgbColorString | HslColorString
+                 | HwbColorString | HsvColorString | CmykColorString;
+
+/** Valid constructor input: any typed format or any other string (e.g. named colors). */
+type ColorInput = ColorString | (string & {});
 ```
 
 ## [Static](static.md)
 
-- [mix](static.md#mix): Helper method for [`mix()`](modifier.md#mix) method.
-- [random](static.md#random): Create random color as HWB model.
+- [mix](static.md#mix) — blend two colors.
+- [random](static.md#random) — generate a random HWB color.
 
-## [Setter](setter.md)
+## [Data access](data-access.md)
 
-- [setColor](setter.md#setColor): Set color data.
-- [getColor](setter.md#getColor): Get color data.
-- [getColorAs](setter.md#getColorAs): Get color data as specific color model.
-- [getModel](setter.md#getModel): Get color model name.
-- [changeModel](setter.md#changeModel): Converts color data to given color model.
-- [getAlpha](setter.md#getAlpha): Get alpha value from `Color`.
-- [setAlpha](setter.md#setAlpha): Set alpha value to `Color`.
+- [getColor](setter.md#getcolor) — return a copy of the internal color data.
+- [getColorAs](setter.md#getcoloras) — return color data converted to a target model.
+- [getModel](setter.md#getmodel) — return the current model identifier.
+- [changeModel](setter.md#changemodel) — return a new instance in a different model.
+- [getAlpha](setter.md#getalpha) — return the alpha channel value.
+- [setAlpha](setter.md#setalpha) — return a new instance with the given alpha.
+- [convert](setter.md#convert) — convert a standalone `ColorData` object.
+- [clone](setter.md#clone) — return an independent copy.
 
 ## [Formatter](formatter.md)
 
-- [toString](formatter.md#toString): Represents color as notation of specific color model.
-- [toHex](formatter.md#toHex): Represents color as HEX notation.
-- [toRgb](formatter.md#toRgb): Represents color as RGB notation.
-- [toHwb](formatter.md#toHwb): Represents color as HWB notation.
-- [toHsl](formatter.md#toHsl): Represents color as HSL notation.
-- [toHsv](formatter.md#toHsv): Represents color as HSV notation. This format is similar to HSL.
-- [toCmyk](formatter.md#toCmyk): Represents color as CMYK notation.
+- [toString](formatter.md#tostring) — format in any model's notation.
+- [toHex](formatter.md#tohex) — `#rrggbb` / `#rrggbbaa` notation.
+- [toRgb](formatter.md#torgb) — `rgb()` / `rgba()` notation.
+- [toHwb](formatter.md#tohwb) — `hwb()` notation.
+- [toHsl](formatter.md#tohsl) — `hsl()` / `hsla()` notation.
+- [toHsv](formatter.md#tohsv) — `hsv()` / `hsva()` notation.
+- [toCmyk](formatter.md#tocmyk) — `cmyk()` notation.
 
 ## [State access](state-access.md)
 
-- [brightness](state-access.md#brightness): `readonly` Returns color brightness from 0 to 255.
-- [isLight](state-access.md#isLight): `readonly` Returns whether color is light or not.
-- [isDark](state-access.md#isDark): `readonly` Returns whether color is dark or not.
-- [luminance](state-access.md#luminance): `readonly` Returns luminance value of the color. range from 0 to 1.
-- [contrastRatioWith](state-access.md#contrastRatioWith): Returns contrast ratio with other color. range from 0 to 21.
-- [isContrastEnough](state-access.md#isContrastEnough): Return true if contrast ratio >= 4.5
+- [brightness](state-access.md#brightness) `readonly` — W3C AERT brightness (0–255).
+- [isLight](state-access.md#islight) `readonly` — `true` when brightness ≥ 128.
+- [isDark](state-access.md#isdark) `readonly` — `true` when brightness < 128.
+- [luminance](state-access.md#luminance) `readonly` — WCAG 2.1 relative luminance (0–1).
+- [contrastRatioWith](state-access.md#contrastRatiowith) — WCAG 2.1 contrast ratio (1–21).
+- [isContrastEnough](state-access.md#iscontrastenough) — `true` when ratio ≥ 4.5 (WCAG AA).
 
 ## [Modification](modification.md)
 
-- [lighten](modification.md#lighten): Increase lightness.
-- [darken](modification.md#darken): Decrease darkness.
-- [saturate](modification.md#saturate): Increase saturation.
-- [desaturate](modification.md#desaturate): Decrease saturation.
-- [grayscale](modification.md#grayscale): Sets saturation value to 0.
-- [whiten](modification.md#whiten): Modify whiteness.
-- [blacken](modification.md#blacken): Modify blackness.
-- [rotate](modification.md#rotate): Rotate hue value.
-- [mix](modification.md#mix): Mix two colors.
-- [complement](modification.md#complement): Sets color to the complement of a color.
-- [invert](modification.md#invert): Sets color to the inverse (negative) of a color.
+> All methods return a **new `MooColor`** instance.
+
+- [lighten](modification.md#lighten) — increase lightness.
+- [darken](modification.md#darken) — decrease lightness.
+- [saturate](modification.md#saturate) — increase saturation.
+- [desaturate](modification.md#desaturate) — decrease saturation.
+- [grayscale](modification.md#grayscale) — set saturation to 0.
+- [whiten](modification.md#whiten) — increase whiteness.
+- [blacken](modification.md#blacken) — increase blackness.
+- [rotate](modification.md#rotate) — rotate hue by degrees.
+- [mix](modification.md#mix) — blend with another color.
+- [complement](modification.md#complement) — complementary color (hue + 180°).
+- [invert](modification.md#invert) — invert RGB channels.

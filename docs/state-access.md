@@ -4,84 +4,110 @@
 
 ### brightness
 
-Returns color brightness from 0 to 255. (It based RGB)
+W3C AERT perceived brightness. Based on RGB channel weighting.
 
-> [Color contrast](https://www.w3.org/TR/AERT/#color-contrast)
+> [Color contrast — W3C AERT](https://www.w3.org/TR/AERT/#color-contrast)
 
 Syntax
 
-``` ts
+```ts
 mooColor.brightness: number;
 ```
 
-- @returns `number` - 0-255
+- @returns `number` — 0 (darkest) to 255 (brightest).
 
 ### isLight
 
-Returns whether color is light or not.
+`true` when `brightness >= 128`.
 
 Syntax
 
-``` ts
+```ts
 mooColor.isLight: boolean;
 ```
 
-- @returns `boolean`
-
 ### isDark
 
-Returns whether color is dark or not.
+`true` when `brightness < 128`.
 
 Syntax
 
-``` ts
+```ts
 mooColor.isDark: boolean;
 ```
 
-- @returns `boolean`
-
 ### luminance
 
-Returns luminance value of the color. range from 0 to 1.
+WCAG 2.1 relative luminance.
 
-> [Relative luminance](https://www.w3.org/TR/2008/REC-WCAG20-20081211/#relativeluminancedef)
+Each RGB channel is first linearized by removing the sRGB transfer function (gamma decoding), then weighted:
+
+$$L = 0.2126 \cdot R_{lin} + 0.7152 \cdot G_{lin} + 0.0722 \cdot B_{lin}$$
+
+where $R_{lin} = \left(\frac{R_{sRGB} + 0.055}{1.055}\right)^{2.4}$ for $R_{sRGB} > 0.04045$.
+
+> [Relative luminance — WCAG 2.1](https://www.w3.org/TR/WCAG21/#dfn-relative-luminance)
 
 Syntax
 
-``` ts
+```ts
 mooColor.luminance: number;
 ```
 
-- @returns `number` - 0 to 1.
+- @returns `number` — 0 (black) to 1 (white).
+
+> **v2 change** — v1 used the raw 8-bit value divided by 255. v2 applies the full sRGB linearization
+> specified by WCAG 2.1. The difference is most visible at mid-tones
+> (`#808080`: v1 ≈ 0.502, v2 ≈ 0.216).
 
 ## Methods
 
 ### contrastRatioWith
 
-Returns contrast ratio with other color. range from 0 to 21.
+WCAG 2.1 contrast ratio between this color and another.
 
-> [Relative luminance](https://www.w3.org/TR/2008/REC-WCAG20-20081211/#relativeluminancedef)
+> [Contrast (minimum) — WCAG 2.1](https://www.w3.org/TR/WCAG21/#contrast-minimum)
 
 Syntax
 
-``` ts
-mooColor.contrastRatioWith(color: Color): number;
+```ts
+mooColor.contrastRatioWith(color: MooColor): number;
 ```
 
-- @param [`Color`](setter.md#color-data) color - The target color for compare.
-- @returns `number` - 0 to 21.
+- @param `MooColor` color — the color to compare against.
+- @returns `number` — ratio from 1 (no contrast) to 21 (maximum contrast).
+
+Examples
+
+```js
+const white = new MooColor('#fff');
+const black = new MooColor('#000');
+white.contrastRatioWith(black); // 21
+```
 
 ### isContrastEnough
 
-Return true if contrast ratio >= 4.5
+`true` when the contrast ratio between this color and `color` meets WCAG AA (≥ 4.5 : 1).
 
-> [Contrast (minimum)](https://www.w3.org/WAI/WCAG20/quickref/#qr-visual-audio-contrast-contrast)
+> [Contrast (minimum) — WCAG 2.1](https://www.w3.org/TR/WCAG21/#contrast-minimum)
 
 Syntax
 
-``` ts
-mooColor.isContrastEnough(color: Color): boolean;
+```ts
+mooColor.isContrastEnough(color: MooColor): boolean;
 ```
 
-- @param [`Color`](setter.md#color-data) color - The target color for compare.
+- @param `MooColor` color — the color to compare against.
 - @returns `boolean`
+
+Examples
+
+```js
+const bg   = new MooColor('#fff');
+const text = new MooColor('#767676');
+bg.isContrastEnough(text);  // true  (ratio ≈ 4.54)
+
+const text2 = new MooColor('#999');
+bg.isContrastEnough(text2); // false (ratio ≈ 2.85)
+```
+

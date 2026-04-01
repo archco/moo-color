@@ -2,115 +2,126 @@
 
 ## Declarations
 
-### Hex mode
+### HexMode
 
-``` ts
+```ts
 /**
- * Type for `ColorSettable.toHex()` method.
- * `full` - e.g. '#ff0000'
- * `short`- e.g. '#f00'
- * `name` - e.g. 'red'
+ * Output mode for `toHex()`.
+ * - `'full'`  → `'#ff0000'`
+ * - `'short'` → `'#f00'`
+ * - `'name'`  → `'red'`
  */
-type HexMode = 'full'|'short'|'name';
+type HexMode = 'full' | 'short' | 'name';
 ```
 
-### Rgb mode
+### RgbMode
 
-``` ts
+```ts
 /**
- * Type for `ColorSettable.toRgb()` method.
- * `default` - e.g. 'rgb(255, 0, 0)'
- * `percent` - e.g. 'rgb(100%, 0%, 0%)'
+ * Output mode for `toRgb()`.
+ * - `'default'` → `'rgb(255, 0, 0)'`
+ * - `'percent'` → `'rgb(100%, 0%, 0%)'`
  */
-type RgbMode = 'default'|'percent';
+type RgbMode = 'default' | 'percent';
 ```
 
 ## Methods
 
 ### toString
 
-Represents color as notation of specific color model.
+Format the color in any model's notation.
 
 Syntax
 
-``` ts
-mooColor.toString(model?: string, ...args?: any[]): string;
+```ts
+mooColor.toString(model?: AcceptedModel | 'hex', ...args?: unknown[]): string;
 ```
 
-- @param `string` model - Specify color model. If not specifying this value, then returns current color model. `rgb`|`hwb`|`hsl`|`hsv`|`cmyk`|`hex`
-- @param `...any[]` args - Arguments for the represent methods.
+- @param `AcceptedModel | 'hex'` [model] — target format. Defaults to the current model if omitted.
+- @param `...unknown[]` args — forwarded to the underlying `toXxx()` method (e.g. `HexMode`, `RgbMode`).
 - @returns `string`
+
+Examples
+
+```js
+const c = new MooColor('#ff0000');
+c.toString();           // 'rgb(255, 0, 0)'  (current model = rgb)
+c.toString('hex');      // '#ff0000'
+c.toString('hex', 'short'); // '#f00'
+c.toString('hsl');      // 'hsl(0, 100%, 50%)'
+```
 
 ### toHex
 
-Represents color as HEX notation.
+Format as hex notation, including alpha when < 1.
 
 Syntax
 
-``` ts
+```ts
 mooColor.toHex(mode?: HexMode): string;
 ```
 
-- @param [`HexMode`](#hex-mode) [mode = 'full'] - `full`|`short`|`name`
-- @returns `string` - e.g. `#ff0000` or `#f00` or `red`
+- @param [`HexMode`](#hexmode) [mode=`'full'`] — `'full'` | `'short'` | `'name'`
+- @returns `string` — e.g. `'#ff0000'`, `'#f00'`, or `'red'`
 
 ### toRgb
 
-Represents color as RGB notation.
+Format as RGB/RGBA notation.
 
 Syntax
 
-``` ts
+```ts
 mooColor.toRgb(mode?: RgbMode): string;
 ```
 
-- @param [`RgbMode`](#rgb-mode) [mode = 'default'] - `default`|`percent`
-- @returns `string` - e.g. `rgb(255, 0, 0)` or `rgb(100%, 0%, 0%)`
+- @param [`RgbMode`](#rgbmode) [mode=`'default'`] — `'default'` | `'percent'`
+- @returns `string` — e.g. `'rgb(255, 0, 0)'`, `'rgba(255, 0, 0, 0.5)'`, or `'rgb(100%, 0%, 0%)'`
 
 ### toHwb
 
-Represents color as HWB notation.
+Format as HWB notation, including alpha when < 1.
 
 Syntax
 
-``` ts
+```ts
 mooColor.toHwb(): string;
 ```
 
-- @returns `string` - e.g. `hwb(0, 0%, 0%)`
+- @returns `string` — e.g. `'hwb(0, 0%, 0%)'`
 
 ### toHsl
 
-Represents color as HSL notation.
+Format as HSL/HSLA notation.
 
 Syntax
 
-``` ts
+```ts
 mooColor.toHsl(): string;
 ```
 
-- @returns `string` - e.g. `hsl(0, 100%, 50%)`
+- @returns `string` — e.g. `'hsl(0, 100%, 50%)'`
 
 ### toHsv
 
-Represents color as HSV notation. This format is similar to HSL.
+Format as HSV notation (similar to HSL).
 
 Syntax
 
-``` ts
+```ts
 mooColor.toHsv(): string;
 ```
 
-- @returns `string` - e.g. `hsv(0, 100%, 100%)`
+- @returns `string` — e.g. `'hsv(0, 100%, 100%)'`
 
 ### toCmyk
 
-Represents color as CMYK notation.
+Format as CMYK notation, including alpha when < 1.
 
 Syntax
 
-``` ts
+```ts
 mooColor.toCmyk(): string;
 ```
 
-- @returns `string` - e.g. `cmyk(0%, 100%, 100%, 0%)`
+- @returns `string` — e.g. `'cmyk(0%, 100%, 100%, 0%)'`
+

@@ -1,20 +1,20 @@
 # Static
 
-Static members of MooColor.
+Static members of `MooColor`.
 
 ## Types
 
-### RandomArguments
+### RandomOptions
 
-``` ts
-/** An argument for `random()` method. */
-interface RandomArguments {
-  /** The hue value from 0 to 360. Also you can give this as range. e.g. [0, 180] */
-  hue?: number|[number, number];
-  /** The whiteness value from 0 to 100. Also you can give this as range. e.g. [0, 50] */
-  white?: number|[number, number];
-  /** The blackness value from 0 to 100. Also you can give this as range. e.g. [0, 50] */
-  black?: number|[number, number];
+```ts
+/** Options for the `MooColor.random()` method. */
+interface RandomOptions {
+  /** Hue, 0–360. Specify a range with a tuple, e.g. `[0, 180]`. */
+  hue?: number | [number, number];
+  /** Whiteness, 0–100. Specify a range with a tuple, e.g. `[0, 50]`. */
+  white?: number | [number, number];
+  /** Blackness, 0–100. Specify a range with a tuple, e.g. `[0, 50]`. */
+  black?: number | [number, number];
 }
 ```
 
@@ -22,60 +22,64 @@ interface RandomArguments {
 
 ### mix
 
-Helper method for [`mix()`](modifier.md#mix) method.
+Blend two colors. Also available as an instance method — see [modification.md#mix](modification.md#mix).
 
 Syntax
 
-``` ts
+```ts
 MooColor.mix(
-  color1: MooColor|string|Color, 
-  color2: MooColor|string|Color,
+  color1: MooColor | ColorInput | ColorData,
+  color2: MooColor | ColorInput | ColorData,
   percentOf1?: number
 ): MooColor;
 ```
 
-- @param `MooColor|string|Color` color1
-- @param `MooColor|string|Color` color2
-- @param `number` [percentOf1=50] - percentage of the first color.
-- @returns `MooColor` - mixed color.
+- @param `MooColor | ColorInput | ColorData` color1 — first color.
+- @param `MooColor | ColorInput | ColorData` color2 — second color.
+- @param `number` [percentOf1=50] — percentage weight of the first color (0–100).
+- @returns `MooColor` — new blended color instance.
 
 Examples
 
-``` js
+```js
 const color1 = new MooColor('#f00');
 const color2 = new MooColor('#f80');
-const mixedColor = MooColor.mix(color1, color2);
+const mixed = MooColor.mix(color1, color2);
 
-// or simply
-const newColor = MooColor.mix('#f00', '#f80');
+// Pass strings directly
+const mixed2 = MooColor.mix('#f00', '#f80');
 
-// If you want to getting mixed as unbalanced, use `percentOf1` parameter.
-const myColor = MooColor.mix('green', 'blue', 75);
+// Unbalanced blend: 75% green, 25% blue
+const mixed3 = MooColor.mix('green', 'blue', 75);
 ```
 
 ### random
 
-Create random color as HWB model.
+Generate a random HWB color.
 
 Syntax
 
-``` ts
-MooColor.random(arg?: RandomArguments): MooColor;
+```ts
+MooColor.random(options?: RandomOptions): MooColor;
 ```
 
-- @param [`RandomArguments`](#randomArguments) [{ hue, white, black } = {}]
-  - `hue` - The hue value from 0 to 360. Also you can give this as range. e.g. [0, 180]
-  - `white` - The whiteness value from 0 to 100. Also you can give this as range. e.g. [0, 50]
-  - `black` - The blackness value from 0 to 100. Also you can give this as range. e.g. [0, 50]
-- @returns `MooColor`
+- @param [`RandomOptions`](#randomoptions) [options] — optional constraints.
+  - `hue` — hue, 0–360, or `[min, max]` range.
+  - `white` — whiteness, 0–100, or `[min, max]` range.
+  - `black` — blackness, 0–100, or `[min, max]` range.
+- @returns `MooColor` — new random color instance.
 
 Examples
 
-``` js
-// Make random color. (default)
-const color1 = MooColor.random();
-// Make random color that specify whiteness and blackness values.
-const color2 = MooColor.random({ white: 0, black: 50 });
-// Make random color that range between red and yellow (hue value from 0 to 60).
-const color3 = MooColor.random({ hue: [0, 60] });
+```js
+// Fully random
+const c1 = MooColor.random();
+
+// Fix whiteness and blackness
+const c2 = MooColor.random({ white: 0, black: 50 });
+
+// Random hue between red and yellow (0°–60°)
+const c3 = MooColor.random({ hue: [0, 60] });
+```
+
 ```

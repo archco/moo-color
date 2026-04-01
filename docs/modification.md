@@ -1,145 +1,165 @@
 # Modification
 
+> **v2 Breaking change — Immutability**
+>
+> All methods on this page return a **new `MooColor` instance**. The original instance is never mutated.
+>
+> ```ts
+> const original = new MooColor('hsl(0, 100%, 50%)');
+> const lighter  = original.lighten(20);  // new instance
+> original.toHsl(); // 'hsl(0, 100%, 50%)' — unchanged
+> lighter.toHsl();  // 'hsl(0, 100%, 70%)'
+> ```
+
 ## Methods
 
 ### lighten
 
-Increase lightness.
+Increase HSL lightness by `amount` percent.
 
 Syntax
 
-``` ts
-mooColor.lighten(amount: number): this;
+```ts
+mooColor.lighten(amount: number): MooColor;
 ```
 
-- @param `number` amount - The amount from 0 to 100.
-- @returns `this`
+- @param `number` amount — 0–100.
+- @returns `MooColor` — new instance.
 
 ### darken
 
-Decrease lightness.
+Decrease HSL lightness by `amount` percent.
 
 Syntax
 
-``` ts
-mooColor.darken(amount: number): this;
+```ts
+mooColor.darken(amount: number): MooColor;
 ```
 
-- @param `number` amount - The amount from 0 to 100.
-- @returns `this`
+- @param `number` amount — 0–100.
+- @returns `MooColor` — new instance.
 
 ### saturate
 
-Increase saturation.
+Increase HSL saturation by `amount` percent.
 
 Syntax
 
-``` ts
-mooColor.saturate(amount: number): this;
+```ts
+mooColor.saturate(amount: number): MooColor;
 ```
 
-- @param `number` amount - The amount from 0 to 100.
-- @returns `this`
+- @param `number` amount — 0–100.
+- @returns `MooColor` — new instance.
 
 ### desaturate
 
-Decrease saturation.
+Decrease HSL saturation by `amount` percent.
 
 Syntax
 
-``` ts
-mooColor.desaturate(amount: number): this;
+```ts
+mooColor.desaturate(amount: number): MooColor;
 ```
 
-- @param `number` amount - The amount from 0 to 100.
-- @returns `this`
+- @param `number` amount — 0–100.
+- @returns `MooColor` — new instance.
 
 ### grayscale
 
-Sets saturation value to 0.
+Set HSL saturation to 0 (equivalent to `desaturate(100)`).
 
 Syntax
 
-``` ts
-mooColor.grayscale(): this;
+```ts
+mooColor.grayscale(): MooColor;
 ```
 
-- @returns `this`
+- @returns `MooColor` — new instance.
 
 ### whiten
 
-Modify whiteness.
+Increase HWB whiteness by `amount` percent.
 
 Syntax
 
-``` ts
-mooColor.whiten(amount: number): this;
+```ts
+mooColor.whiten(amount: number): MooColor;
 ```
 
-- @param `number` amount - The amount from -100 to 100.
-- @returns `this`
+- @param `number` amount — positive to whiten, negative to un-whiten.
+- @returns `MooColor` — new instance.
 
 ### blacken
 
-Modify blackness.
+Increase HWB blackness by `amount` percent.
 
 Syntax
 
-``` ts
-mooColor.blacken(amount: number): this;
+```ts
+mooColor.blacken(amount: number): MooColor;
 ```
 
-- @param `number` amount - The amount from -100 to 100.
-- @returns `this`
+- @param `number` amount — positive to blacken, negative to un-blacken.
+- @returns `MooColor` — new instance.
 
 ### rotate
 
-Rotate hue value.
+Rotate the hue channel by `degree` degrees.
 
 Syntax
 
-``` ts
-mooColor.rotate(degree: number): this;
+```ts
+mooColor.rotate(degree: number): MooColor;
 ```
 
-- @param `number` degree - The degree value from 0 to 360.
-- @returns `this`
+- @param `number` degree — degrees to rotate (wrap-around at 360).
+- @returns `MooColor` — new instance.
 
 ### mix
 
-Mix two colors.
+Blend this color with another. Also available as a static method — see [static.md#mix](static.md#mix).
 
 Syntax
 
-``` ts
-const mixedColor = mooColor.mix(color: MooColor, percent?: number): MooColor;
+```ts
+mooColor.mix(color: MooColor | ColorInput | ColorData, percent?: number): MooColor;
 ```
 
-- @param `MooColor` color - The color to mixed.
-- @param `number` [percent = 50] - The percentage value of color to be mixed.
-- @returns `MooColor` - The mixed color that as a new instance of `MooColor`.
+- @param `MooColor | ColorInput | ColorData` color — the color to blend in.
+- @param `number` [percent=50] — percentage weight of `color` (0 = fully `this`, 100 = fully `color`).
+- @returns `MooColor` — new blended instance.
+
+Examples
+
+```js
+const red    = new MooColor('#f00');
+const orange = new MooColor('#f80');
+const result = red.mix(orange, 50);  // equal blend → new MooColor
+```
 
 ### complement
 
-Sets color to the complement of a color. This is identical to `rotate(180)`.
+Return the complementary color (hue rotated 180°).
 
 Syntax
 
-``` ts
-mooColor.complement(): this;
+```ts
+mooColor.complement(): MooColor;
 ```
 
-- @returns `this`
+- @returns `MooColor` — new instance.
 
 ### invert
 
-Sets color to the inverse (negative) of a color.
+Return the inverse (negative) of the color by inverting RGB channels.
 
 Syntax
 
-``` ts
-mooColor.invert(percent?: number): this;
+```ts
+mooColor.invert(percent?: number): MooColor;
 ```
 
-- @param `number` [percent = 100] - The relative percent of the color that inverse.
-- @returns `this`
+- @param `number` [percent=100] — degree of inversion from 0 (no change) to 100 (full invert).
+- @returns `MooColor` — new instance.
+

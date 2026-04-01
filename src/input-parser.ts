@@ -3,6 +3,15 @@ import { resolveHwb } from './color-converter';
 import Names from './color-names';
 import { clamp, degree, resolveAlpha } from './utils';
 
+/**
+ * Parse a color string into a {@link Color} data object.
+ *
+ * Handles CSS named colors, `transparent`, hex (`#rgb`, `#rrggbb`, `#rrggbbaa`),
+ * and functional notations: `rgb()`, `hsl()`, `hwb()`, `hsv()`, `cmyk()`.
+ *
+ * @param input - Any parsable color string (see docs/README.md for the full list).
+ * @returns A {@link Color} object, or `null` if the string could not be parsed.
+ */
 export default function inputParser(input: string): Color|null {
   if (input in Names) {
     // Named colors.
@@ -31,6 +40,7 @@ export default function inputParser(input: string): Color|null {
   }
 }
 
+/** Parse `#rrggbb`, `#rgb`, `rgb()`, or `rgba()` strings. */
 function parseRgb(input: string): Color|null {
   const hex = /^#?([a-f0-9]{6})([a-f0-9]{2})?$/i;
   const shortHex = /^#?([a-f0-9]{3})([a-f0-9]{1})?$/i;
@@ -63,6 +73,7 @@ function parseRgb(input: string): Color|null {
   };
 }
 
+/** Parse `hsl()` or `hsla()` strings. */
 function parseHsl(input: string): Color|null {
   const hsl = /^hsla?\s*\(\s*([+-]?\d*[.]?\d+)(?:deg)?\s*,\s*([+-]?[\d.]+)%\s*,\s*([+-]?[\d.]+)%\s*(?:,\s*([+-]?[\d.]+)\s*)?\)$/i;
   const m = input.match(hsl);
@@ -78,6 +89,7 @@ function parseHsl(input: string): Color|null {
   };
 }
 
+/** Parse `hwb()` or `hwba()` strings. Normalizes whiteness + blackness sums over 100. */
 function parseHwb(input: string): Color|null {
   const hwb = /^hwba?\s*\(\s*([+-]?\d*[.]?\d+)(?:deg)?\s*,\s*([+-]?[\d.]+)%\s*,\s*([+-]?[\d.]+)%\s*(?:,\s*([+-]?[\d.]+)\s*)?\)$/i;
   const m = input.match(hwb);
@@ -93,6 +105,7 @@ function parseHwb(input: string): Color|null {
   };
 }
 
+/** Parse `hsv()` or `hsva()` strings. */
 function parseHsv(input: string): Color|null {
   const hsv = /^hsva?\s*\(\s*([+-]?\d*[.]?\d+)(?:deg)?\s*,\s*([+-]?[\d.]+)%\s*,\s*([+-]?[\d.]+)%\s*(?:,\s*([+-]?[\d.]+)\s*)?\)$/i;
   const m = input.match(hsv);
@@ -108,6 +121,7 @@ function parseHsv(input: string): Color|null {
   };
 }
 
+/** Parse `cmyk()` strings. */
 function parseCmyk(input: string): Color|null {
   const cmyk = /^cmyk\s*\(\s*([+-]?[\d.]+)%\s*,\s*([+-]?[\d.]+)%\s*,\s*([+-]?[\d.]+)%\s*,\s*([+-]?[\d.]+)%\s*(?:,\s*([+-]?[\d.]+)\s*)?\)$/i;
   const m = input.match(cmyk);

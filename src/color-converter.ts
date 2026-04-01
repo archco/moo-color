@@ -153,7 +153,7 @@ export function hsvToRgb(h: number, s: number, v: number): number[] {
  * @param {number} r red 0-255
  * @param {number} g green 0-255
  * @param {number} b blue 0-255
- * @returns {number[]} [hue, saturation, value] (0-360, 0-100, 0-100)
+ * @returns {[number, number, number]} [hue, saturation, value] (0-360, 0-100, 0-100)
  */
 export function rgbToHsv(r: number, g: number, b: number): [number, number, number] {
   r /= 255, g /= 255, b /= 255;
@@ -198,7 +198,7 @@ export function hsvToHwb(h: number, s: number, v: number): number[] {
  * @param {number} h hue 0-360
  * @param {number} w whiteness 0-100
  * @param {number} b blackness 0-100
- * @returns {number[]} [hue, saturation, value] (0-360, 0-100, 0-100)
+ * @returns {[number, number, number]} [hue, saturation, value] (0-360, 0-100, 0-100)
  */
 export function hwbToHsv(h: number, w: number, b: number): [number, number, number] {
   [h, w, b] = resolveHwb(h, w, b);
@@ -257,7 +257,7 @@ export function hexToRgb(hex: string): number[] {
  * @param {number} h hue 0-360
  * @param {number} w whiteness 0-100
  * @param {number} b blackness 0-100
- * @returns {number[]} [hue, whiteness, blackness]
+ * @returns {[number, number, number]} [hue, whiteness, blackness]
  */
 export function resolveHwb(h: number, w: number, b: number): [number, number, number] {
   const total = w + b;
