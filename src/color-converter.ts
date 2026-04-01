@@ -1,5 +1,3 @@
-import { padStart } from './util/util';
-
 /**
  * Converts an HSL to RGB.
  * @see https://www.rapidtables.com/convert/color/hsl-to-rgb.html
@@ -14,16 +12,16 @@ export function hslToRgb(h: number, s: number, l: number): number[] {
   const c = (1 - Math.abs(2 * l - 1)) * s;
   const x = c * (1 - Math.abs(h % 2 - 1));
   const m = l - c / 2;
-  let r;
-  let g;
-  let b;
+  let r = 0;
+  let g = 0;
+  let b = 0;
   switch (Math.floor(h)) {
-    case 0: r = c, g = x, b = 0; break;
-    case 1: r = x, g = c, b = 0; break;
-    case 2: r = 0, g = c, b = x; break;
-    case 3: r = 0, g = x, b = c; break;
-    case 4: r = x, g = 0, b = c; break;
-    case 5: r = c, g = 0, b = x; break;
+    case 0: r = c; g = x; b = 0; break;
+    case 1: r = x; g = c; b = 0; break;
+    case 2: r = 0; g = c; b = x; break;
+    case 3: r = 0; g = x; b = c; break;
+    case 4: r = x; g = 0; b = c; break;
+    case 5: r = c; g = 0; b = x; break;
   }
   return [r, g, b].map(val => (val + m) * 255);
 }
@@ -130,20 +128,20 @@ export function rgbToCmyk(r: number, g: number, b: number): number[] {
  */
 export function hsvToRgb(h: number, s: number, v: number): number[] {
   s /= 100; v /= 100;
-  let r;
-  let g;
-  let b;
+  let r = 0;
+  let g = 0;
+  let b = 0;
   const i = h / 60;
   const c = v * s;
   const x = c * (1 - Math.abs(i % 2 - 1));
   const m = v - c;
   switch (Math.floor(i)) {
-    case 0: r = c, g = x, b = 0; break;
-    case 1: r = x, g = c, b = 0; break;
-    case 2: r = 0, g = c, b = x; break;
-    case 3: r = 0, g = x, b = c; break;
-    case 4: r = x, g = 0, b = c; break;
-    case 5: r = c, g = 0, b = x; break;
+    case 0: r = c; g = x; b = 0; break;
+    case 1: r = x; g = c; b = 0; break;
+    case 2: r = 0; g = c; b = x; break;
+    case 3: r = 0; g = x; b = c; break;
+    case 4: r = x; g = 0; b = c; break;
+    case 5: r = c; g = 0; b = x; break;
   }
   return [r, g, b].map(val => (val + m) * 255);
 }
@@ -157,7 +155,7 @@ export function hsvToRgb(h: number, s: number, v: number): number[] {
  * @param {number} b blue 0-255
  * @returns {number[]} [hue, saturation, value] (0-360, 0-100, 0-100)
  */
-export function rgbToHsv(r: number, g: number, b: number): number[] {
+export function rgbToHsv(r: number, g: number, b: number): [number, number, number] {
   r /= 255, g /= 255, b /= 255;
   let h;
   const max = Math.max(r, g, b);
@@ -202,7 +200,7 @@ export function hsvToHwb(h: number, s: number, v: number): number[] {
  * @param {number} b blackness 0-100
  * @returns {number[]} [hue, saturation, value] (0-360, 0-100, 0-100)
  */
-export function hwbToHsv(h: number, w: number, b: number): number[] {
+export function hwbToHsv(h: number, w: number, b: number): [number, number, number] {
   [h, w, b] = resolveHwb(h, w, b);
   w /= 100, b /= 100;
   const s = 1 - w / (1 - b);
@@ -225,19 +223,15 @@ export function rgbToHex(r: number, g: number, b: number, a?: number|null, enabl
   if (typeof a === 'number') {
     arr.push(Math.round(a * 255));
   }
-  const hex = arr.map(x => padStart(x.toString(16), 2, '0')).join('');
+  const hex = arr.map(x => x.toString(16).padStart(2, '0')).join('');
   return enableShort ? hexToShorthand(hex) : hex;
 }
 
 function hexToShorthand(hex: string): string {
-  let check = true;
-  const rgb = hex.match(/.{2}/g);
-  rgb.forEach(x => {
-    if (!x.match(/(.)\1+/)) {
-      check = false;
-    }
-  });
-  return check ? rgb.map(x => x.substring(1)).join('') : hex;
+  const pairs = hex.match(/.{2}/g);
+  if (!pairs) return hex;
+  const isShorthandable = pairs.every(x => /(.)\1+/.test(x));
+  return isShorthandable ? pairs.map(x => x.substring(1)).join('') : hex;
 }
 
 /**
@@ -248,12 +242,12 @@ function hexToShorthand(hex: string): string {
  */
 export function hexToRgb(hex: string): number[] {
   const short = /^#?([a-f\d])([a-f\d])([a-f\d])([a-f\d])?$/i;
-  return hex.replace(short, (m, r, g, b, a) => {
-    a = typeof a === 'undefined' ? '' : a;
-    return r + r + g + g + b + b + a + a;
-  })
-  .match(/.{2}/g)
-  .map((x, i) => i !== 3 ? parseInt(x, 16) : parseInt(x, 16) / 255);
+  const expanded = hex.replace(short, (_m, r, g, b, a) => {
+    const alpha = typeof a === 'undefined' ? '' : (a as string);
+    return r + r + g + g + b + b + alpha + alpha;
+  });
+  return (expanded.match(/.{2}/g) ?? [])
+    .map((x, i) => i !== 3 ? parseInt(x, 16) : parseInt(x, 16) / 255);
 }
 
 /**
@@ -265,7 +259,7 @@ export function hexToRgb(hex: string): number[] {
  * @param {number} b blackness 0-100
  * @returns {number[]} [hue, whiteness, blackness]
  */
-export function resolveHwb(h: number, w: number, b: number): number[] {
+export function resolveHwb(h: number, w: number, b: number): [number, number, number] {
   const total = w + b;
   if (total > 100) {
     w = Number((w / total).toFixed(4)) * 100;
