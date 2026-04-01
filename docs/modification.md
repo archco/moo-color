@@ -162,4 +162,3 @@ mooColor.invert(percent?: number): MooColor;
 
 - @param `number` [percent=100] — degree of inversion from 0 (no change) to 100 (full invert).
 - @returns `MooColor` — new instance.
-

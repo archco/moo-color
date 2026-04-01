@@ -81,5 +81,3 @@ const c2 = MooColor.random({ white: 0, black: 50 });
 // Random hue between red and yellow (0°–60°)
 const c3 = MooColor.random({ hue: [0, 60] });
 ```
-
-```

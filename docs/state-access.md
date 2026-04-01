@@ -110,4 +110,3 @@ bg.isContrastEnough(text);  // true  (ratio ≈ 4.54)
 const text2 = new MooColor('#999');
 bg.isContrastEnough(text2); // false (ratio ≈ 2.85)
 ```
-

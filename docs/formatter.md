@@ -124,4 +124,3 @@ mooColor.toCmyk(): string;
 ```
 
 - @returns `string` — e.g. `'cmyk(0%, 100%, 100%, 0%)'`
-
