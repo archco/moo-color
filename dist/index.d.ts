@@ -434,4 +434,5 @@ declare class MooColor {
     invert(percent?: number): MooColor;
 }
 
-export { type AcceptedModel, type CmykColorString, type Color, type ColorData, type ColorInput, type ColorString, type HexColorString, type HexMode, type HslColorString, type HsvColorString, type HwbColorString, MooColor, type RandomOptions, type RgbColorString, type RgbMode, MooColor as default };
+export { MooColor, MooColor as default };
+export type { AcceptedModel, CmykColorString, Color, ColorData, ColorInput, ColorString, HexColorString, HexMode, HslColorString, HsvColorString, HwbColorString, RandomOptions, RgbColorString, RgbMode };
