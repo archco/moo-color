@@ -10,11 +10,14 @@ describe('ColorConverter', () => {
   describe('HSL', () => {
     it('converts HSL to RGB', () => {
       expect(round(Converter.hslToRgb(0, 50, 50))).toEqual([191, 64, 64]);
+      expect(round(Converter.hslToRgb(-30.12, 100, 50))).toEqual([255, 0, 128]);
+      expect(round(Converter.hslToRgb(360, 100, 50))).toEqual([255, 0, 0]);
     });
 
     it('converts RGB to HSL', () => {
       expect(round(Converter.rgbToHsl(191, 64, 64))).toEqual([0, 50, 50]);
       expect(round(Converter.rgbToHsl(255, 128, 64))).toEqual([20, 100, 63]);
+      expect(round(Converter.rgbToHsl(255, 0, 128))).toEqual([330, 100, 50]);
     });
 
     it('handles achromatic gray (zero delta)', () => {
@@ -30,6 +33,7 @@ describe('ColorConverter', () => {
   describe('HWB', () => {
     it('converts HWB to RGB', () => {
       expect(round(Converter.hwbToRgb(60, 0, 25))).toEqual([191, 191, 0]);
+      expect(round(Converter.hwbToRgb(0, 0, 100))).toEqual([0, 0, 0]);
     });
 
     it('converts RGB to HWB', () => {
@@ -44,10 +48,13 @@ describe('ColorConverter', () => {
     it('converts HSV to RGB', () => {
       expect(round(Converter.hsvToRgb(45, 80, 65))).toEqual([166, 133, 33]);
       expect(round(Converter.hsvToRgb(330, 85, 50))).toEqual([128, 19, 73]);
+      expect(round(Converter.hsvToRgb(-30, 100, 100))).toEqual([255, 0, 128]);
+      expect(round(Converter.hsvToRgb(360, 100, 50))).toEqual([128, 0, 0]);
     });
 
     it('converts RGB to HSV', () => {
       expect(round(Converter.rgbToHsv(80, 128, 0))).toEqual([83, 100, 50]);
+      expect(round(Converter.rgbToHsv(255, 0, 128))).toEqual([330, 100, 100]);
     });
   });
 
@@ -61,6 +68,7 @@ describe('ColorConverter', () => {
 
     it('converts RGB to CMYK', () => {
       expect(round(Converter.rgbToCmyk(72, 54, 163))).toEqual([56, 67, 0, 36]);
+      expect(round(Converter.rgbToCmyk(0, 0, 0))).toEqual([0, 0, 0, 100]);
     });
   });
 

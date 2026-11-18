@@ -162,6 +162,7 @@ describe('MooColor', () => {
   describe('toHwb()', () => {
     it('formats correctly', () => {
       expect(new MooColor('rgb(0, 255, 255)').toHwb()).toBe('hwb(180, 0%, 0%)');
+      expect(new MooColor('hwb(0, 0%, 100%)').toHex()).toBe('#000000');
     });
 
     it('includes alpha when present', () => {
@@ -192,6 +193,8 @@ describe('MooColor', () => {
   describe('toCmyk()', () => {
     it('formats correctly', () => {
       expect(new MooColor('rgb(0, 0, 255)').toCmyk()).toBe('cmyk(100%, 100%, 0%, 0%)');
+      expect(new MooColor('#000').toCmyk()).toBe('cmyk(0%, 0%, 0%, 100%)');
+      expect(new MooColor('#000').changeModel('cmyk').toHex()).toBe('#000000');
     });
 
     it('includes alpha when present', () => {
@@ -226,6 +229,15 @@ describe('MooColor', () => {
   describe('lighten()', () => {
     it('increases lightness', () => {
       expect(new MooColor('red').lighten(20).toString()).toBe('rgb(255, 102, 102)');
+    });
+
+    it('preserves colors with a negative intermediate hue', () => {
+      const color = new MooColor('#ff0080');
+      expect(color.toHsl()).toBe('hsl(329.88, 100%, 50%)');
+      expect(color.lighten(10).toHex()).toBe('#ff3399');
+      expect(color.darken(10).toHex()).toBe('#cc0066');
+      expect(color.desaturate(10).toHex()).toBe('#f20d80');
+      expect(color.whiten(10).toHex()).toBe('#ff198d');
     });
   });
 

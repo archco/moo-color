@@ -1,3 +1,5 @@
+import { degree } from './utils';
+
 /**
  * Converts an HSL to RGB.
  * @see https://www.rapidtables.com/convert/color/hsl-to-rgb.html
@@ -8,7 +10,7 @@
  * @returns {number[]} [red, green, blue] 0-255
  */
 export function hslToRgb(h: number, s: number, l: number): number[] {
-  h /= 60, s /= 100, l /= 100;
+  h = degree(h) / 60, s /= 100, l /= 100;
   const c = (1 - Math.abs(2 * l - 1)) * s;
   const x = c * (1 - Math.abs(h % 2 - 1));
   const m = l - c / 2;
@@ -50,6 +52,7 @@ export function rgbToHsl(r: number, g: number, b: number): number[] {
   } else {
     h = 60 * ((r - g) / delta + 4);
   }
+  h = degree(h);
   const l = (max + min) / 2;
   const s = delta === 0 ? 0 : delta / (1 - Math.abs(2 * l - 1));
   return [h, s * 100, l * 100];
@@ -111,6 +114,7 @@ export function cmykToRgb(c: number, m: number, y: number, k: number): number[] 
 export function rgbToCmyk(r: number, g: number, b: number): number[] {
   r /= 255, g /= 255, b /= 255;
   const k = 1 - Math.max(r, g, b);
+  if (k === 1) return [0, 0, 0, 100];
   const c = (1 - r - k) / (1 - k);
   const m = (1 - g - k) / (1 - k);
   const y = (1 - b - k) / (1 - k);
@@ -127,6 +131,7 @@ export function rgbToCmyk(r: number, g: number, b: number): number[] {
  * @returns {number[]} [red, green, blue] 0-255
  */
 export function hsvToRgb(h: number, s: number, v: number): number[] {
+  h = degree(h);
   s /= 100; v /= 100;
   let r = 0;
   let g = 0;
@@ -170,6 +175,7 @@ export function rgbToHsv(r: number, g: number, b: number): [number, number, numb
   } else {
     h = 60 * ((r - g) / delta + 4);
   }
+  h = degree(h);
   const s = max === 0 ? 0 : delta / max;
   const v = max;
   return [h, s * 100, v * 100];
@@ -203,6 +209,7 @@ export function hsvToHwb(h: number, s: number, v: number): number[] {
 export function hwbToHsv(h: number, w: number, b: number): [number, number, number] {
   [h, w, b] = resolveHwb(h, w, b);
   w /= 100, b /= 100;
+  if (b === 1) return [h, 0, 0];
   const s = 1 - w / (1 - b);
   const v = 1 - b;
   return [h, s * 100, v * 100];

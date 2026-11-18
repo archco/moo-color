@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+- fix problems in color-converter #30
+
 ## [2.0.0] - 2026-04-01
 
 ### Breaking Changes
