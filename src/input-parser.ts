@@ -44,7 +44,10 @@ export default function inputParser(input: string): Color|null {
 function parseRgb(input: string): Color|null {
   const hex = /^#?([a-f0-9]{6})([a-f0-9]{2})?$/i;
   const shortHex = /^#?([a-f0-9]{3})([a-f0-9]{1})?$/i;
-  const rgba = /^rgba?\s*\(\s*([+-]?\d+)\s*,\s*([+-]?\d+)\s*,\s*([+-]?\d+)\s*(?:,\s*([+-]?[\d.]+)\s*)?\)$/;
+  const number = '[+-]?(?:\\d+(?:\\.\\d+)?|\\.\\d+)';
+  const rgba = new RegExp(
+    `^rgba?\\s*\\(\\s*(${number})\\s*,\\s*(${number})\\s*,\\s*(${number})\\s*(?:,\\s*([+-]?[\\d.]+)\\s*)?\\)$`,
+  );
   const percent = /^rgba?\s*\(\s*([+-]?[\d.]+)%\s*,\s*([+-]?[\d.]+)%\s*,\s*([+-]?[\d.]+)%\s*(?:,\s*([+-]?[\d.]+)\s*)?\)$/;
   const hexToAlpha = (num: string) => Math.round((parseInt(num, 16) / 255) * 100) / 100;
   let values: number[];
@@ -58,7 +61,7 @@ function parseRgb(input: string): Color|null {
     values = m[1]!.match(/.{1}/g)!.map((x: string) => parseInt(x + x, 16));
     alpha = m[2] ? hexToAlpha(m[2]) : 1;
   } else if ((m = input.match(rgba)) !== null) {
-    values = [m[1]!, m[2]!, m[3]!].map((x: string) => parseInt(x, 0));
+    values = [m[1]!, m[2]!, m[3]!].map((x: string) => parseFloat(x));
     alpha = resolveAlpha(m[4]);
   } else if ((m = input.match(percent)) !== null) {
     values = [m[1]!, m[2]!, m[3]!].map((x: string) => Math.round(parseFloat(x) * 2.55));

@@ -42,6 +42,11 @@ describe('inputParser', () => {
     expect(res!.alpha).toBe(1);
   });
 
+  it('parses decimal rgb channels without rounding', () => {
+    const res = parseColor('rgb(1.1, .5, 0)');
+    expect(res!.values).toEqual([1.1, 0.5, 0]);
+  });
+
   it('parses rgba()', () => {
     const res = parseColor('rgba(255, 0, 0, .3)');
     expect(res!.values).toEqual([255, 0, 0]);
@@ -56,6 +61,7 @@ describe('inputParser', () => {
 
   it('returns null for malformed rgb', () => {
     expect(parseColor('rgb(0, 0%, 0)')).toBeNull();
+    expect(parseColor('rgb(1..1, 0, 0)')).toBeNull();
   });
 
   // -------------------------------------------------------------------

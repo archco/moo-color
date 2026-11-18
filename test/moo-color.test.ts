@@ -52,6 +52,10 @@ describe('MooColor', () => {
       expect(new MooColor('#f00').getModel()).toBe('rgb');
     });
 
+    it('accepts decimal RGB channels', () => {
+      expect(new MooColor('rgb(1.1, 0, 0)').getColor().values).toEqual([1.1, 0, 0]);
+    });
+
     it('accepts ColorData object', () => {
       const c = new MooColor({ model: 'rgb', values: [255, 0, 0] });
       expect(c.toHex('short')).toBe('#f00');
