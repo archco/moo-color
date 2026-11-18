@@ -1,6 +1,6 @@
 {
   "name": "moo-color",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "A modern TypeScript library for color parsing, conversion, and manipulation.",
   "type": "module",
   "main": "./dist/index.cjs",
