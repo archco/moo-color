@@ -7,8 +7,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## 2.0.1 - 2026-11-19
+
 - fix problems in color-converter #30
 - improve input-parser. now available decimal points in the RGB input of input-parser. e.g.`new MooColor('rgb(1.1, 0, 0)')` #22
+- update dependencies.
 
 ## [2.0.0] - 2026-04-01
 

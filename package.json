@@ -1,6 +1,6 @@
 {
   "name": "moo-color",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "A modern TypeScript library for color parsing, conversion, and manipulation.",
   "type": "module",
   "main": "./dist/index.cjs",
@@ -59,12 +59,13 @@
     "node": ">=18"
   },
   "dependencies": {
-    "color-name": "^2.0.0"
+    "color-name": "^2.1.1"
   },
   "devDependencies": {
-    "@types/color-name": "^1.1.3",
-    "tsup": "^8.4.0",
-    "typescript": "^5.7.0",
-    "vitest": "^3.1.0"
+    "@types/color-name": "^2.0.0",
+    "@typescript/native": "npm:typescript@^7.0.2",
+    "tsup": "^9.0.0",
+    "typescript": "npm:@typescript/typescript6@^6.0.2",
+    "vitest": "^5.1.1"
   }
 }
